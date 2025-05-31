@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Coding-Tracker": {
+      "commandName": "Project",
+      "workingDirectory": "X:\\C#\\.NET-Console-Apps\\Coding-Tracker\\Coding-Tracker\\"
+    }
+  }
+}
