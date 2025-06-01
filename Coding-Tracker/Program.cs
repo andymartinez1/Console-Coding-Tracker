@@ -1,4 +1,6 @@
-﻿using Coding_Tracker.Data;
+﻿using System.Configuration;
+using System.Collections.Specialized;
+using Coding_Tracker.Data;
 using Coding_Tracker.Models;
 
 Database.CreateDatabase();
