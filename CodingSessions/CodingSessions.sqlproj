@@ -63,5 +63,9 @@
   <ItemGroup>
     <Build Include="dbo\Tables\CodingSessions.sql" />
     <Build Include="dbo\StoredProcedures\spCodingSessions_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\spCodingSessions_GetById.sql" />
+    <Build Include="dbo\StoredProcedures\spCodingSessions_Delete.sql" />
+    <Build Include="dbo\StoredProcedures\spCodingSessions_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\spCodingSessions_Update.sql" />
   </ItemGroup>
 </Project>

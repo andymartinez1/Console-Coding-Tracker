@@ -1,20 +1,8 @@
-﻿using System.Configuration;
-using System.Collections.Specialized;
-using Coding_Tracker.Data;
-using Coding_Tracker.Models;
+﻿using Coding_Tracker.Data;
+using Coding_Tracker.UI;
 
-Database.CreateDatabase();
+var data = new DataConnection();
 
-CodingSession codingSession = new CodingSession(
-    1,
-    "Coding Tracker",
-    DateTime.Now.AddHours(-2),
-    DateTime.Now,
-    2.0
-);
+DataConnection.CreateDatabase();
 
-string insertQuery = @"INSERT INTO CodingSessions (Id, ProjectName, StartTime, EndTime, Duration) 
-                       VALUES (@Id, @ProjectName, @StartTime, @EndTime, @Duration)";
-
-
-//connection.Query(insertQuery, codingSession);
+Menu.MainMenu();

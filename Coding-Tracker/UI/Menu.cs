@@ -1,11 +1,14 @@
-﻿using Spectre.Console;
+﻿using Coding_Tracker.Controllers;
+using Coding_Tracker.Data;
+using Spectre.Console;
 
 namespace Coding_Tracker.UI
 {
-    internal class UserInput
+    internal class Menu
     {
         internal static void MainMenu()
         {
+
             var isMenuRunning = true;
 
             while (isMenuRunning)
@@ -14,31 +17,26 @@ namespace Coding_Tracker.UI
                        new SelectionPrompt<string>()
                         .Title("Welcome! Please select from the following options:")
                         .AddChoices(
-                           "Add Habit",
-                           "Delete Habit",
-                           "Update Habit",
-                           "Add Progress",
-                           "Delete Progress",
-                           "View All Progress",
-                           "Update Progress",
+                           "Add Coding Session",
+                           "View Coding Sessions",
+                           "Update Coding Session",
+                           "Delete Coding Session",                        
                            "Quit")
                         );
 
                 switch (usersChoice)
                 {
-                    case "Add Habit":
+                    case "Add Coding Session":
+                        SessionController.AddSession();
                         break;
-                    case "Delete Habit":
+                    case "View Coding Sessions":
+                        var data = new DataConnection();
+                        var sessions = data.GetSessions();
+                        SessionController.ViewSessions(sessions);
                         break;
-                    case "Update Habit":
+                    case "Update Coding Session":
                         break;
-                    case "Add Progress":
-                        break;
-                    case "Delete Progress":
-                        break;
-                    case "View All Progress":
-                        break;
-                    case "Update Progress":
+                    case "Delete Coding Session":
                         break;
                     case "Quit":
                         Console.WriteLine("Goodbye");
