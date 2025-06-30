@@ -1,19 +1,18 @@
-﻿using Coding_Tracker.Models;
-using Microsoft.Data.Sqlite;
+﻿using Coding_Tracker.Controllers;
+using Coding_Tracker.Models;
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using Coding_Tracker.Controllers;
 
 namespace Coding_Tracker.Data;
 
 internal class DataConnection
 {
-
-    IConfiguration configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
-
     private static string ConnectionString;
+
+    private readonly IConfiguration configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
 
     public DataConnection()
     {
@@ -22,13 +21,13 @@ internal class DataConnection
 
     internal static void CreateDatabase()
     {
-
         using (var connection = new SqliteConnection(ConnectionString))
         {
             connection.Open();
 
             // Ensure the table exists
-            string createTableQuery = @"
+            var createTableQuery =
+                @"
                 CREATE TABLE IF NOT EXISTS CodingSessions (
                 Id INTEGER PRIMARY KEY,
                 ProjectName TEXT NOT NULL,
@@ -40,11 +39,9 @@ internal class DataConnection
         }
 
         // Seed the database with initial data if it's empty
-        bool isEmpty = IsTableEmpty();
+        var isEmpty = IsTableEmpty();
         if (isEmpty)
-        {
-            SessionController.SeedSessions(10);
-        }
+            CodingController.SeedSessions(10);
     }
 
     internal void InsertSession(CodingSession session)
@@ -53,12 +50,20 @@ internal class DataConnection
         {
             connection.Open();
 
-            string insertQuery = @"
+            var insertQuery =
+                @"
                     INSERT INTO CodingSessions (ProjectName, StartTime, EndTime)
                     VALUES (@ProjectName, @StartTime, @EndTime)";
 
-            connection.Execute(insertQuery, new { session.ProjectName, session.StartTime, session.EndTime });
-
+            connection.Execute(
+                insertQuery,
+                new
+                {
+                    session.ProjectName,
+                    session.StartTime,
+                    session.EndTime,
+                }
+            );
         }
     }
 
@@ -68,14 +73,21 @@ internal class DataConnection
         {
             connection.Open();
 
-            string insertQuery = @"
+            var insertQuery =
+                @"
                     INSERT INTO CodingSessions (ProjectName, StartTime, EndTime)
                     VALUES (@ProjectName, @StartTime, @EndTime)";
 
             foreach (var session in sessions)
-            {
-                connection.Execute(insertQuery, new { session.ProjectName, session.StartTime, session.EndTime });
-            }
+                connection.Execute(
+                    insertQuery,
+                    new
+                    {
+                        session.ProjectName,
+                        session.StartTime,
+                        session.EndTime,
+                    }
+                );
         }
     }
 
@@ -85,14 +97,9 @@ internal class DataConnection
         {
             connection.Open();
 
-            string selectQuery = "SELECT * FROM CodingSessions";
+            var selectQuery = "SELECT * FROM CodingSessions";
 
             var sessions = connection.Query<CodingSession>(selectQuery).ToList();
-
-            foreach (var session in sessions)
-            {
-                session.Duration = session.EndTime - session.StartTime;
-            }
 
             return sessions;
         }
@@ -104,12 +111,22 @@ internal class DataConnection
         {
             connection.Open();
 
-            string updateQuery = @"
+            var updateQuery =
+                @"
                     UPDATE CodingSessions
                     SET ProjectName = @ProjectName, StartTime = @StartTime, EndTime = @EndTime
                     WHERE Id = @Id";
 
-            connection.Execute(updateQuery, new { session.ProjectName, session.StartTime, session.EndTime, session.Id });
+            connection.Execute(
+                updateQuery,
+                new
+                {
+                    session.ProjectName,
+                    session.StartTime,
+                    session.EndTime,
+                    session.Id,
+                }
+            );
         }
     }
 
@@ -119,7 +136,7 @@ internal class DataConnection
         {
             connection.Open();
 
-            string deleteQuery = "DELETE FROM CodingSessions WHERE Id = @Id";
+            var deleteQuery = "DELETE FROM CodingSessions WHERE Id = @Id";
 
             connection.Execute(deleteQuery, new { Id = id });
         }
