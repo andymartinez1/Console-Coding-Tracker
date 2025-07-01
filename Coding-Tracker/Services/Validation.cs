@@ -7,66 +7,32 @@ namespace Coding_Tracker.Services;
 
 public class Validation
 {
-    public static DateTime[] ValidateDateTime()
+    public static bool IsValidDate(string date, string format)
     {
-        DateTime startDate;
-        DateTime endDate;
-
-        var startDateInput = AnsiConsole.Ask<string>("Enter the start date (MM-dd-yyyy hh:mm ):");
-        if (startDateInput == null)
-            Menu.MainMenu();
-
-        while (
+        if (
             !DateTime.TryParseExact(
-                startDateInput,
-                "MM-dd-yyyy HH:mm",
+                date,
+                format,
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out startDate
+                out _
             )
         )
-            startDateInput = AnsiConsole.Ask<string>(
-                "\n\nInvalid date. Format: mm-dd-yyyy HH:mm. PLease try again\n\n"
-            );
+            return false;
 
-        var endDateInput = AnsiConsole.Ask<string>("Enter the end date (MM-dd-yyyy hh:mm):");
-        if (endDateInput == null)
-            Menu.MainMenu();
+        return true;
+    }
 
-        while (
-            !DateTime.TryParseExact(
-                endDateInput,
-                "MM-dd-yyyy HH:mm",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out endDate
-            )
-        )
-            endDateInput = AnsiConsole.Ask<string>(
-                "\n\nInvalid date. Format: mm-dd-yyyy HH:mm. PLease try again\n\n"
-            );
+    public static bool IsStartDateBeforeEndDate(string startDate, string endDate)
+    {
+        var start = DateTime.ParseExact(
+            startDate,
+            "yyyy-MM-dd HH:mm",
+            CultureInfo.InvariantCulture
+        );
+        var end = DateTime.ParseExact(endDate, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
-        while (startDate > endDate)
-        {
-            endDateInput = AnsiConsole.Ask<string>(
-                "\n\nEnd date can't be before start date. Please try again\n\n"
-            );
-
-            while (
-                !DateTime.TryParseExact(
-                    endDateInput,
-                    "MM-dd-yyyy HH:mm",
-                    CultureInfo.InvariantCulture,
-                    DateTimeStyles.None,
-                    out endDate
-                )
-            )
-                endDateInput = AnsiConsole.Ask<string>(
-                    "\n\nInvalid date. Format: mm-dd-yyyy HH:mm. PLease try again\n\n"
-                );
-        }
-
-        return [startDate, endDate];
+        return start <= end;
     }
 
     public static void ValidateSessionsList(List<CodingSession> sessions)

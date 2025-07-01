@@ -8,12 +8,3 @@ public class CodingSession
     public DateTime EndTime { get; set; }
     public TimeSpan Duration => EndTime - StartTime;
 }
-
-public enum MenuOptions
-{
-    AddSession,
-    ViewSessions,
-    UpdateSession,
-    DeleteSession,
-    Quit,
-}

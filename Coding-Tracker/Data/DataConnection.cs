@@ -19,7 +19,7 @@ internal class DataConnection
         ConnectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
     }
 
-    internal static void CreateDatabase()
+    internal void CreateDatabase()
     {
         using (var connection = new SqliteConnection(ConnectionString))
         {

@@ -1,4 +1,5 @@
-﻿using Coding_Tracker.Data;
+﻿using System.Globalization;
+using Coding_Tracker.Data;
 using Coding_Tracker.Models;
 using Coding_Tracker.Services;
 using Coding_Tracker.UI;
@@ -39,7 +40,6 @@ internal class CodingController
         session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
         session.StartTime = dates[0];
         session.EndTime = dates[1];
-        var sessionDuration = session.Duration;
 
         data.UpdateSession(session);
     }
@@ -57,7 +57,48 @@ internal class CodingController
 
     internal static DateTime[] GetDates()
     {
-        return Validation.ValidateDateTime();
+        var startDateInput = AnsiConsole.Ask<string>(
+            "Enter the start date and time (yyyy-MM-dd HH:mm):"
+        );
+
+        while (Validation.IsValidDate(startDateInput, "yyyy-MM-dd HH:mm") == false)
+            startDateInput = AnsiConsole.Ask<string>(
+                "\nInvalid date. Format: yyyy-MM-dd HH:mm. Please try again:\n"
+            );
+
+        var endDateInput = AnsiConsole.Ask<string>(
+            "Enter the end date and time (yyyy-MM-dd HH:mm):"
+        );
+
+        while (Validation.IsValidDate(endDateInput, "yyyy-MM-dd HH:mm") == false)
+            endDateInput = AnsiConsole.Ask<string>(
+                "\nInvalid date. Format: yyyy-MM-dd HH:mm. Please try again:\n"
+            );
+
+        while (Validation.IsStartDateBeforeEndDate(startDateInput, endDateInput) == false)
+        {
+            AnsiConsole.MarkupLine(
+                "\n[red]Start date must be before end date. Please try again:[/]"
+            );
+            startDateInput = AnsiConsole.Ask<string>(
+                "Enter the start date and time (yyyy-MM-dd HH:mm):"
+            );
+            endDateInput = AnsiConsole.Ask<string>(
+                "Enter the end date and time (yyyy-MM-dd HH:mm):"
+            );
+        }
+
+        var startDate = DateTime.ParseExact(
+            startDateInput,
+            "yyyy-MM-dd HH:mm",
+            CultureInfo.InvariantCulture
+        );
+        var endDate = DateTime.ParseExact(
+            endDateInput,
+            "yyyy-MM-dd HH:mm",
+            CultureInfo.InvariantCulture
+        );
+        return [startDate, endDate];
     }
 
     internal static void SeedSessions(int count)
@@ -79,7 +120,6 @@ internal class CodingController
                 EndTime = endTime,
             };
 
-            var sessionDuration = session.Duration;
             sessions.Add(session);
             currentDate = currentDate.AddDays(1);
         }

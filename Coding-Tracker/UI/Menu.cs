@@ -1,6 +1,7 @@
 ﻿using Coding_Tracker.Controllers;
 using Coding_Tracker.Data;
 using Coding_Tracker.Models;
+using Coding_Tracker.Services;
 using Spectre.Console;
 
 namespace Coding_Tracker.UI;
@@ -14,38 +15,38 @@ internal class Menu
         while (isMenuRunning)
         {
             var usersChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<MenuOptions>()
+                new SelectionPrompt<string>()
                     .Title("Welcome! Please select from the following options:")
                     .AddChoices(
-                        MenuOptions.AddSession,
-                        MenuOptions.ViewSessions,
-                        MenuOptions.UpdateSession,
-                        MenuOptions.DeleteSession,
-                        MenuOptions.Quit
+                        Enums.MenuOptions.AddSession.GetDisplayName(),
+                        Enums.MenuOptions.ViewSessions.GetDisplayName(),
+                        Enums.MenuOptions.UpdateSession.GetDisplayName(),
+                        Enums.MenuOptions.DeleteSession.GetDisplayName(),
+                        Enums.MenuOptions.Quit.GetDisplayName()
                     )
             );
 
             switch (usersChoice)
             {
-                case MenuOptions.AddSession:
+                case "Add Session":
                     AnsiConsole.Clear();
                     CodingController.AddSession();
                     break;
-                case MenuOptions.ViewSessions:
+                case "View Sessions":
                     AnsiConsole.Clear();
                     var data = new DataConnection();
                     var sessions = data.GetAllSessions();
                     UserInterface.ViewSessions(sessions);
                     break;
-                case MenuOptions.UpdateSession:
+                case "Update Session":
                     AnsiConsole.Clear();
                     CodingController.UpdateSession(0);
                     break;
-                case MenuOptions.DeleteSession:
+                case "Delete Session":
                     AnsiConsole.Clear();
                     CodingController.DeleteSession(0);
                     break;
-                case MenuOptions.Quit:
+                case "Quit":
                     AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
                         "[red]Thank you for using this coding tracker! Press any key to exit. Goodbye![/]"
