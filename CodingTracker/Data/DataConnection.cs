@@ -1,14 +1,13 @@
-﻿using Coding_Tracker.Controllers;
-using Coding_Tracker.Models;
+﻿using Coding_Tracker.Models;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
 namespace Coding_Tracker.Data;
 
-internal class DataConnection
+public class DataConnection
 {
-    private static string ConnectionString;
+    private readonly string _connectionString;
 
     private readonly IConfiguration configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
@@ -16,12 +15,12 @@ internal class DataConnection
 
     public DataConnection()
     {
-        ConnectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+        _connectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
     }
 
     internal void CreateDatabase()
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -41,12 +40,12 @@ internal class DataConnection
         // Seed the database with initial data if it's empty
         var isEmpty = IsTableEmpty();
         if (isEmpty)
-            CodingController.SeedSessions(10);
+            SeedSessions(10);
     }
 
     internal void InsertSession(CodingSession session)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -69,7 +68,7 @@ internal class DataConnection
 
     internal void InsertSeedSessions(List<CodingSession> sessions)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -93,7 +92,7 @@ internal class DataConnection
 
     internal List<CodingSession> GetAllSessions()
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -107,7 +106,7 @@ internal class DataConnection
 
     internal void UpdateSession(CodingSession session)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -132,7 +131,7 @@ internal class DataConnection
 
     internal void DeleteSession(int id)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 
@@ -142,9 +141,35 @@ internal class DataConnection
         }
     }
 
-    internal static bool IsTableEmpty()
+    internal void SeedSessions(int count)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        var random = new Random();
+        var currentDate = DateTime.Now.Date;
+
+        var sessions = new List<CodingSession>();
+
+        for (var i = 0; i < count; i++)
+        {
+            var startTime = currentDate.AddHours(random.Next(0, 12)).AddMinutes(random.Next(0, 60));
+            var endTime = startTime.AddHours(random.Next(1, 12)).AddMinutes(random.Next(0, 60));
+
+            var session = new CodingSession
+            {
+                ProjectName = $"Project {i + 1}",
+                StartTime = startTime,
+                EndTime = endTime,
+            };
+
+            sessions.Add(session);
+            currentDate = currentDate.AddDays(1);
+        }
+
+        InsertSeedSessions(sessions);
+    }
+
+    internal bool IsTableEmpty()
+    {
+        using (var connection = new SqliteConnection(_connectionString))
         {
             connection.Open();
 

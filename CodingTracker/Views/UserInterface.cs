@@ -1,11 +1,11 @@
 ﻿using Coding_Tracker.Models;
 using Spectre.Console;
 
-namespace Coding_Tracker.UI;
+namespace Coding_Tracker.Views;
 
 public class UserInterface
 {
-    internal static void ViewSessions(List<CodingSession> sessions)
+    internal static void ViewAllSessions(List<CodingSession> sessions)
     {
         var table = new Table();
         table.AddColumn("ID");

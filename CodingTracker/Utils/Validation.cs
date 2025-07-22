@@ -1,26 +1,20 @@
 ﻿using System.Globalization;
 using Coding_Tracker.Models;
-using Coding_Tracker.UI;
 using Spectre.Console;
 
-namespace Coding_Tracker.Services;
+namespace Coding_Tracker.Utils;
 
 public class Validation
 {
     public static bool IsValidDate(string date, string format)
     {
-        if (
-            !DateTime.TryParseExact(
-                date,
-                format,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out _
-            )
-        )
-            return false;
-
-        return true;
+        return DateTime.TryParseExact(
+            date,
+            format,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out _
+        );
     }
 
     public static bool IsStartDateBeforeEndDate(string startDate, string endDate)
@@ -41,7 +35,6 @@ public class Validation
         {
             AnsiConsole.MarkupLine("[red]No sessions found![/]");
             AnsiConsole.MarkupLine("Please add a session first.");
-            Menu.MainMenu();
         }
     }
 }
