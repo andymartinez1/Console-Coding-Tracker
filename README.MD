@@ -9,27 +9,37 @@ many hours you've spent coding. Add a project name to better organize your data.
 - View session history
 - Edit or delete sessions
 
-  ![Main menu](Coding-Tracker/docs/images/Main-Menu.png)
+  ![Main menu](CodingTracker/docs/images/Main-Menu.png)
 
-  ![Coding sessions list](Coding-Tracker/docs/images/Coding-Session-List.png)
+  ![Coding sessions list](CodingTracker/docs/images/Coding-Session-List.png)
 
 ## Getting Started
 
-1. Clone the repository:
+1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/andymartinez1/Console-Coding-Tracker.git
    ```
-2. Navigate to the project directory:
+
+2. **Navigate to the project directory:**
+
    ```bash
    cd Coding-Tracker
    ```
-3. Change the working directory in launchSettings.json to the root of the project. Example:
+
+3. **In your IDE, change the working directory to the current directory:**
 
    ```bash
-   "workingDirectory": "X:\\C#\\.NET-Console-Apps\\Coding-Tracker\\Coding-Tracker\\"
+   Example: "X:/C#/.NET-Console-Apps/Coding-Tracker/CodingTracker/"
    ```
 
-4. Build and run the app:
+4. **Restore dependencies:**
+
+   ```bash
+   dotnet restore
+   ```
+
+5. Build and run the app:
    ```bash
    dotnet run
    ```

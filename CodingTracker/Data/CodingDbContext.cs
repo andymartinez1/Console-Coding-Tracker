@@ -1,26 +1,23 @@
-﻿using Coding_Tracker.Models;
+﻿using System.Data;
+using System.Data.Common;
+using Coding_Tracker.Models;
 using Dapper;
 using Microsoft.Data.Sqlite;
-using Microsoft.Extensions.Configuration;
 
 namespace Coding_Tracker.Data;
 
-public class DataConnection
+public class CodingDbContext
 {
-    private readonly IConfiguration configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build();
+    internal readonly IDbConnection ConnectionString;
 
-    internal readonly string ConnectionString;
-
-    public DataConnection()
+    public CodingDbContext(IDbConnection connectionString)
     {
-        ConnectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+        ConnectionString = connectionString;
     }
 
     public void CreateDatabase()
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = ConnectionString)
         {
             connection.Open();
 
@@ -45,7 +42,7 @@ public class DataConnection
 
     public void InsertSeedSessions(List<CodingSession> sessions)
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = ConnectionString)
         {
             connection.Open();
 
@@ -95,7 +92,7 @@ public class DataConnection
 
     public bool IsTableEmpty()
     {
-        using (var connection = new SqliteConnection(ConnectionString))
+        using (var connection = ConnectionString)
         {
             connection.Open();
 

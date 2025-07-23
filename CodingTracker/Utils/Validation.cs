@@ -27,11 +27,4 @@ public class Validation
 
         return start <= end;
     }
-
-    public static bool IsSessionListEmpty(List<CodingSession> sessions)
-    {
-        if (sessions.Count <= 0)
-            return true;
-        return false;
-    }
 }

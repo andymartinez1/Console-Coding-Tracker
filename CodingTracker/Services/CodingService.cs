@@ -23,7 +23,7 @@ public class CodingService : ICodingService
 
     public CodingSession GetSession(int id)
     {
-        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        if (_codingRepository.GetAllSessions().Count > 0)
         {
             var session = _codingRepository.GetSession(id);
             return session;
@@ -47,7 +47,7 @@ public class CodingService : ICodingService
 
     public void UpdateSession(CodingSession session)
     {
-        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        if (_codingRepository.GetAllSessions().Count > 0)
         {
             var updateStartTime = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -82,7 +82,7 @@ public class CodingService : ICodingService
 
     public void DeleteSession(int id)
     {
-        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        if (_codingRepository.GetAllSessions().Count > 0)
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");

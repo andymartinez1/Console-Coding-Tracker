@@ -15,7 +15,7 @@ public static class Helpers
 
         var sessionArray = sessions.Select(s => s.Id).ToArray();
 
-        if (Validation.IsSessionListEmpty(sessions))
+        if (sessions.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No sessions found![/]");
             AnsiConsole.MarkupLine("Please add a session first.");

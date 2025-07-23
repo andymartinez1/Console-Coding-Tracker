@@ -7,17 +7,17 @@ namespace Coding_Tracker.Repository;
 
 public class CodingRepository : ICodingRepository
 {
-    private readonly DataConnection _dataConnection;
+    private readonly CodingDbContext _codingDbContext;
 
-    public CodingRepository(DataConnection dataConnection)
+    public CodingRepository(CodingDbContext codingDbContext)
     {
-        _dataConnection = dataConnection;
+        _codingDbContext = codingDbContext;
     }
 
     public List<CodingSession> GetAllSessions()
     {
         {
-            using (var connection = new SqliteConnection(_dataConnection.ConnectionString))
+            using (var connection = _codingDbContext.ConnectionString)
             {
                 connection.Open();
 
@@ -32,7 +32,7 @@ public class CodingRepository : ICodingRepository
 
     public CodingSession GetSession(int id)
     {
-        using (var connection = new SqliteConnection(_dataConnection.ConnectionString))
+        using (var connection = _codingDbContext.ConnectionString)
         {
             connection.Open();
 
@@ -48,7 +48,7 @@ public class CodingRepository : ICodingRepository
 
     public void InsertSession(CodingSession session)
     {
-        using (var connection = new SqliteConnection(_dataConnection.ConnectionString))
+        using (var connection = _codingDbContext.ConnectionString)
         {
             connection.Open();
 
@@ -71,7 +71,7 @@ public class CodingRepository : ICodingRepository
 
     public void UpdateSession(CodingSession session)
     {
-        using (var connection = new SqliteConnection(_dataConnection.ConnectionString))
+        using (var connection = _codingDbContext.ConnectionString)
         {
             connection.Open();
 
@@ -96,7 +96,7 @@ public class CodingRepository : ICodingRepository
 
     public void DeleteSession(int id)
     {
-        using (var connection = new SqliteConnection(_dataConnection.ConnectionString))
+        using (var connection = _codingDbContext.ConnectionString)
         {
             connection.Open();
 
