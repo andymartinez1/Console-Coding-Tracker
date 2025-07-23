@@ -7,8 +7,11 @@ public enum MenuOptions
     [Display(Name = "Add Session")]
     AddSession,
 
-    [Display(Name = "View Sessions")]
+    [Display(Name = "View All Sessions")]
     ViewAllSessions,
+
+    [Display(Name = "View Session")]
+    ViewSession,
 
     [Display(Name = "Update Session")]
     UpdateSession,

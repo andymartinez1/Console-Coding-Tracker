@@ -12,6 +12,7 @@ public class Menu
     private readonly MenuOptions[] _menuOptions =
     [
         MenuOptions.ViewAllSessions,
+        MenuOptions.ViewSession,
         MenuOptions.AddSession,
         MenuOptions.UpdateSession,
         MenuOptions.DeleteSession,
@@ -48,13 +49,17 @@ public class Menu
                     AnsiConsole.Clear();
                     _codingController.GetAllSessions();
                     break;
+                case MenuOptions.ViewSession:
+                    AnsiConsole.Clear();
+                    _codingController.GetSession();
+                    break;
                 case MenuOptions.UpdateSession:
                     AnsiConsole.Clear();
-                    _codingController.UpdateSession(0);
+                    _codingController.UpdateSession();
                     break;
                 case MenuOptions.DeleteSession:
                     AnsiConsole.Clear();
-                    _codingController.DeleteSession(0);
+                    _codingController.DeleteSession();
                     break;
                 case MenuOptions.Quit:
                     AnsiConsole.Clear();

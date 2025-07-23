@@ -1,5 +1,6 @@
 ﻿using Coding_Tracker.Controllers;
 using Coding_Tracker.Data;
+using Coding_Tracker.Repository;
 using Coding_Tracker.Services;
 using Coding_Tracker.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ var services = new ServiceCollection();
 
 // Registering the dependencies
 services.AddScoped<DataConnection>();
+services.AddScoped<ICodingRepository, CodingRepository>();
 services.AddScoped<ICodingService, CodingService>();
 services.AddScoped<CodingController>();
 services.AddScoped<Menu>();

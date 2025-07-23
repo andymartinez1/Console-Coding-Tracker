@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using Coding_Tracker.Models;
-using Spectre.Console;
 
 namespace Coding_Tracker.Utils;
 
@@ -29,12 +28,10 @@ public class Validation
         return start <= end;
     }
 
-    public static void ValidateSessionsList(List<CodingSession> sessions)
+    public static bool IsSessionListEmpty(List<CodingSession> sessions)
     {
-        if (sessions.Count == 0)
-        {
-            AnsiConsole.MarkupLine("[red]No sessions found![/]");
-            AnsiConsole.MarkupLine("Please add a session first.");
-        }
+        if (sessions.Count <= 0)
+            return true;
+        return false;
     }
 }

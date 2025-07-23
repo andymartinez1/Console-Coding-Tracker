@@ -15,7 +15,7 @@ public static class Helpers
 
         var sessionArray = sessions.Select(s => s.Id).ToArray();
 
-        if (sessionArray.Length == 0)
+        if (Validation.IsSessionListEmpty(sessions))
         {
             AnsiConsole.MarkupLine("[red]No sessions found![/]");
             AnsiConsole.MarkupLine("Please add a session first.");
@@ -26,8 +26,6 @@ public static class Helpers
             new SelectionPrompt<int>().Title("Select the session:").AddChoices(sessionArray)
         );
         return option;
-
-        return 0; // Fallback return in case of no sessions
     }
 
     public static DateTime[] GetDates()

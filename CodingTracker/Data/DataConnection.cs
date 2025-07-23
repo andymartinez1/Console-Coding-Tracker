@@ -7,20 +7,20 @@ namespace Coding_Tracker.Data;
 
 public class DataConnection
 {
-    private readonly string _connectionString;
-
     private readonly IConfiguration configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
         .Build();
 
+    internal readonly string ConnectionString;
+
     public DataConnection()
     {
-        _connectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+        ConnectionString = configuration.GetSection("ConnectionStrings")["DefaultConnection"];
     }
 
-    internal void CreateDatabase()
+    public void CreateDatabase()
     {
-        using (var connection = new SqliteConnection(_connectionString))
+        using (var connection = new SqliteConnection(ConnectionString))
         {
             connection.Open();
 
@@ -40,35 +40,12 @@ public class DataConnection
         // Seed the database with initial data if it's empty
         var isEmpty = IsTableEmpty();
         if (isEmpty)
-            SeedSessions(10);
+            SeedSessions(5);
     }
 
-    internal void InsertSession(CodingSession session)
+    public void InsertSeedSessions(List<CodingSession> sessions)
     {
-        using (var connection = new SqliteConnection(_connectionString))
-        {
-            connection.Open();
-
-            var insertQuery =
-                @"
-                    INSERT INTO CodingSessions (ProjectName, StartTime, EndTime)
-                    VALUES (@ProjectName, @StartTime, @EndTime)";
-
-            connection.Execute(
-                insertQuery,
-                new
-                {
-                    session.ProjectName,
-                    session.StartTime,
-                    session.EndTime,
-                }
-            );
-        }
-    }
-
-    internal void InsertSeedSessions(List<CodingSession> sessions)
-    {
-        using (var connection = new SqliteConnection(_connectionString))
+        using (var connection = new SqliteConnection(ConnectionString))
         {
             connection.Open();
 
@@ -90,58 +67,7 @@ public class DataConnection
         }
     }
 
-    internal List<CodingSession> GetAllSessions()
-    {
-        using (var connection = new SqliteConnection(_connectionString))
-        {
-            connection.Open();
-
-            var selectQuery = "SELECT * FROM CodingSessions";
-
-            var sessions = connection.Query<CodingSession>(selectQuery).ToList();
-
-            return sessions;
-        }
-    }
-
-    internal void UpdateSession(CodingSession session)
-    {
-        using (var connection = new SqliteConnection(_connectionString))
-        {
-            connection.Open();
-
-            var updateQuery =
-                @"
-                    UPDATE CodingSessions
-                    SET ProjectName = @ProjectName, StartTime = @StartTime, EndTime = @EndTime
-                    WHERE Id = @Id";
-
-            connection.Execute(
-                updateQuery,
-                new
-                {
-                    session.ProjectName,
-                    session.StartTime,
-                    session.EndTime,
-                    session.Id,
-                }
-            );
-        }
-    }
-
-    internal void DeleteSession(int id)
-    {
-        using (var connection = new SqliteConnection(_connectionString))
-        {
-            connection.Open();
-
-            var deleteQuery = "DELETE FROM CodingSessions WHERE Id = @Id";
-
-            connection.Execute(deleteQuery, new { Id = id });
-        }
-    }
-
-    internal void SeedSessions(int count)
+    public void SeedSessions(int count)
     {
         var random = new Random();
         var currentDate = DateTime.Now.Date;
@@ -167,9 +93,9 @@ public class DataConnection
         InsertSeedSessions(sessions);
     }
 
-    internal bool IsTableEmpty()
+    public bool IsTableEmpty()
     {
-        using (var connection = new SqliteConnection(_connectionString))
+        using (var connection = new SqliteConnection(ConnectionString))
         {
             connection.Open();
 

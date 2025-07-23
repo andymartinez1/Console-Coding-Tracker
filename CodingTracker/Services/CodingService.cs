@@ -1,5 +1,5 @@
-﻿using Coding_Tracker.Data;
-using Coding_Tracker.Models;
+﻿using Coding_Tracker.Models;
+using Coding_Tracker.Repository;
 using Coding_Tracker.Utils;
 using Spectre.Console;
 
@@ -7,23 +7,29 @@ namespace Coding_Tracker.Services;
 
 public class CodingService : ICodingService
 {
-    private readonly DataConnection _dataConnection;
+    private readonly ICodingRepository _codingRepository;
 
-    public CodingService(DataConnection dataConnection)
+    public CodingService(ICodingRepository codingRepository)
     {
-        _dataConnection = dataConnection;
+        _codingRepository = codingRepository;
     }
 
     public List<CodingSession> GetAllSessions()
     {
-        var sessions = _dataConnection.GetAllSessions();
+        var sessions = _codingRepository.GetAllSessions();
 
         return sessions;
     }
 
-    public CodingSession GetSessionById(int id)
+    public CodingSession GetSession(int id)
     {
-        throw new NotImplementedException();
+        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        {
+            var session = _codingRepository.GetSession(id);
+            return session;
+        }
+
+        return null;
     }
 
     public void AddSession()
@@ -31,43 +37,57 @@ public class CodingService : ICodingService
         CodingSession session = new();
 
         session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
-        if (session.ProjectName == null)
-            return;
 
         var dates = Helpers.GetDates();
         session.StartTime = dates[0];
         session.EndTime = dates[1];
 
-        _dataConnection.InsertSession(session);
+        _codingRepository.InsertSession(session);
     }
 
-    public void UpdateSession(int id)
+    public void UpdateSession(CodingSession session)
     {
-        var sessions = _dataConnection.GetAllSessions();
-        Validation.ValidateSessionsList(sessions);
+        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        {
+            var updateStartTime = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Would you like to update the coding start and end time?")
+                    .AddChoices("Yes", "No")
+            );
+            if (updateStartTime == "Yes")
+            {
+                var dates = Helpers.GetDates();
+                session.StartTime = dates[0];
+                session.EndTime = dates[1];
+            }
+            else
+            {
+                session.StartTime = session.StartTime;
+                session.EndTime = session.EndTime;
+            }
 
-        var sessionId = Helpers.GetSessionId(sessions);
+            var updateCodingProjectName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Would you like to update the project name? ")
+                    .AddChoices("Yes", "No")
+            );
+            if (updateCodingProjectName == "Yes")
+                session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
+            else
+                session.ProjectName = session.ProjectName;
 
-        var session = sessions.FirstOrDefault(s => s.Id == sessionId);
-        var dates = Helpers.GetDates();
-
-        session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
-        session.StartTime = dates[0];
-        session.EndTime = dates[1];
-
-        _dataConnection.UpdateSession(session);
+            _codingRepository.UpdateSession(session);
+        }
     }
 
     public void DeleteSession(int id)
     {
-        var sessions = _dataConnection.GetAllSessions();
-        Validation.ValidateSessionsList(sessions);
+        if (!Validation.IsSessionListEmpty(_codingRepository.GetAllSessions()))
+        {
+            AnsiConsole.Clear();
+            AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
+        }
 
-        var sessionId = Helpers.GetSessionId(sessions);
-
-        AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
-
-        _dataConnection.DeleteSession(sessionId);
+        _codingRepository.DeleteSession(id);
     }
 }

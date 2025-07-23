@@ -1,14 +1,14 @@
 ﻿using Coding_Tracker.Models;
 
-namespace Coding_Tracker.Services;
+namespace Coding_Tracker.Repository;
 
-public interface ICodingService
+public interface ICodingRepository
 {
     public List<CodingSession> GetAllSessions();
 
     public CodingSession GetSession(int id);
 
-    public void AddSession();
+    public void InsertSession(CodingSession session);
 
     public void UpdateSession(CodingSession session);
 
