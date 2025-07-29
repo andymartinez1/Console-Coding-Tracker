@@ -1,7 +1,7 @@
-﻿using Coding_Tracker.Models;
+﻿using CodingTracker.Models;
 using Spectre.Console;
 
-namespace Coding_Tracker.Views;
+namespace CodingTracker.Views;
 
 public class UserInterface
 {
@@ -33,7 +33,6 @@ public class UserInterface
         )
             .Header($"Details for ID: {session.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));
-        ;
 
         panel.Padding = new Padding(2);
         panel.Expand();

@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
-using Coding_Tracker.Models;
-using Coding_Tracker.Views;
+using CodingTracker.Models;
+using CodingTracker.Views;
 using Spectre.Console;
 
-namespace Coding_Tracker.Utils;
+namespace CodingTracker.Utils;
 
 public static class Helpers
 {

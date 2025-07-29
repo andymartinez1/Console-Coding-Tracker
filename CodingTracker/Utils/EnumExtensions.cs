@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Coding_Tracker.Utils;
+namespace CodingTracker.Utils;
 
 public static class EnumExtensions
 {

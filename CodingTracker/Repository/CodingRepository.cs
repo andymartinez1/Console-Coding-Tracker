@@ -1,9 +1,8 @@
-﻿using Coding_Tracker.Data;
-using Coding_Tracker.Models;
+﻿using CodingTracker.Data;
+using CodingTracker.Models;
 using Dapper;
-using Microsoft.Data.Sqlite;
 
-namespace Coding_Tracker.Repository;
+namespace CodingTracker.Repository;
 
 public class CodingRepository : ICodingRepository
 {
@@ -16,17 +15,15 @@ public class CodingRepository : ICodingRepository
 
     public List<CodingSession> GetAllSessions()
     {
+        using (var connection = _codingDbContext.ConnectionString)
         {
-            using (var connection = _codingDbContext.ConnectionString)
-            {
-                connection.Open();
+            connection.Open();
 
-                var selectQuery = "SELECT * FROM CodingSessions";
+            var selectQuery = "SELECT * FROM CodingSessions";
 
-                var sessions = connection.Query<CodingSession>(selectQuery).ToList();
+            var sessions = connection.Query<CodingSession>(selectQuery).ToList();
 
-                return sessions;
-            }
+            return sessions;
         }
     }
 

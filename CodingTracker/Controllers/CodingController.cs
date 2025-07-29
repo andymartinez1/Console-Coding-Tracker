@@ -1,8 +1,8 @@
-﻿using Coding_Tracker.Services;
-using Coding_Tracker.Utils;
-using Coding_Tracker.Views;
+﻿using CodingTracker.Services;
+using CodingTracker.Utils;
+using CodingTracker.Views;
 
-namespace Coding_Tracker.Controllers;
+namespace CodingTracker.Controllers;
 
 public class CodingController
 {

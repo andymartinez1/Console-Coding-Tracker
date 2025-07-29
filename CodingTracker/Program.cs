@@ -1,9 +1,9 @@
 ﻿using System.Data;
-using Coding_Tracker.Controllers;
-using Coding_Tracker.Data;
-using Coding_Tracker.Repository;
-using Coding_Tracker.Services;
-using Coding_Tracker.Views;
+using CodingTracker.Controllers;
+using CodingTracker.Data;
+using CodingTracker.Repository;
+using CodingTracker.Services;
+using CodingTracker.Views;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

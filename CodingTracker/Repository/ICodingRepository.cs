@@ -1,6 +1,6 @@
-﻿using Coding_Tracker.Models;
+﻿using CodingTracker.Models;
 
-namespace Coding_Tracker.Repository;
+namespace CodingTracker.Repository;
 
 public interface ICodingRepository
 {

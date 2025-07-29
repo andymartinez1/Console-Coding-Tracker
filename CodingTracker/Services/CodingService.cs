@@ -1,9 +1,9 @@
-﻿using Coding_Tracker.Models;
-using Coding_Tracker.Repository;
-using Coding_Tracker.Utils;
+﻿using CodingTracker.Models;
+using CodingTracker.Repository;
+using CodingTracker.Utils;
 using Spectre.Console;
 
-namespace Coding_Tracker.Services;
+namespace CodingTracker.Services;
 
 public class CodingService : ICodingService
 {

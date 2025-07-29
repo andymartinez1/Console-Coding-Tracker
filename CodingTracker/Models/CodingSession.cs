@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coding_Tracker.Models;
+namespace CodingTracker.Models;
 
 public class CodingSession
 {

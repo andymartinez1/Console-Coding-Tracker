@@ -1,6 +1,6 @@
-﻿using Coding_Tracker.Models;
+﻿using CodingTracker.Models;
 
-namespace Coding_Tracker.Services;
+namespace CodingTracker.Services;
 
 public interface ICodingService
 {

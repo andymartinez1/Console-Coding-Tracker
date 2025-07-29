@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
-using Coding_Tracker.Models;
 
-namespace Coding_Tracker.Utils;
+namespace CodingTracker.Utils;
 
 public class Validation
 {

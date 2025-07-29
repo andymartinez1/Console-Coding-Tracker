@@ -1,8 +1,8 @@
-﻿using Coding_Tracker.Utils;
+﻿using CodingTracker.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-namespace Coding_Tracker.Tests;
+namespace CodingTracker.Tests;
 
 [TestClass]
 public class Tests
@@ -14,7 +14,7 @@ public class Tests
     [DataRow("Wednesday, January 01, 2025", "dddd, MMMM dd, yyyy")]
     public void IsValidDate_ValidDateFormat_ReturnsTrue(string date, string format)
     {
-        bool result = Validation.IsValidDate(date, format);
+        var result = Validation.IsValidDate(date, format);
 
         Assert.IsTrue(result);
     }
@@ -29,7 +29,7 @@ public class Tests
     [DataRow(null, null)]
     public void IsValidDate_InvalidDateFormat_ReturnsFalse(string date, string format)
     {
-        bool result = Validation.IsValidDate(date, format);
+        var result = Validation.IsValidDate(date, format);
 
         Assert.IsFalse(result);
     }
@@ -40,7 +40,7 @@ public class Tests
     [DataRow("2025-03-03 08:00", "2025-03-03 12:00")]
     public void IsStartDateBeforeEndDate_ValidDates_ReturnsTrue(string startDate, string endDate)
     {
-        bool result = Validation.IsStartDateBeforeEndDate(startDate, endDate);
+        var result = Validation.IsStartDateBeforeEndDate(startDate, endDate);
 
         Assert.IsTrue(result);
     }
@@ -51,7 +51,7 @@ public class Tests
     [DataRow("2025-03-03 08:00", "2025-03-03 07:59")]
     public void IsStartDateBeforeEndDate_InvalidDates_ReturnsFalse(string startDate, string endDate)
     {
-        bool result = Validation.IsStartDateBeforeEndDate(startDate, endDate);
+        var result = Validation.IsStartDateBeforeEndDate(startDate, endDate);
 
         Assert.IsFalse(result);
     }

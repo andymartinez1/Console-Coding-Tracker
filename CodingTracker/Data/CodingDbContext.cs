@@ -1,10 +1,8 @@
 ﻿using System.Data;
-using System.Data.Common;
-using Coding_Tracker.Models;
+using CodingTracker.Models;
 using Dapper;
-using Microsoft.Data.Sqlite;
 
-namespace Coding_Tracker.Data;
+namespace CodingTracker.Data;
 
 public class CodingDbContext
 {

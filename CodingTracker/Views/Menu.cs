@@ -1,9 +1,9 @@
-﻿using Coding_Tracker.Controllers;
-using Coding_Tracker.Enums;
-using Coding_Tracker.Utils;
+﻿using CodingTracker.Controllers;
+using CodingTracker.Enums;
+using CodingTracker.Utils;
 using Spectre.Console;
 
-namespace Coding_Tracker.Views;
+namespace CodingTracker.Views;
 
 public class Menu
 {
