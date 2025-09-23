@@ -7,7 +7,9 @@ public class CodingSession
     [Key]
     public int Id { get; set; }
 
-    public string ProjectName { get; set; } = string.Empty;
+    public Project Project { get; set; }
+
+    public ProgrammingLanguage Language { get; set; }
 
     public DateTime StartTime { get; set; }
 
