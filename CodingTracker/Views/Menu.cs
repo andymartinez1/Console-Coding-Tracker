@@ -9,14 +9,14 @@ public class Menu
 {
     private readonly CodingController _codingController;
 
-    private readonly MenuOptions[] _menuOptions =
+    private readonly SessionMenuOptions[] _menuOptions =
     [
-        MenuOptions.ViewAllSessions,
-        MenuOptions.ViewSession,
-        MenuOptions.AddSession,
-        MenuOptions.UpdateSession,
-        MenuOptions.DeleteSession,
-        MenuOptions.Quit,
+        SessionMenuOptions.ViewAllSessions,
+        SessionMenuOptions.ViewSession,
+        SessionMenuOptions.AddSession,
+        SessionMenuOptions.UpdateSession,
+        SessionMenuOptions.DeleteSession,
+        SessionMenuOptions.Quit,
     ];
 
     public Menu(CodingController codingController)
@@ -33,7 +33,7 @@ public class Menu
             AnsiConsole.Write(new FigletText("Coding Tracker").Color(Color.Aquamarine1));
 
             var usersChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<MenuOptions>()
+                new SelectionPrompt<SessionMenuOptions>()
                     .Title("Welcome! Please select from the following options:")
                     .AddChoices(_menuOptions)
                     .UseConverter(c => c.GetDisplayName())
@@ -41,27 +41,27 @@ public class Menu
 
             switch (usersChoice)
             {
-                case MenuOptions.AddSession:
+                case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
                     _codingController.AddSession();
                     break;
-                case MenuOptions.ViewAllSessions:
+                case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
                     _codingController.GetAllSessions();
                     break;
-                case MenuOptions.ViewSession:
+                case SessionMenuOptions.ViewSession:
                     AnsiConsole.Clear();
                     _codingController.GetSession();
                     break;
-                case MenuOptions.UpdateSession:
+                case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();
                     _codingController.UpdateSession();
                     break;
-                case MenuOptions.DeleteSession:
+                case SessionMenuOptions.DeleteSession:
                     AnsiConsole.Clear();
                     _codingController.DeleteSession();
                     break;
-                case MenuOptions.Quit:
+                case SessionMenuOptions.Quit:
                     AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
                         "[blue]Thank you for using this coding tracker! Press any key to exit. Goodbye![/]"

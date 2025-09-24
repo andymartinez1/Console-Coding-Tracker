@@ -2,7 +2,7 @@
 
 namespace CodingTracker.Enums;
 
-public enum MenuOptions
+public enum SessionMenuOptions
 {
     [Display(Name = "Add Session")]
     AddSession,
@@ -19,6 +19,6 @@ public enum MenuOptions
     [Display(Name = "Delete Session")]
     DeleteSession,
 
-    [Display(Name = "Quit")]
-    Quit,
+    [Display(Name = "Back to Main Menu")]
+    BackToMainMenu,
 }

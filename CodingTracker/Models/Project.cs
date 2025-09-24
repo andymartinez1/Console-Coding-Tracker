@@ -13,6 +13,8 @@ public class Project
 
     public Category Category { get; set; }
 
+    public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+
     public List<CodingSession> CodingSessions { get; set; }
 }
 

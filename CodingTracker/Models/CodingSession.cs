@@ -9,7 +9,7 @@ public class CodingSession
 
     public Project Project { get; set; }
 
-    public ProgrammingLanguage Language { get; set; }
+    public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 
     public DateTime StartTime { get; set; }
 

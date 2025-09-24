@@ -1,7 +1,10 @@
-﻿namespace CodingTracker.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CodingTracker.Models;
 
 public class ProgrammingLanguage
 {
+    [Key]
     public int Id { get; set; }
 
     public string Language { get; set; } = string.Empty;
