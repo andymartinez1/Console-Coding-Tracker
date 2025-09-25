@@ -4,7 +4,7 @@ using CodingTracker.Data;
 using CodingTracker.Repository;
 using CodingTracker.Services;
 using CodingTracker.Views;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +20,7 @@ var connectionString =
     configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException();
 
 // Registering the dependencies
-services.AddTransient<IDbConnection>(sp => new SqliteConnection(connectionString));
+services.AddTransient<IDbConnection>(sp => new SqlConnection(connectionString));
 services.AddScoped<CodingDbContext>();
 services.AddScoped<ICodingRepository, CodingRepository>();
 services.AddScoped<ICodingService, CodingService>();

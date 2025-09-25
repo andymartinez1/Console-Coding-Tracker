@@ -50,15 +50,7 @@ public class CodingDbContext
                     VALUES (@ProjectName, @StartTime, @EndTime)";
 
             foreach (var session in sessions)
-                connection.Execute(
-                    insertQuery,
-                    new
-                    {
-                        session.ProjectName,
-                        session.StartTime,
-                        session.EndTime,
-                    }
-                );
+                connection.Execute(insertQuery, new { session.StartTime, session.EndTime });
         }
     }
 
@@ -74,12 +66,7 @@ public class CodingDbContext
             var startTime = currentDate.AddHours(random.Next(0, 12)).AddMinutes(random.Next(0, 60));
             var endTime = startTime.AddHours(random.Next(1, 12)).AddMinutes(random.Next(0, 60));
 
-            var session = new CodingSession
-            {
-                ProjectName = $"Project {i + 1}",
-                StartTime = startTime,
-                EndTime = endTime,
-            };
+            var session = new CodingSession { StartTime = startTime, EndTime = endTime };
 
             sessions.Add(session);
             currentDate = currentDate.AddDays(1);

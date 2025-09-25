@@ -9,7 +9,7 @@ public class ProgrammingLanguage
 
     public string Language { get; set; } = string.Empty;
 
-    public decimal Version { get; set; }
+    public decimal? Version { get; set; }
 
     public List<CodingSession> CodingSessions { get; set; }
 }
