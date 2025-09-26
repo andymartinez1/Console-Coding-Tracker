@@ -17,7 +17,7 @@ public class UserInterface
         foreach (var session in sessions)
             table.AddRow(
                 session.Id.ToString(),
-                session.ProjectName,
+                session.Project.Name,
                 session.StartTime.ToString(),
                 session.EndTime.ToString(),
                 $"{Math.Floor(session.Duration.TotalHours)} hours {session.Duration.TotalMinutes % 60} minutes"
@@ -29,7 +29,7 @@ public class UserInterface
     public static void ViewSessionDetails(CodingSession session)
     {
         var panel = new Panel(
-            $"Project Name: {session.ProjectName} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \n"
+            $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \n"
         )
             .Header($"Details for ID: {session.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));

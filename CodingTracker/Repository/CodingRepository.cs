@@ -12,93 +12,36 @@ public class CodingRepository : ICodingRepository
         _codingDbContext = codingDbContext;
     }
 
+    public void InsertSession(CodingSession session)
+    {
+        _codingDbContext.CodingSessions.Add(session);
+
+        _codingDbContext.SaveChanges();
+    }
+
     public List<CodingSession> GetAllSessions()
     {
-        using (var connection = _codingDbContext.ConnectionString)
-        {
-            connection.Open();
-
-            var selectQuery = "SELECT * FROM CodingSessions";
-
-            var sessions = connection.Query<CodingSession>(selectQuery).ToList();
-
-            return sessions;
-        }
+        return _codingDbContext.CodingSessions.ToList();
     }
 
     public CodingSession GetSession(int id)
     {
-        using (var connection = _codingDbContext.ConnectionString)
-        {
-            connection.Open();
-
-            var selectQuery = "SELECT * FROM CodingSessions WHERE Id = @Id";
-
-            var session = connection
-                .Query<CodingSession>(selectQuery, new { Id = id })
-                .FirstOrDefault();
-
-            return session;
-        }
-    }
-
-    public void InsertSession(CodingSession session)
-    {
-        using (var connection = _codingDbContext.ConnectionString)
-        {
-            connection.Open();
-
-            var insertQuery =
-                @"
-                    INSERT INTO CodingSessions (ProjectName, StartTime, EndTime)
-                    VALUES (@ProjectName, @StartTime, @EndTime)";
-
-            connection.Execute(
-                insertQuery,
-                new
-                {
-                    session.ProjectName,
-                    session.StartTime,
-                    session.EndTime,
-                }
-            );
-        }
+        return _codingDbContext.CodingSessions.Find(id);
     }
 
     public void UpdateSession(CodingSession session)
     {
-        using (var connection = _codingDbContext.ConnectionString)
-        {
-            connection.Open();
+        _codingDbContext.CodingSessions.Update(session);
 
-            var updateQuery =
-                @"
-                    UPDATE CodingSessions
-                    SET ProjectName = @ProjectName, StartTime = @StartTime, EndTime = @EndTime
-                    WHERE Id = @Id";
-
-            connection.Execute(
-                updateQuery,
-                new
-                {
-                    session.ProjectName,
-                    session.StartTime,
-                    session.EndTime,
-                    session.Id,
-                }
-            );
-        }
+        _codingDbContext.SaveChanges();
     }
 
     public void DeleteSession(int id)
     {
-        using (var connection = _codingDbContext.ConnectionString)
-        {
-            connection.Open();
+        var session = GetSession(id);
 
-            var deleteQuery = "DELETE FROM CodingSessions WHERE Id = @Id";
+        _codingDbContext.CodingSessions.Remove(session);
 
-            connection.Execute(deleteQuery, new { Id = id });
-        }
+        _codingDbContext.SaveChanges();
     }
 }

@@ -36,7 +36,7 @@ public class CodingService : ICodingService
     {
         CodingSession session = new();
 
-        session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
+        session.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
 
         var dates = Helpers.GetDates();
         session.StartTime = dates[0];
@@ -72,9 +72,9 @@ public class CodingService : ICodingService
                     .AddChoices("Yes", "No")
             );
             if (updateCodingProjectName == "Yes")
-                session.ProjectName = AnsiConsole.Ask<string>("Enter the project name:");
+                session.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
             else
-                session.ProjectName = session.ProjectName;
+                session.Project.Name = session.Project.Name;
 
             _codingRepository.UpdateSession(session);
         }
