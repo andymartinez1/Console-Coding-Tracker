@@ -1,6 +1,5 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Models;
-using Dapper;
 
 namespace CodingTracker.Repository;
 

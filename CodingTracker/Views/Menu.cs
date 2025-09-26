@@ -16,7 +16,7 @@ public class Menu
         SessionMenuOptions.AddSession,
         SessionMenuOptions.UpdateSession,
         SessionMenuOptions.DeleteSession,
-        SessionMenuOptions.Quit,
+        SessionMenuOptions.BackToMainMenu,
     ];
 
     public Menu(CodingController codingController)
@@ -61,7 +61,7 @@ public class Menu
                     AnsiConsole.Clear();
                     _codingController.DeleteSession();
                     break;
-                case SessionMenuOptions.Quit:
+                case SessionMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
                         "[blue]Thank you for using this coding tracker! Press any key to exit. Goodbye![/]"

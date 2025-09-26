@@ -1,10 +1,10 @@
 ﻿using System.Data;
 using CodingTracker.Models;
-using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingTracker.Data;
 
-public class CodingDbContext
+public class CodingDbContext : DbContext
 {
     internal readonly IDbConnection ConnectionString;
 
@@ -13,77 +13,27 @@ public class CodingDbContext
         ConnectionString = connectionString;
     }
 
-    public void CreateDatabase()
+    public DbSet<CodingSession> CodingSessions { get; set; }
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        using (var connection = ConnectionString)
-        {
-            connection.Open();
+        modelBuilder
+            .Entity<Project>()
+            .HasMany(p => p.CodingSessions)
+            .WithOne(cs => cs.Project)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
 
-            // Ensure the table exists
-            var createTableQuery =
-                @"
-                CREATE TABLE IF NOT EXISTS CodingSessions (
-                Id INTEGER PRIMARY KEY,
-                ProjectName TEXT NOT NULL,
-                StartTime TEXT NOT NULL,
-                EndTime TEXT NOT NULL
-                )";
+        modelBuilder
+            .Entity<Project>()
+            .HasMany(p => p.ProgrammingLanguages)
+            .WithMany(pl => pl.Projects);
 
-            connection.Execute(createTableQuery);
-        }
-
-        // Seed the database with initial data if it's empty
-        var isEmpty = IsTableEmpty();
-        if (isEmpty)
-            SeedSessions(5);
-    }
-
-    public void InsertSeedSessions(List<CodingSession> sessions)
-    {
-        using (var connection = ConnectionString)
-        {
-            connection.Open();
-
-            var insertQuery =
-                @"
-                    INSERT INTO CodingSessions (ProjectName, StartTime, EndTime)
-                    VALUES (@ProjectName, @StartTime, @EndTime)";
-
-            foreach (var session in sessions)
-                connection.Execute(insertQuery, new { session.StartTime, session.EndTime });
-        }
-    }
-
-    public void SeedSessions(int count)
-    {
-        var random = new Random();
-        var currentDate = DateTime.Now.Date;
-
-        var sessions = new List<CodingSession>();
-
-        for (var i = 0; i < count; i++)
-        {
-            var startTime = currentDate.AddHours(random.Next(0, 12)).AddMinutes(random.Next(0, 60));
-            var endTime = startTime.AddHours(random.Next(1, 12)).AddMinutes(random.Next(0, 60));
-
-            var session = new CodingSession { StartTime = startTime, EndTime = endTime };
-
-            sessions.Add(session);
-            currentDate = currentDate.AddDays(1);
-        }
-
-        InsertSeedSessions(sessions);
-    }
-
-    public bool IsTableEmpty()
-    {
-        using (var connection = ConnectionString)
-        {
-            connection.Open();
-
-            var count = connection.ExecuteScalar<int>("SELECT COUNT(*) FROM CodingSessions");
-
-            return count == 0;
-        }
+        modelBuilder
+            .Entity<ProgrammingLanguage>()
+            .HasMany(pl => pl.CodingSessions)
+            .WithMany(cs => cs.ProgrammingLanguages);
     }
 }

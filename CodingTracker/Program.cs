@@ -34,7 +34,6 @@ var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
     var data = scope.ServiceProvider.GetRequiredService<CodingDbContext>();
-    data.CreateDatabase();
 }
 
 // Get the main menu and run the app

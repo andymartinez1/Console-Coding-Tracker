@@ -2,23 +2,24 @@
 
 public class StopWatchService : IStopWatchService
 {
-    private DateTime? _startTime;
     private DateTime? _endTime;
-    private bool _isRunning;
+    private DateTime? _startTime;
+
+    public bool IsRunning { get; private set; }
 
     public void StartTimer()
     {
         _startTime = DateTime.Now;
         _endTime = null;
-        _isRunning = true;
+        IsRunning = true;
     }
 
     public void StopTimer()
     {
-        if (_isRunning)
+        if (IsRunning)
         {
             _endTime = DateTime.Now;
-            _isRunning = false;
+            IsRunning = false;
         }
     }
 
@@ -26,17 +27,15 @@ public class StopWatchService : IStopWatchService
     {
         _startTime = null;
         _endTime = null;
-        _isRunning = false;
+        IsRunning = false;
     }
 
     public TimeSpan GetElapsedTime()
     {
-        if (_isRunning && _startTime.HasValue)
+        if (IsRunning && _startTime.HasValue)
             return DateTime.Now - _startTime.Value;
         if (_startTime.HasValue && _endTime.HasValue)
             return _endTime.Value - _startTime.Value;
         return TimeSpan.Zero;
     }
-
-    public bool IsRunning => _isRunning;
 }

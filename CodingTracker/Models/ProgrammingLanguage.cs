@@ -11,5 +11,7 @@ public class ProgrammingLanguage
 
     public decimal? Version { get; set; }
 
+    public List<Project> Projects { get; set; }
+
     public List<CodingSession> CodingSessions { get; set; }
 }
