@@ -1,6 +1,53 @@
-﻿namespace CodingTracker.Repository;
+﻿using CodingTracker.Data;
+using CodingTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
-public class ProjectRepository
+namespace CodingTracker.Repository;
+
+public class ProjectRepository : IProjectRepository
 {
-    
+    private readonly CodingDbContext _dbContext;
+
+    public ProjectRepository(CodingDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public void InsertProject(Project project)
+    {
+        _dbContext.Projects.Add(project);
+
+        _dbContext.SaveChanges();
+    }
+
+    public List<Project> GetAllProjects()
+    {
+        var projects = _dbContext
+            .Projects.Include(p => p.CodingSessions)
+            .Include(p => p.ProgrammingLanguages)
+            .ToList();
+
+        return projects;
+    }
+
+    public Project GetProject(int id)
+    {
+        return _dbContext.Projects.Find(id);
+    }
+
+    public void UpdateProject(Project project)
+    {
+        _dbContext.Projects.Update(project);
+
+        _dbContext.SaveChanges();
+    }
+
+    public void DeleteProject(int id)
+    {
+        var project = GetProject(id);
+
+        _dbContext.Projects.Remove(project);
+
+        _dbContext.SaveChanges();
+    }
 }

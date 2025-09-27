@@ -27,11 +27,6 @@ public class CodingDbContext : DbContext
             .IsRequired();
 
         modelBuilder
-            .Entity<Project>()
-            .HasMany(p => p.ProgrammingLanguages)
-            .WithMany(pl => pl.Projects);
-
-        modelBuilder
             .Entity<ProgrammingLanguage>()
             .HasMany(pl => pl.CodingSessions)
             .WithMany(cs => cs.ProgrammingLanguages);
