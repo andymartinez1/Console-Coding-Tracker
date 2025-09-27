@@ -1,5 +1,5 @@
-﻿using CodingTracker.Controllers;
-using CodingTracker.Enums;
+﻿using CodingTracker.Enums;
+using CodingTracker.Services;
 using CodingTracker.Utils;
 using Spectre.Console;
 
@@ -7,7 +7,7 @@ namespace CodingTracker.Views;
 
 public class Menu
 {
-    private readonly CodingController _codingController;
+    private readonly ICodingService _codingService;
 
     private readonly SessionMenuOptions[] _menuOptions =
     [
@@ -19,9 +19,9 @@ public class Menu
         SessionMenuOptions.BackToMainMenu,
     ];
 
-    public Menu(CodingController codingController)
+    public Menu(ICodingService codingService)
     {
-        _codingController = codingController;
+        _codingService = codingService;
     }
 
     public void MainMenu()
@@ -43,23 +43,23 @@ public class Menu
             {
                 case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
-                    _codingController.AddSession();
+                    _codingService.AddSession();
                     break;
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
-                    _codingController.GetAllSessions();
+                    _codingService.GetAllSessions();
                     break;
                 case SessionMenuOptions.ViewSession:
                     AnsiConsole.Clear();
-                    _codingController.GetSession();
+                    _codingService.GetSession();
                     break;
                 case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();
-                    _codingController.UpdateSession();
+                    _codingService.UpdateSession();
                     break;
                 case SessionMenuOptions.DeleteSession:
                     AnsiConsole.Clear();
-                    _codingController.DeleteSession();
+                    _codingService.DeleteSession();
                     break;
                 case SessionMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();

@@ -82,6 +82,8 @@ public class CodingService : ICodingService
 
     public void DeleteSession(int id)
     {
+        Helpers.GetSessionById();
+
         if (_codingRepository.GetAllSessions().Count > 0)
         {
             AnsiConsole.Clear();

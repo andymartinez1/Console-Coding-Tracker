@@ -22,4 +22,7 @@ public enum Category
 {
     Feature,
     Bugfix,
+    Refactor,
+    Style,
+    Test,
 }

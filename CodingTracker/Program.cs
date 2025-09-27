@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using CodingTracker.Controllers;
 using CodingTracker.Data;
 using CodingTracker.Repository;
 using CodingTracker.Services;
@@ -24,7 +23,6 @@ services.AddTransient<IDbConnection>(sp => new SqlConnection(connectionString));
 services.AddScoped<CodingDbContext>();
 services.AddScoped<ICodingRepository, CodingRepository>();
 services.AddScoped<ICodingService, CodingService>();
-services.AddScoped<CodingController>();
 services.AddScoped<Menu>();
 
 // Building the service provider

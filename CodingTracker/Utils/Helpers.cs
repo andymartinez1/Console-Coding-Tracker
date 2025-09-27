@@ -7,7 +7,7 @@ namespace CodingTracker.Utils;
 
 public static class Helpers
 {
-    public static int GetSessionId(List<CodingSession> sessions)
+    public static CodingSession GetSessionById(List<CodingSession> sessions)
     {
         AnsiConsole.Clear();
 
