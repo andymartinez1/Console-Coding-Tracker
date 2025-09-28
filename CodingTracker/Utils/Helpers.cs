@@ -7,7 +7,7 @@ namespace CodingTracker.Utils;
 
 public static class Helpers
 {
-    public static CodingSession GetSessionById(List<CodingSession> sessions)
+    public static int GetSessionById(List<CodingSession> sessions)
     {
         AnsiConsole.Clear();
 
@@ -17,8 +17,7 @@ public static class Helpers
 
         if (sessions.Count == 0)
         {
-            AnsiConsole.MarkupLine("[red]No sessions found![/]");
-            AnsiConsole.MarkupLine("Please add a session first.");
+            AnsiConsole.MarkupLine("[red]No sessions found! Please add a session first.[/]");
             return 0;
         }
 

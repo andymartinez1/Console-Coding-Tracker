@@ -38,6 +38,23 @@ public class Menu
                     .AddChoices(_menuOptions)
                     .UseConverter(c => c.GetDisplayName())
             );
+        }
+    }
+
+    public void SessionsMenu()
+    {
+        var isMenuRunning = true;
+
+        while (isMenuRunning)
+        {
+            AnsiConsole.Write(new FigletText("Coding Tracker").Color(Color.Aquamarine1));
+
+            var usersChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<SessionMenuOptions>()
+                    .Title("Welcome! Please select from the following options:")
+                    .AddChoices(_menuOptions)
+                    .UseConverter(c => c.GetDisplayName())
+            );
 
             switch (usersChoice)
             {
@@ -48,10 +65,6 @@ public class Menu
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
                     _codingService.GetAllSessions();
-                    break;
-                case SessionMenuOptions.ViewSession:
-                    AnsiConsole.Clear();
-                    _codingService.GetSession();
                     break;
                 case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();

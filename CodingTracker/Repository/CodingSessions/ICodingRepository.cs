@@ -4,7 +4,7 @@ namespace CodingTracker.Repository;
 
 public interface ICodingRepository
 {
-    public void InsertSession(CodingSession session);
+    public void AddSession(CodingSession session);
 
     public List<CodingSession> GetAllSessions();
 

@@ -12,7 +12,7 @@ public class CodingRepository : ICodingRepository
         _codingDbContext = codingDbContext;
     }
 
-    public void InsertSession(CodingSession session)
+    public void AddSession(CodingSession session)
     {
         _codingDbContext.CodingSessions.Add(session);
 

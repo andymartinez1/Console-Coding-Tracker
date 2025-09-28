@@ -6,11 +6,11 @@ public interface ICodingService
 {
     public List<CodingSession> GetAllSessions();
 
-    public CodingSession GetSession(int id);
+    public CodingSession GetSession();
 
     public void AddSession();
 
-    public void UpdateSession(CodingSession session);
+    public void UpdateSession();
 
-    public void DeleteSession(int id);
+    public void DeleteSession();
 }

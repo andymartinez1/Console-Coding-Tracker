@@ -1,6 +1,7 @@
 ﻿using CodingTracker.Models;
 using CodingTracker.Repository;
 using CodingTracker.Utils;
+using CodingTracker.Views;
 using Spectre.Console;
 
 namespace CodingTracker.Services;
@@ -14,24 +15,6 @@ public class CodingService : ICodingService
         _codingRepository = codingRepository;
     }
 
-    public List<CodingSession> GetAllSessions()
-    {
-        var sessions = _codingRepository.GetAllSessions();
-
-        return sessions;
-    }
-
-    public CodingSession GetSession(int id)
-    {
-        if (_codingRepository.GetAllSessions().Count > 0)
-        {
-            var session = _codingRepository.GetSession(id);
-            return session;
-        }
-
-        return null;
-    }
-
     public void AddSession()
     {
         CodingSession session = new();
@@ -42,11 +25,36 @@ public class CodingService : ICodingService
         session.StartTime = dates[0];
         session.EndTime = dates[1];
 
-        _codingRepository.InsertSession(session);
+        _codingRepository.AddSession(session);
     }
 
-    public void UpdateSession(CodingSession session)
+    public List<CodingSession> GetAllSessions()
     {
+        var sessions = _codingRepository.GetAllSessions();
+
+        return sessions;
+    }
+
+    public CodingSession GetSession()
+    {
+        var sessions = GetAllSessions();
+
+        if (!sessions.Any())
+            AnsiConsole.MarkupLine(
+                "[Red]No coding sessions to display. Please add new session.[/]"
+            );
+
+        UserInterface.ViewAllSessions(sessions);
+
+        var sessionId = Helpers.GetSessionById(sessions);
+
+        return _codingRepository.GetSession(sessionId);
+    }
+
+    public void UpdateSession()
+    {
+        var sessionToUpdate = GetSession();
+
         if (_codingRepository.GetAllSessions().Count > 0)
         {
             var updateStartTime = AnsiConsole.Prompt(
@@ -57,13 +65,13 @@ public class CodingService : ICodingService
             if (updateStartTime == "Yes")
             {
                 var dates = Helpers.GetDates();
-                session.StartTime = dates[0];
-                session.EndTime = dates[1];
+                sessionToUpdate.StartTime = dates[0];
+                sessionToUpdate.EndTime = dates[1];
             }
             else
             {
-                session.StartTime = session.StartTime;
-                session.EndTime = session.EndTime;
+                sessionToUpdate.StartTime = sessionToUpdate.StartTime;
+                sessionToUpdate.EndTime = sessionToUpdate.EndTime;
             }
 
             var updateCodingProjectName = AnsiConsole.Prompt(
@@ -72,17 +80,19 @@ public class CodingService : ICodingService
                     .AddChoices("Yes", "No")
             );
             if (updateCodingProjectName == "Yes")
-                session.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
+                sessionToUpdate.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
             else
-                session.Project.Name = session.Project.Name;
+                sessionToUpdate.Project.Name = sessionToUpdate.Project.Name;
 
-            _codingRepository.UpdateSession(session);
+            _codingRepository.UpdateSession(sessionToUpdate);
         }
     }
 
-    public void DeleteSession(int id)
+    public void DeleteSession()
     {
-        Helpers.GetSessionById();
+        var sessions = GetAllSessions();
+
+        var sessionId = Helpers.GetSessionById(sessions);
 
         if (_codingRepository.GetAllSessions().Count > 0)
         {
@@ -90,6 +100,6 @@ public class CodingService : ICodingService
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
         }
 
-        _codingRepository.DeleteSession(id);
+        _codingRepository.DeleteSession(sessionId);
     }
 }
