@@ -1,21 +1,23 @@
-﻿using System.Data;
-using CodingTracker.Models;
+﻿using CodingTracker.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CodingTracker.Data;
 
 public class CodingDbContext : DbContext
 {
-    internal readonly IDbConnection ConnectionString;
-
-    public CodingDbContext(IDbConnection connectionString)
-    {
-        ConnectionString = connectionString;
-    }
-
     public DbSet<CodingSession> CodingSessions { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

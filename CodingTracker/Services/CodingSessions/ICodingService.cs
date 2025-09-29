@@ -4,11 +4,11 @@ namespace CodingTracker.Services;
 
 public interface ICodingService
 {
+    public void AddSession();
+
     public List<CodingSession> GetAllSessions();
 
     public CodingSession GetSession();
-
-    public void AddSession();
 
     public void UpdateSession();
 

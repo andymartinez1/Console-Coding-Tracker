@@ -1,26 +1,14 @@
-﻿using System.Data;
-using CodingTracker.Data;
+﻿using CodingTracker.Data;
 using CodingTracker.Repository;
 using CodingTracker.Services;
 using CodingTracker.Views;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 // Configuring the Dependency Injection container
 var services = new ServiceCollection();
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
-    .Build();
-
-var connectionString =
-    configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException();
-
 // Registering the dependencies
-services.AddTransient<IDbConnection>(sp => new SqlConnection(connectionString));
-services.AddScoped<CodingDbContext>();
+services.AddDbContext<CodingDbContext>();
 services.AddScoped<ICodingRepository, CodingRepository>();
 services.AddScoped<ICodingService, CodingService>();
 services.AddScoped<Menu>();

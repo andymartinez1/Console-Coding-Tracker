@@ -1,6 +1,3 @@
 ﻿namespace CodingTracker.Repository;
 
-public class ProgrammingLanguageRepository
-{
-    
-}
+public class ProgrammingLanguageRepository { }

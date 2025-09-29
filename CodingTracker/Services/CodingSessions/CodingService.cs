@@ -55,37 +55,34 @@ public class CodingService : ICodingService
     {
         var sessionToUpdate = GetSession();
 
-        if (_codingRepository.GetAllSessions().Count > 0)
+        var updateStartTime = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Would you like to update the coding start and end time?")
+                .AddChoices("Yes", "No")
+        );
+        if (updateStartTime == "Yes")
         {
-            var updateStartTime = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("Would you like to update the coding start and end time?")
-                    .AddChoices("Yes", "No")
-            );
-            if (updateStartTime == "Yes")
-            {
-                var dates = Helpers.GetDates();
-                sessionToUpdate.StartTime = dates[0];
-                sessionToUpdate.EndTime = dates[1];
-            }
-            else
-            {
-                sessionToUpdate.StartTime = sessionToUpdate.StartTime;
-                sessionToUpdate.EndTime = sessionToUpdate.EndTime;
-            }
-
-            var updateCodingProjectName = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("Would you like to update the project name? ")
-                    .AddChoices("Yes", "No")
-            );
-            if (updateCodingProjectName == "Yes")
-                sessionToUpdate.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
-            else
-                sessionToUpdate.Project.Name = sessionToUpdate.Project.Name;
-
-            _codingRepository.UpdateSession(sessionToUpdate);
+            var dates = Helpers.GetDates();
+            sessionToUpdate.StartTime = dates[0];
+            sessionToUpdate.EndTime = dates[1];
         }
+        else
+        {
+            sessionToUpdate.StartTime = sessionToUpdate.StartTime;
+            sessionToUpdate.EndTime = sessionToUpdate.EndTime;
+        }
+
+        var updateCodingProjectName = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Would you like to update the project name? ")
+                .AddChoices("Yes", "No")
+        );
+        if (updateCodingProjectName == "Yes")
+            sessionToUpdate.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
+        else
+            sessionToUpdate.Project.Name = sessionToUpdate.Project.Name;
+
+        _codingRepository.UpdateSession(sessionToUpdate);
     }
 
     public void DeleteSession()

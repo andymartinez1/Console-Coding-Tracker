@@ -1,6 +1,3 @@
 ﻿namespace CodingTracker.Repository;
 
-public interface IProgrammingLanguageRepository
-{
-    
-}
+public interface IProgrammingLanguageRepository { }
