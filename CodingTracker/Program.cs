@@ -24,7 +24,7 @@ using (var scope = serviceProvider.CreateScope())
 
 // Get the main menu and run the app
 var menu = serviceProvider.GetRequiredService<Menu>();
-menu.SessionsMenu();
+menu.MainMenu();
 
 // Dispose of the service provider
 serviceProvider.Dispose();

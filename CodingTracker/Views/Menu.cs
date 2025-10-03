@@ -8,6 +8,9 @@ namespace CodingTracker.Views;
 public class Menu
 {
     private readonly ICodingService _codingService;
+    private readonly IProjectsService _projectsService;
+    private readonly IProgrammingLanguagesService _programmingLanguagesService;
+    private readonly IStopWatchService _stopWatchService;
 
     private readonly SessionMenuOptions[] _sessionMenuOptions =
     [
@@ -47,9 +50,17 @@ public class Menu
         ProgrammingLanguageMenuOptions.BackToMainMenu,
     ];
 
-    public Menu(ICodingService codingService)
+    public Menu(
+        ICodingService codingService,
+        IProjectsService projectsService,
+        IProgrammingLanguagesService programmingLanguagesService,
+        IStopWatchService stopWatchService
+    )
     {
         _codingService = codingService;
+        _projectsService = projectsService;
+        _programmingLanguagesService = programmingLanguagesService;
+        _stopWatchService = stopWatchService;
     }
 
     public void MainMenu()
@@ -122,6 +133,7 @@ public class Menu
                 case ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage:
                     break;
                 case ProgrammingLanguageMenuOptions.BackToMainMenu:
+                    AnsiConsole.Clear();
                     MainMenu();
                     break;
             }
@@ -156,6 +168,7 @@ public class Menu
                 case ProjectMenuOptions.DeleteProject:
                     break;
                 case ProjectMenuOptions.BackToMainMenu:
+                    AnsiConsole.Clear();
                     MainMenu();
                     break;
             }
@@ -196,11 +209,8 @@ public class Menu
                     _codingService.DeleteSession();
                     break;
                 case SessionMenuOptions.BackToMainMenu:
-                    MainMenu();
-                    break;
-                default:
                     AnsiConsole.Clear();
-                    Console.WriteLine("Invalid choice. Please choose one of the above");
+                    MainMenu();
                     break;
             }
         }
