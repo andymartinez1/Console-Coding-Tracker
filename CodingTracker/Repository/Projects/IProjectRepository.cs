@@ -1,6 +1,6 @@
 ﻿using CodingTracker.Models;
 
-namespace CodingTracker.Repository;
+namespace CodingTracker.Repository.Projects;
 
 public interface IProjectRepository
 {

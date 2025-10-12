@@ -1,5 +1,9 @@
 ﻿using CodingTracker.Enums;
 using CodingTracker.Services;
+using CodingTracker.Services.CodingSessions;
+using CodingTracker.Services.ProgrammingLanguages;
+using CodingTracker.Services.Projects;
+using CodingTracker.Services.StopWatch;
 using CodingTracker.Utils;
 using Spectre.Console;
 
@@ -8,18 +12,15 @@ namespace CodingTracker.Views;
 public class Menu
 {
     private readonly ICodingService _codingService;
-    private readonly IProjectsService _projectsService;
-    private readonly IProgrammingLanguagesService _programmingLanguagesService;
-    private readonly IStopWatchService _stopWatchService;
 
-    private readonly SessionMenuOptions[] _sessionMenuOptions =
+    private readonly ProgrammingLanguageMenuOptions[] _languageMenuOptions =
     [
-        SessionMenuOptions.ViewAllSessions,
-        SessionMenuOptions.ViewSession,
-        SessionMenuOptions.AddSession,
-        SessionMenuOptions.UpdateSession,
-        SessionMenuOptions.DeleteSession,
-        SessionMenuOptions.BackToMainMenu,
+        ProgrammingLanguageMenuOptions.AddProgrammingLanguage,
+        ProgrammingLanguageMenuOptions.ViewAllProgrammingLanguages,
+        ProgrammingLanguageMenuOptions.ViewProgrammingLanguage,
+        ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage,
+        ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage,
+        ProgrammingLanguageMenuOptions.BackToMainMenu,
     ];
 
     private readonly MainMenuOptions[] _mainMenuOptions =
@@ -29,6 +30,8 @@ public class Menu
         MainMenuOptions.ProgrammingLanguageMenu,
         MainMenuOptions.Exit,
     ];
+
+    private readonly IProgrammingLanguagesService _programmingLanguagesService;
 
     private readonly ProjectMenuOptions[] _projectMenuOptions =
     [
@@ -40,15 +43,19 @@ public class Menu
         ProjectMenuOptions.BackToMainMenu,
     ];
 
-    private readonly ProgrammingLanguageMenuOptions[] _languageMenuOptions =
+    private readonly IProjectsService _projectsService;
+
+    private readonly SessionMenuOptions[] _sessionMenuOptions =
     [
-        ProgrammingLanguageMenuOptions.AddProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.ViewAllProgrammingLanguages,
-        ProgrammingLanguageMenuOptions.ViewProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.BackToMainMenu,
+        SessionMenuOptions.ViewAllSessions,
+        SessionMenuOptions.ViewSession,
+        SessionMenuOptions.AddSession,
+        SessionMenuOptions.UpdateSession,
+        SessionMenuOptions.DeleteSession,
+        SessionMenuOptions.BackToMainMenu,
     ];
+
+    private readonly IStopWatchService _stopWatchService;
 
     public Menu(
         ICodingService codingService,

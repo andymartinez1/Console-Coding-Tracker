@@ -2,7 +2,7 @@
 using CodingTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodingTracker.Repository;
+namespace CodingTracker.Repository.Projects;
 
 public class ProjectRepository : IProjectRepository
 {

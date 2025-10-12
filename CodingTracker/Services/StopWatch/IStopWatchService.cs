@@ -1,4 +1,4 @@
-﻿namespace CodingTracker.Services;
+﻿namespace CodingTracker.Services.StopWatch;
 
 public interface IStopWatchService
 {

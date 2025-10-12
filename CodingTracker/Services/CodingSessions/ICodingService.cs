@@ -1,6 +1,6 @@
 ﻿using CodingTracker.Models;
 
-namespace CodingTracker.Services;
+namespace CodingTracker.Services.CodingSessions;
 
 public interface ICodingService
 {

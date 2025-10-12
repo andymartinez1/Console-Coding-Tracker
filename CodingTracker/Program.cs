@@ -1,6 +1,8 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Repository;
+using CodingTracker.Repository.CodingSessions;
 using CodingTracker.Services;
+using CodingTracker.Services.CodingSessions;
 using CodingTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
 

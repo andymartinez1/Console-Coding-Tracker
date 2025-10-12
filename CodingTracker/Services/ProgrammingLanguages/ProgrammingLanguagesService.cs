@@ -1,6 +1,3 @@
-﻿namespace CodingTracker.Services;
+﻿namespace CodingTracker.Services.ProgrammingLanguages;
 
-public class ProgrammingLanguagesService : IProgrammingLanguagesService
-{
-    
-}
+public class ProgrammingLanguagesService : IProgrammingLanguagesService { }

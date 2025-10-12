@@ -1,6 +1,3 @@
-﻿namespace CodingTracker.Services;
+﻿namespace CodingTracker.Services.Projects;
 
-public interface IProjectsService
-{
-    
-}
+public interface IProjectsService { }

@@ -1,10 +1,10 @@
 ﻿using CodingTracker.Models;
-using CodingTracker.Repository;
+using CodingTracker.Repository.CodingSessions;
 using CodingTracker.Utils;
 using CodingTracker.Views;
 using Spectre.Console;
 
-namespace CodingTracker.Services;
+namespace CodingTracker.Services.CodingSessions;
 
 public class CodingService : ICodingService
 {

@@ -1,7 +1,7 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Models;
 
-namespace CodingTracker.Repository;
+namespace CodingTracker.Repository.CodingSessions;
 
 public class CodingRepository : ICodingRepository
 {
