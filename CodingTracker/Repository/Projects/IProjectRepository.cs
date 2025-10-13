@@ -4,7 +4,7 @@ namespace CodingTracker.Repository.Projects;
 
 public interface IProjectRepository
 {
-    public void InsertProject(Project project);
+    public void AddProject(Project project);
 
     public List<Project> GetAllProjects();
 

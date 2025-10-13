@@ -13,7 +13,7 @@ public class ProgrammingLanguageRepository : IProgrammingLanguageRepository
         _dbContext = dbContext;
     }
 
-    public void InsertLanguage(ProgrammingLanguage language)
+    public void AddLanguage(ProgrammingLanguage language)
     {
         _dbContext.ProgrammingLanguages.Add(language);
 

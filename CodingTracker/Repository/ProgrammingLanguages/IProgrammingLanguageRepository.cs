@@ -4,7 +4,7 @@ namespace CodingTracker.Repository.ProgrammingLanguages;
 
 public interface IProgrammingLanguageRepository
 {
-    public void InsertLanguage(ProgrammingLanguage language);
+    public void AddLanguage(ProgrammingLanguage language);
 
     public List<ProgrammingLanguage> GetAllLanguages();
 

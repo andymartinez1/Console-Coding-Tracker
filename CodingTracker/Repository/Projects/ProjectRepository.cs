@@ -13,7 +13,7 @@ public class ProjectRepository : IProjectRepository
         _dbContext = dbContext;
     }
 
-    public void InsertProject(Project project)
+    public void AddProject(Project project)
     {
         _dbContext.Projects.Add(project);
 
