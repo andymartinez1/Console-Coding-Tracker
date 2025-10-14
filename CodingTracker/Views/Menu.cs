@@ -1,5 +1,4 @@
 ﻿using CodingTracker.Enums;
-using CodingTracker.Services;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.ProgrammingLanguages;
 using CodingTracker.Services.Projects;

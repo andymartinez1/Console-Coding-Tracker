@@ -1,10 +1,14 @@
 ﻿using CodingTracker.Data;
-using CodingTracker.Repository;
 using CodingTracker.Repository.CodingSessions;
-using CodingTracker.Services;
+using CodingTracker.Repository.ProgrammingLanguages;
+using CodingTracker.Repository.Projects;
 using CodingTracker.Services.CodingSessions;
+using CodingTracker.Services.ProgrammingLanguages;
+using CodingTracker.Services.Projects;
+using CodingTracker.Services.StopWatch;
 using CodingTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // Configuring the Dependency Injection container
 var services = new ServiceCollection();
@@ -12,7 +16,12 @@ var services = new ServiceCollection();
 // Registering the dependencies
 services.AddDbContext<CodingDbContext>();
 services.AddScoped<ICodingRepository, CodingRepository>();
+services.AddScoped<IProjectRepository, ProjectRepository>();
+services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
 services.AddScoped<ICodingService, CodingService>();
+services.AddScoped<IProjectsService, ProjectsService>();
+services.AddScoped<IProgrammingLanguagesService, ProgrammingLanguagesService>();
+services.AddScoped<IStopWatchService, StopWatchService>();
 services.AddScoped<Menu>();
 
 // Building the service provider
