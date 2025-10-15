@@ -31,6 +31,9 @@ var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
     var data = scope.ServiceProvider.GetRequiredService<CodingDbContext>();
+    data.Database.EnsureDeleted();
+    data.Database.EnsureCreated();
+    SeedDatabase.SeedData(data);
 }
 
 // Get the main menu and run the app
