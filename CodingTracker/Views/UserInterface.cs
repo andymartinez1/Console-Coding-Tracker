@@ -39,4 +39,17 @@ public class UserInterface
 
         AnsiConsole.Write(panel);
     }
+
+    public static void ViewAllLanguages(List<ProgrammingLanguage> languages)
+    {
+        var table = new Table();
+        table.AddColumn("ID");
+        table.AddColumn("Language");
+        table.AddColumn("Version");
+
+        foreach (var language in languages)
+            table.AddRow(language.Id.ToString(), language.Language, language.Version.ToString());
+
+        AnsiConsole.Write(table);
+    }
 }

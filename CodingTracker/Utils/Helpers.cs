@@ -27,6 +27,28 @@ public static class Helpers
         return option;
     }
 
+    public static int GetLanguageById(List<ProgrammingLanguage> languages)
+    {
+        AnsiConsole.Clear();
+
+        UserInterface.ViewAllLanguages(languages);
+
+        var sessionArray = languages.Select(s => s.Id).ToArray();
+
+        if (languages.Count == 0)
+        {
+            AnsiConsole.MarkupLine(
+                "[red]No programming languages found! Please add a language first.[/]"
+            );
+            return 0;
+        }
+
+        var option = AnsiConsole.Prompt(
+            new SelectionPrompt<int>().Title("Select the language:").AddChoices(sessionArray)
+        );
+        return option;
+    }
+
     public static DateTime[] GetDates()
     {
         var startDateInput = AnsiConsole.Ask<string>(
