@@ -49,6 +49,26 @@ public static class Helpers
         return option;
     }
 
+    public static int GetProjectById(List<Project> projects)
+    {
+        AnsiConsole.Clear();
+
+        UserInterface.ViewAllProjects(projects);
+
+        var sessionArray = projects.Select(s => s.Id).ToArray();
+
+        if (projects.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[red]No projects found! Please add a project first.[/]");
+            return 0;
+        }
+
+        var option = AnsiConsole.Prompt(
+            new SelectionPrompt<int>().Title("Select the project:").AddChoices(sessionArray)
+        );
+        return option;
+    }
+
     public static DateTime[] GetDates()
     {
         var startDateInput = AnsiConsole.Ask<string>(

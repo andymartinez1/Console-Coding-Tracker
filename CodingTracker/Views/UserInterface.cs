@@ -52,4 +52,51 @@ public class UserInterface
 
         AnsiConsole.Write(table);
     }
+
+    public static void ViewLanguageDetails(ProgrammingLanguage language)
+    {
+        var panel = new Panel(
+            $"Programming Language: {language.Language} \nVersion: {language.Version} \n"
+        )
+            .Header($"Details for ID: {language.Id}")
+            .BorderStyle(Style.Parse("aquamarine1"));
+
+        panel.Padding = new Padding(2);
+        panel.Expand();
+
+        AnsiConsole.Write(panel);
+    }
+
+    public static void ViewAllProjects(List<Project> projects)
+    {
+        var table = new Table();
+        table.AddColumn("ID");
+        table.AddColumn("Name");
+        table.AddColumn("Description");
+        table.AddColumn("Category");
+
+        foreach (var project in projects)
+            table.AddRow(
+                project.Id.ToString(),
+                project.Name,
+                project.Description,
+                project.Category.ToString()
+            );
+
+        AnsiConsole.Write(table);
+    }
+
+    public static void ViewProjectDetails(Project project)
+    {
+        var panel = new Panel(
+            $"Project Name: {project.Name} \nDescription: {project.Description} \nCategory: {project.Category} \n"
+        )
+            .Header($"Details for ID: {project.Id}")
+            .BorderStyle(Style.Parse("aquamarine1"));
+
+        panel.Padding = new Padding(2);
+        panel.Expand();
+
+        AnsiConsole.Write(panel);
+    }
 }
