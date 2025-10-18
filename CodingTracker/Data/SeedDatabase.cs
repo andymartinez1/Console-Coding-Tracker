@@ -8,14 +8,14 @@ public static class SeedDatabase
     {
         var ProgrammingLanguages = new List<ProgrammingLanguage>
         {
-            new ProgrammingLanguage() { Language = "C#" },
-            new ProgrammingLanguage() { Language = "Java" },
-            new ProgrammingLanguage() { Language = "JavaScript" },
+            new() { Language = "C#" },
+            new() { Language = "Java" },
+            new() { Language = "JavaScript" },
         };
 
         var Projects = new List<Project>
         {
-            new Project()
+            new()
             {
                 Name = "Portfolio",
                 Category = Category.Feature,

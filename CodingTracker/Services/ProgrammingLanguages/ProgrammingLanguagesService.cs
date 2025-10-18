@@ -8,16 +8,16 @@ namespace CodingTracker.Services.ProgrammingLanguages;
 
 public class ProgrammingLanguagesService : IProgrammingLanguagesService
 {
-    private readonly ProgrammingLanguageRepository _languageRepository;
+    private readonly IProgrammingLanguageRepository _languageRepository;
 
-    public ProgrammingLanguagesService(ProgrammingLanguageRepository languageRepository)
+    public ProgrammingLanguagesService(IProgrammingLanguageRepository languageRepository)
     {
         _languageRepository = languageRepository;
     }
 
     public void AddLanguage()
     {
-        ProgrammingLanguage language = new ProgrammingLanguage();
+        var language = new ProgrammingLanguage();
 
         language.Language = AnsiConsole.Ask<string>("Enter the programming language");
         language.Version = AnsiConsole.Ask<decimal?>("Enter the version number");
@@ -56,9 +56,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
                 .AddChoices("Yes", "No")
         );
         if (updateProgrammingLanguageName == "Yes")
-        {
             languageToUpdate.Language = AnsiConsole.Ask<string>("Enter the programming language");
-        }
 
         var updateProgrammingLanguageVersionNumber = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -66,9 +64,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
                 .AddChoices("Yes", "No")
         );
         if (updateProgrammingLanguageVersionNumber == "Yes")
-        {
             languageToUpdate.Version = AnsiConsole.Ask<decimal?>("Enter the version number");
-        }
 
         _languageRepository.UpdateLanguage(languageToUpdate);
     }
