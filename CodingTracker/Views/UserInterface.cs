@@ -99,4 +99,11 @@ public class UserInterface
 
         AnsiConsole.Write(panel);
     }
+
+    public static void ViewAllCategories()
+    {
+        var table = new Table();
+        table.AddColumn("Id");
+        table.AddColumn("Category");
+    }
 }

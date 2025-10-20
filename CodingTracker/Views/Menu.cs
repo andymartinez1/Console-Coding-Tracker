@@ -129,14 +129,24 @@ public class Menu
             switch (usersChoice)
             {
                 case ProgrammingLanguageMenuOptions.AddProgrammingLanguage:
+                    AnsiConsole.Clear();
+                    _programmingLanguagesService.AddLanguage();
                     break;
                 case ProgrammingLanguageMenuOptions.ViewAllProgrammingLanguages:
+                    AnsiConsole.Clear();
+                    _programmingLanguagesService.GetAllLanguages();
                     break;
                 case ProgrammingLanguageMenuOptions.ViewProgrammingLanguage:
+                    AnsiConsole.Clear();
+                    _programmingLanguagesService.GetLanguage();
                     break;
                 case ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage:
+                    AnsiConsole.Clear();
+                    _programmingLanguagesService.UpdateLanguage();
                     break;
                 case ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage:
+                    AnsiConsole.Clear();
+                    _programmingLanguagesService.DeleteLanguage();
                     break;
                 case ProgrammingLanguageMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
@@ -164,14 +174,24 @@ public class Menu
             switch (usersChoice)
             {
                 case ProjectMenuOptions.AddProject:
+                    AnsiConsole.Clear();
+                    _projectsService.AddProject();
                     break;
                 case ProjectMenuOptions.ViewAllProjects:
+                    AnsiConsole.Clear();
+                    _projectsService.GetAllProjects();
                     break;
                 case ProjectMenuOptions.ViewProject:
+                    AnsiConsole.Clear();
+                    _projectsService.GetProject();
                     break;
                 case ProjectMenuOptions.UpdateProject:
+                    AnsiConsole.Clear();
+                    _projectsService.UpdateProject();
                     break;
                 case ProjectMenuOptions.DeleteProject:
+                    AnsiConsole.Clear();
+                    _projectsService.DeleteProject();
                     break;
                 case ProjectMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
