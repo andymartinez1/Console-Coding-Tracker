@@ -100,10 +100,12 @@ public class UserInterface
         AnsiConsole.Write(panel);
     }
 
-    public static void ViewAllCategories()
+    public static void ViewAllCategories(List<Category> categories)
     {
         var table = new Table();
         table.AddColumn("Id");
         table.AddColumn("Category");
+
+        foreach (var category in categories) { }
     }
 }

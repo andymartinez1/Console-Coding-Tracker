@@ -11,7 +11,7 @@ public class Project
 
     public string Description { get; set; } = string.Empty;
 
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
     public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 

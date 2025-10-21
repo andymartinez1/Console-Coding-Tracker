@@ -69,6 +69,11 @@ public static class Helpers
         return option;
     }
 
+    // public static Category GetCategory()
+    // {
+    //     AnsiConsole.Clear();
+    // }
+
     public static DateTime[] GetDates()
     {
         var startDateInput = AnsiConsole.Ask<string>(
