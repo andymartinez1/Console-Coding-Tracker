@@ -32,5 +32,10 @@ public class CodingDbContext : DbContext
             .Entity<ProgrammingLanguage>()
             .HasMany(pl => pl.CodingSessions)
             .WithMany(cs => cs.ProgrammingLanguages);
+
+        modelBuilder
+            .Entity<Project>()
+            .HasMany(p => p.ProgrammingLanguages)
+            .WithMany(pl => pl.Projects);
     }
 }

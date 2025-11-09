@@ -15,5 +15,5 @@ public class CodingSession
 
     public Project Project { get; set; }
 
-    public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+    public IEnumerable<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 }
