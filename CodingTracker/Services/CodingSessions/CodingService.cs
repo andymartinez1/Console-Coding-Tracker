@@ -51,6 +51,13 @@ public class CodingService : ICodingService
         return _codingRepository.GetSession(sessionId);
     }
 
+    public void ViewSessionById()
+    {
+        var session = GetSession();
+
+        UserInterface.ViewSessionDetails(session);
+    }
+
     public void UpdateSession()
     {
         var sessionToUpdate = GetSession();

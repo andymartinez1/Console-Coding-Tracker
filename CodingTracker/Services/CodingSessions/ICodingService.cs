@@ -10,6 +10,8 @@ public interface ICodingService
 
     public CodingSession GetSession();
 
+    void ViewSessionById();
+
     public void UpdateSession();
 
     public void DeleteSession();

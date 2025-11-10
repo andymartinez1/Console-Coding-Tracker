@@ -10,6 +10,8 @@ public interface IProjectsService
 
     public Project GetProject();
 
+    void ViewProjectById();
+
     public void UpdateProject();
 
     public void DeleteProject();

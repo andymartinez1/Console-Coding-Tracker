@@ -27,7 +27,11 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
 
     public List<ProgrammingLanguage> GetAllLanguages()
     {
-        return _languageRepository.GetAllLanguages();
+        var languages = _languageRepository.GetAllLanguages();
+
+        UserInterface.ViewAllLanguages(languages);
+
+        return languages;
     }
 
     public ProgrammingLanguage GetLanguage()
@@ -44,6 +48,13 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         var languageId = Helpers.GetLanguageById(languages);
 
         return _languageRepository.GetLanguage(languageId);
+    }
+
+    public void ViewLanguageById()
+    {
+        var language = GetLanguage();
+
+        UserInterface.ViewLanguageDetails(language);
     }
 
     public void UpdateLanguage()

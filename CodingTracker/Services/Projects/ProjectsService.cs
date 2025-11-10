@@ -44,6 +44,13 @@ public class ProjectsService : IProjectsService
         return _projectRepository.GetProject(projectId);
     }
 
+    public void ViewProjectById()
+    {
+        var project = GetProject();
+
+        UserInterface.ViewProjectDetails(project);
+    }
+
     public void UpdateProject()
     {
         var projectToUpdate = GetProject();

@@ -138,7 +138,7 @@ public class Menu
                     break;
                 case ProgrammingLanguageMenuOptions.ViewProgrammingLanguage:
                     AnsiConsole.Clear();
-                    _programmingLanguagesService.GetLanguage();
+                    _programmingLanguagesService.ViewLanguageById();
                     break;
                 case ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage:
                     AnsiConsole.Clear();
@@ -183,7 +183,7 @@ public class Menu
                     break;
                 case ProjectMenuOptions.ViewProject:
                     AnsiConsole.Clear();
-                    _projectsService.GetProject();
+                    _projectsService.ViewProjectById();
                     break;
                 case ProjectMenuOptions.UpdateProject:
                     AnsiConsole.Clear();
@@ -225,6 +225,10 @@ public class Menu
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
                     _codingService.GetAllSessions();
+                    break;
+                case SessionMenuOptions.ViewSession:
+                    AnsiConsole.Clear();
+                    _codingService.ViewSessionById();
                     break;
                 case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();

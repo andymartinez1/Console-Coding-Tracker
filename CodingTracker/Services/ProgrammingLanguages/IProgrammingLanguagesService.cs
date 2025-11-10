@@ -10,6 +10,8 @@ public interface IProgrammingLanguagesService
 
     public ProgrammingLanguage GetLanguage();
 
+    public void ViewLanguageById();
+
     public void UpdateLanguage();
 
     public void DeleteLanguage();
