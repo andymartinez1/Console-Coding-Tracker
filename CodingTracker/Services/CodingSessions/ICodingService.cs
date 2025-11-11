@@ -10,7 +10,7 @@ public interface ICodingService
 
     public CodingSession GetSession();
 
-    void ViewSessionById();
+    public void ViewSessionById();
 
     public void UpdateSession();
 

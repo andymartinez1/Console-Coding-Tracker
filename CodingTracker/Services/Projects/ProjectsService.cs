@@ -17,7 +17,7 @@ public class ProjectsService : IProjectsService
 
     public void AddProject()
     {
-        Project project = new Project();
+        var project = new Project();
 
         project.Name = AnsiConsole.Ask<string>("Enter the project name:");
         project.Description = AnsiConsole.Ask<string>("Enter the project description:");

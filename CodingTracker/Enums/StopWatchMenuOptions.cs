@@ -4,11 +4,18 @@ namespace CodingTracker.Enums;
 
 public enum StopWatchMenuOptions
 {
+    [Display(Name = "Start Timer")]
     Start,
+
+    [Display(Name = "Stop Timer")]
     Stop,
-    Reset,
+
+    [Display(Name = "Show Elapsed Time")]
     ShowElapsedTime,
 
-    [Display(Name = "Back to Main Menu")]
-    BackToMainMenu,
+    [Display(Name = "Reset Timer")]
+    Reset,
+
+    [Display(Name = "Back to Sessions Menu")]
+    BackToSessionsMenu,
 }

@@ -108,4 +108,6 @@ public class UserInterface
 
         foreach (var category in categories) { }
     }
+
+    public void ViewStopWatchTimer() { }
 }

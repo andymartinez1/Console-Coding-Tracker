@@ -10,7 +10,7 @@ public interface IProjectsService
 
     public Project GetProject();
 
-    void ViewProjectById();
+    public void ViewProjectById();
 
     public void UpdateProject();
 

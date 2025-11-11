@@ -4,8 +4,8 @@ namespace CodingTracker.Enums;
 
 public enum SessionMenuOptions
 {
-    [Display(Name = "Record Session")]
-    RecordSession,
+    [Display(Name = "Start a Timed Session")]
+    StartSession,
 
     [Display(Name = "Add Session")]
     AddSession,

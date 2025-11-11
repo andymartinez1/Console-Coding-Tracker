@@ -1,12 +1,15 @@
-﻿namespace CodingTracker.Services.StopWatch;
+﻿using CodingTracker.Models;
+
+namespace CodingTracker.Services.StopWatch;
 
 public interface IStopWatchService
 {
-    public void StartTimer();
+    bool IsRunning { get; }
 
-    public void StopTimer();
+    TimeSpan Elapsed { get; }
 
-    public void ResetTimer();
+    CodingSession? ViewSession { get; }
+    void StartTimer();
 
-    public TimeSpan GetElapsedTime();
+    CodingSession? StopTimer();
 }

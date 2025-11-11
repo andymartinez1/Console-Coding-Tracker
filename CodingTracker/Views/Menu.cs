@@ -46,12 +46,22 @@ public class Menu
 
     private readonly SessionMenuOptions[] _sessionMenuOptions =
     [
+        SessionMenuOptions.StartSession,
+        SessionMenuOptions.AddSession,
         SessionMenuOptions.ViewAllSessions,
         SessionMenuOptions.ViewSession,
-        SessionMenuOptions.AddSession,
         SessionMenuOptions.UpdateSession,
         SessionMenuOptions.DeleteSession,
         SessionMenuOptions.BackToMainMenu,
+    ];
+
+    private readonly StopWatchMenuOptions[] _stopWatchMenuOptions =
+    [
+        StopWatchMenuOptions.Start,
+        StopWatchMenuOptions.Stop,
+        StopWatchMenuOptions.ShowElapsedTime,
+        StopWatchMenuOptions.Reset,
+        StopWatchMenuOptions.BackToSessionsMenu,
     ];
 
     private readonly IStopWatchService _stopWatchService;
@@ -218,6 +228,10 @@ public class Menu
 
             switch (usersChoice)
             {
+                case SessionMenuOptions.StartSession:
+                    AnsiConsole.Clear();
+                    StopWatchMenu();
+                    break;
                 case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
                     _codingService.AddSession();
@@ -241,6 +255,39 @@ public class Menu
                 case SessionMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
                     MainMenu();
+                    break;
+            }
+        }
+    }
+
+    public void StopWatchMenu()
+    {
+        var isMenuRunning = true;
+
+        while (isMenuRunning)
+        {
+            AnsiConsole.Write(new FigletText("Coding Tracker").Color(Color.Aquamarine1));
+
+            var usersChoice = AnsiConsole.Prompt(
+                new SelectionPrompt<StopWatchMenuOptions>()
+                    .Title("Welcome! Please select from the following options:")
+                    .AddChoices(_stopWatchMenuOptions)
+                    .UseConverter(c => c.GetDisplayName())
+            );
+
+            switch (usersChoice)
+            {
+                case StopWatchMenuOptions.Start:
+                    AnsiConsole.Clear();
+                    _stopWatchService.StartTimer();
+                    break;
+                case StopWatchMenuOptions.Stop:
+                    AnsiConsole.Clear();
+                    _stopWatchService.StopTimer();
+                    break;
+                case StopWatchMenuOptions.BackToSessionsMenu:
+                    AnsiConsole.Clear();
+                    SessionsMenu();
                     break;
             }
         }
