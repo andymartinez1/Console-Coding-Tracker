@@ -8,14 +8,14 @@ public static class SeedDatabase
     {
         var programmingLanguages = new List<ProgrammingLanguage>
         {
-            new() { Language = "C#" },
-            new() { Language = "Java" },
-            new() { Language = "JavaScript" },
-            new() { Language = "TypeScript" },
-            new() { Language = "Python" },
-            new() { Language = "Go" },
-            new() { Language = "Rust" },
-            new() { Language = "Kotlin" },
+            new() { Language = "C#", Version = 14 },
+            new() { Language = "Java", Version = 25 },
+            new() { Language = "JavaScript", Version = 15 },
+            new() { Language = "TypeScript", Version = 5.9m },
+            new() { Language = "Python", Version = 3.13m },
+            new() { Language = "Go", Version = 1.25m },
+            new() { Language = "Rust", Version = 1.91m },
+            new() { Language = "Kotlin", Version = 2.2m },
         };
 
         var projects = new List<Project>

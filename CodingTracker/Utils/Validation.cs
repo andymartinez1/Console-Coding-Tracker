@@ -26,4 +26,9 @@ public class Validation
 
         return start <= end;
     }
+
+    public static bool IsListEmpty<T>(List<T> list)
+    {
+        return list.Count == 0;
+    }
 }

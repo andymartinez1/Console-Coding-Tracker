@@ -19,8 +19,8 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
     {
         var language = new ProgrammingLanguage();
 
-        language.Language = AnsiConsole.Ask<string>("Enter the programming language");
-        language.Version = AnsiConsole.Ask<decimal?>("Enter the version number");
+        language.Language = AnsiConsole.Ask<string>("Enter the programming language: ");
+        language.Version = AnsiConsole.Ask<decimal?>("Enter the version number: ");
 
         _languageRepository.AddLanguage(language);
     }
@@ -29,7 +29,14 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
     {
         var languages = _languageRepository.GetAllLanguages();
 
-        UserInterface.ViewAllLanguages(languages);
+        if (!Validation.IsListEmpty(languages))
+            UserInterface.ViewAllLanguages(languages);
+        else
+        {
+            AnsiConsole.MarkupLine(
+                "[Red]No programming languages to display. Please add new language.[/]"
+            );
+        }
 
         return languages;
     }
@@ -38,12 +45,10 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
     {
         var languages = GetAllLanguages();
 
-        if (!languages.Any())
-            AnsiConsole.MarkupLine(
-                "[Red]No programming languages to display. Please add new language.[/]"
-            );
-
-        UserInterface.ViewAllLanguages(languages);
+        if (!Validation.IsListEmpty(languages))
+        {
+            UserInterface.ViewAllLanguages(languages);
+        }
 
         var languageId = Helpers.GetLanguageById(languages);
 
@@ -71,7 +76,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
 
         var updateProgrammingLanguageVersionNumber = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title("Would you like to update the programming language name? ")
+                .Title("Would you like to update the programming language version number? ")
                 .AddChoices("Yes", "No")
         );
         if (updateProgrammingLanguageVersionNumber == "Yes")
@@ -86,12 +91,11 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
 
         var languageId = Helpers.GetLanguageById(languages);
 
-        if (_languageRepository.GetAllLanguages().Count > 0)
+        if (!Validation.IsListEmpty(languages))
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
+            _languageRepository.DeleteLanguage(languageId);
         }
-
-        _languageRepository.DeleteLanguage(languageId);
     }
 }

@@ -35,7 +35,7 @@ public static class Helpers
 
         var sessionArray = languages.Select(s => s.Id).ToArray();
 
-        if (languages.Count == 0)
+        if (Validation.IsListEmpty(languages))
         {
             AnsiConsole.MarkupLine(
                 "[red]No programming languages found! Please add a language first.[/]"

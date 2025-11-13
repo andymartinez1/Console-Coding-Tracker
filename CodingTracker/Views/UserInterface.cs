@@ -1,4 +1,5 @@
 ﻿using CodingTracker.Models;
+using CodingTracker.Utils;
 using Spectre.Console;
 
 namespace CodingTracker.Views;
@@ -42,15 +43,22 @@ public class UserInterface
 
     public static void ViewAllLanguages(List<ProgrammingLanguage> languages)
     {
-        var table = new Table();
-        table.AddColumn("ID");
-        table.AddColumn("Language");
-        table.AddColumn("Version");
+        if (!Validation.IsListEmpty(languages))
+        {
+            var table = new Table();
+            table.AddColumn("ID");
+            table.AddColumn("Language");
+            table.AddColumn("Version");
 
-        foreach (var language in languages)
-            table.AddRow(language.Id.ToString(), language.Language, language.Version.ToString());
+            foreach (var language in languages)
+                table.AddRow(
+                    language.Id.ToString(),
+                    language.Language,
+                    language.Version.ToString()
+                );
 
-        AnsiConsole.Write(table);
+            AnsiConsole.Write(table);
+        }
     }
 
     public static void ViewLanguageDetails(ProgrammingLanguage language)
@@ -109,5 +117,5 @@ public class UserInterface
         foreach (var category in categories) { }
     }
 
-    public void ViewStopWatchTimer() { }
+    public static void ViewStopWatchTimer() { }
 }
