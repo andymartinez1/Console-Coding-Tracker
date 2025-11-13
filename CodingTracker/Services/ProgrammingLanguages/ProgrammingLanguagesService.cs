@@ -41,23 +41,28 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         return languages;
     }
 
-    public ProgrammingLanguage GetLanguage()
+    public ProgrammingLanguage? GetLanguage()
     {
         var languages = GetAllLanguages();
 
         if (!Validation.IsListEmpty(languages))
         {
             UserInterface.ViewAllLanguages(languages);
+            var languageId = Helpers.GetLanguageById(languages);
+            return _languageRepository.GetLanguage(languageId);
         }
 
-        var languageId = Helpers.GetLanguageById(languages);
-
-        return _languageRepository.GetLanguage(languageId);
+        return null;
     }
 
     public void ViewLanguageById()
     {
         var language = GetLanguage();
+
+        if (language == null)
+        {
+            return;
+        }
 
         UserInterface.ViewLanguageDetails(language);
     }
@@ -65,6 +70,11 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
     public void UpdateLanguage()
     {
         var languageToUpdate = GetLanguage();
+
+        if (languageToUpdate == null)
+        {
+            return;
+        }
 
         var updateProgrammingLanguageName = AnsiConsole.Prompt(
             new SelectionPrompt<string>()

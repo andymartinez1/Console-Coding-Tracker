@@ -8,7 +8,7 @@ public interface IProgrammingLanguagesService
 
     public List<ProgrammingLanguage> GetAllLanguages();
 
-    public ProgrammingLanguage GetLanguage();
+    public ProgrammingLanguage? GetLanguage();
 
     public void ViewLanguageById();
 
