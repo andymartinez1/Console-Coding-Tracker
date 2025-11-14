@@ -8,7 +8,7 @@ public interface IProjectsService
 
     public List<Project> GetAllProjects();
 
-    public Project GetProject();
+    public Project? GetProject();
 
     public void ViewProjectById();
 

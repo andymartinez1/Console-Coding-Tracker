@@ -15,9 +15,8 @@ public static class Helpers
 
         var sessionArray = sessions.Select(s => s.Id).ToArray();
 
-        if (sessions.Count == 0)
+        if (Validation.IsListEmpty(sessions))
         {
-            AnsiConsole.MarkupLine("[red]No sessions found! Please add a session first.[/]");
             return 0;
         }
 
@@ -37,9 +36,6 @@ public static class Helpers
 
         if (Validation.IsListEmpty(languages))
         {
-            AnsiConsole.MarkupLine(
-                "[red]No programming languages found! Please add a language first.[/]"
-            );
             return 0;
         }
 
@@ -57,9 +53,8 @@ public static class Helpers
 
         var sessionArray = projects.Select(s => s.Id).ToArray();
 
-        if (projects.Count == 0)
+        if (Validation.IsListEmpty(projects))
         {
-            AnsiConsole.MarkupLine("[red]No projects found! Please add a project first.[/]");
             return 0;
         }
 
@@ -68,11 +63,6 @@ public static class Helpers
         );
         return option;
     }
-
-    // public static Category GetCategory()
-    // {
-    //     AnsiConsole.Clear();
-    // }
 
     public static DateTime[] GetDates()
     {

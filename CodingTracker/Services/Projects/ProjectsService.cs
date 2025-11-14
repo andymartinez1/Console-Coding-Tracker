@@ -25,28 +25,40 @@ public class ProjectsService : IProjectsService
 
     public List<Project> GetAllProjects()
     {
-        return _projectRepository.GetAllProjects();
+        var projects = _projectRepository.GetAllProjects();
+
+        if (!Validation.IsListEmpty(projects))
+        {
+            UserInterface.ViewAllProjects(projects);
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[Red]No projects to display. Please add a new project.[/]");
+        }
+
+        return projects;
     }
 
-    public Project GetProject()
+    public Project? GetProject()
     {
         var projects = GetAllProjects();
 
-        if (!projects.Any())
-            AnsiConsole.MarkupLine(
-                "[Red]No coding sessions to display. Please add new session.[/]"
-            );
+        if (!Validation.IsListEmpty(projects))
+        {
+            UserInterface.ViewAllProjects(projects);
+            var projectId = Helpers.GetProjectById(projects);
+            return _projectRepository.GetProject(projectId);
+        }
 
-        UserInterface.ViewAllProjects(projects);
-
-        var projectId = Helpers.GetProjectById(projects);
-
-        return _projectRepository.GetProject(projectId);
+        return null;
     }
 
     public void ViewProjectById()
     {
         var project = GetProject();
+
+        if (project == null)
+            return;
 
         UserInterface.ViewProjectDetails(project);
     }
@@ -54,6 +66,9 @@ public class ProjectsService : IProjectsService
     public void UpdateProject()
     {
         var projectToUpdate = GetProject();
+
+        if (projectToUpdate == null)
+            return;
 
         var updateProjectName = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -80,12 +95,11 @@ public class ProjectsService : IProjectsService
 
         var projectId = Helpers.GetProjectById(projects);
 
-        if (_projectRepository.GetAllProjects().Count > 0)
+        if (!Validation.IsListEmpty(projects))
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");
+            _projectRepository.DeleteProject(projectId);
         }
-
-        _projectRepository.DeleteProject(projectId);
     }
 }

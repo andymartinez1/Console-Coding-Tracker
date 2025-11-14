@@ -34,7 +34,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         else
         {
             AnsiConsole.MarkupLine(
-                "[Red]No programming languages to display. Please add new language.[/]"
+                "[Red]No programming languages to display. Please add a new language.[/]"
             );
         }
 
@@ -60,9 +60,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         var language = GetLanguage();
 
         if (language == null)
-        {
             return;
-        }
 
         UserInterface.ViewLanguageDetails(language);
     }
