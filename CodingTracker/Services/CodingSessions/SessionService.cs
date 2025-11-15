@@ -6,11 +6,11 @@ using Spectre.Console;
 
 namespace CodingTracker.Services.CodingSessions;
 
-public class CodingService : ICodingService
+public class SessionService : ISessionService
 {
     private readonly ICodingRepository _codingRepository;
 
-    public CodingService(ICodingRepository codingRepository)
+    public SessionService(ICodingRepository codingRepository)
     {
         _codingRepository = codingRepository;
     }
@@ -32,28 +32,38 @@ public class CodingService : ICodingService
     {
         var sessions = _codingRepository.GetAllSessions();
 
+        if (!Validation.IsListEmpty(sessions))
+            UserInterface.ViewAllSessions(sessions);
+        else
+        {
+            AnsiConsole.MarkupLine(
+                "[Red]No coding sessions to display. Please add a new session.[/]"
+            );
+        }
+
         return sessions;
     }
 
-    public CodingSession GetSession()
+    public CodingSession? GetSession()
     {
         var sessions = GetAllSessions();
 
-        if (!sessions.Any())
-            AnsiConsole.MarkupLine(
-                "[Red]No coding sessions to display. Please add new session.[/]"
-            );
+        if (!Validation.IsListEmpty(sessions))
+        {
+            UserInterface.ViewAllSessions(sessions);
+            var sessionId = Helpers.GetSessionById(sessions);
+            return _codingRepository.GetSession(sessionId);
+        }
 
-        UserInterface.ViewAllSessions(sessions);
-
-        var sessionId = Helpers.GetSessionById(sessions);
-
-        return _codingRepository.GetSession(sessionId);
+        return null;
     }
 
     public void ViewSessionById()
     {
         var session = GetSession();
+
+        if (session == null)
+            return;
 
         UserInterface.ViewSessionDetails(session);
     }
@@ -61,6 +71,9 @@ public class CodingService : ICodingService
     public void UpdateSession()
     {
         var sessionToUpdate = GetSession();
+
+        if (sessionToUpdate == null)
+            return;
 
         var updateStartTime = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -98,12 +111,11 @@ public class CodingService : ICodingService
 
         var sessionId = Helpers.GetSessionById(sessions);
 
-        if (_codingRepository.GetAllSessions().Count > 0)
+        if (!Validation.IsListEmpty(sessions))
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
+            _codingRepository.DeleteSession(sessionId);
         }
-
-        _codingRepository.DeleteSession(sessionId);
     }
 }

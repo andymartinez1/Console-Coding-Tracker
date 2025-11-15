@@ -10,7 +10,7 @@ namespace CodingTracker.Views;
 
 public class Menu
 {
-    private readonly ICodingService _codingService;
+    private readonly ISessionService _sessionService;
 
     private readonly ProgrammingLanguageMenuOptions[] _languageMenuOptions =
     [
@@ -67,13 +67,13 @@ public class Menu
     private readonly IStopWatchService _stopWatchService;
 
     public Menu(
-        ICodingService codingService,
+        ISessionService sessionService,
         IProjectsService projectsService,
         IProgrammingLanguagesService programmingLanguagesService,
         IStopWatchService stopWatchService
     )
     {
-        _codingService = codingService;
+        _sessionService = sessionService;
         _projectsService = projectsService;
         _programmingLanguagesService = programmingLanguagesService;
         _stopWatchService = stopWatchService;
@@ -234,23 +234,23 @@ public class Menu
                     break;
                 case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
-                    _codingService.AddSession();
+                    _sessionService.AddSession();
                     break;
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
-                    _codingService.GetAllSessions();
+                    _sessionService.GetAllSessions();
                     break;
                 case SessionMenuOptions.ViewSession:
                     AnsiConsole.Clear();
-                    _codingService.ViewSessionById();
+                    _sessionService.ViewSessionById();
                     break;
                 case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();
-                    _codingService.UpdateSession();
+                    _sessionService.UpdateSession();
                     break;
                 case SessionMenuOptions.DeleteSession:
                     AnsiConsole.Clear();
-                    _codingService.DeleteSession();
+                    _sessionService.DeleteSession();
                     break;
                 case SessionMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();

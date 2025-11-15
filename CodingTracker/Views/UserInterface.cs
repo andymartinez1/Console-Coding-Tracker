@@ -1,4 +1,5 @@
-﻿using CodingTracker.Models;
+﻿using System.Globalization;
+using CodingTracker.Models;
 using CodingTracker.Utils;
 using Spectre.Console;
 
@@ -19,9 +20,9 @@ public class UserInterface
             table.AddRow(
                 session.Id.ToString(),
                 session.Project.Name,
-                session.StartTime.ToString(),
-                session.EndTime.ToString(),
-                $"{Math.Floor(session.Duration.TotalHours)} hours {session.Duration.TotalMinutes % 60} minutes"
+                session.StartTime.ToString(CultureInfo.InvariantCulture),
+                session.EndTime.ToString(CultureInfo.InvariantCulture),
+                $"{Math.Floor(session.Duration.TotalHours)} hours, {session.Duration.TotalMinutes % 60} minutes"
             );
 
         AnsiConsole.Write(table);

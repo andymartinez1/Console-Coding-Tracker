@@ -1,5 +1,6 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingTracker.Repository.CodingSessions;
 
@@ -21,7 +22,7 @@ public class CodingRepository : ICodingRepository
 
     public List<CodingSession> GetAllSessions()
     {
-        return _codingDbContext.CodingSessions.ToList();
+        return _codingDbContext.CodingSessions.Include(cs => cs.Project).ToList();
     }
 
     public CodingSession GetSession(int id)

@@ -70,9 +70,7 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         var languageToUpdate = GetLanguage();
 
         if (languageToUpdate == null)
-        {
             return;
-        }
 
         var updateProgrammingLanguageName = AnsiConsole.Prompt(
             new SelectionPrompt<string>()

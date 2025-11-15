@@ -2,13 +2,13 @@
 
 namespace CodingTracker.Services.CodingSessions;
 
-public interface ICodingService
+public interface ISessionService
 {
     public void AddSession();
 
     public List<CodingSession> GetAllSessions();
 
-    public CodingSession GetSession();
+    public CodingSession? GetSession();
 
     public void ViewSessionById();
 
