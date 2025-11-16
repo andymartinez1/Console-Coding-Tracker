@@ -8,11 +8,11 @@ namespace CodingTracker.Services.CodingSessions;
 
 public class SessionService : ISessionService
 {
-    private readonly ICodingRepository _codingRepository;
+    private readonly ISessionRepository _sessionRepository;
 
-    public SessionService(ICodingRepository codingRepository)
+    public SessionService(ISessionRepository sessionRepository)
     {
-        _codingRepository = codingRepository;
+        _sessionRepository = sessionRepository;
     }
 
     public void AddSession()
@@ -25,21 +25,19 @@ public class SessionService : ISessionService
         session.StartTime = dates[0];
         session.EndTime = dates[1];
 
-        _codingRepository.AddSession(session);
+        _sessionRepository.AddSession(session);
     }
 
     public List<CodingSession> GetAllSessions()
     {
-        var sessions = _codingRepository.GetAllSessions();
+        var sessions = _sessionRepository.GetAllSessions();
 
         if (!Validation.IsListEmpty(sessions))
             UserInterface.ViewAllSessions(sessions);
         else
-        {
             AnsiConsole.MarkupLine(
                 "[Red]No coding sessions to display. Please add a new session.[/]"
             );
-        }
 
         return sessions;
     }
@@ -52,7 +50,7 @@ public class SessionService : ISessionService
         {
             UserInterface.ViewAllSessions(sessions);
             var sessionId = Helpers.GetSessionById(sessions);
-            return _codingRepository.GetSession(sessionId);
+            return _sessionRepository.GetSession(sessionId);
         }
 
         return null;
@@ -102,7 +100,7 @@ public class SessionService : ISessionService
         else
             sessionToUpdate.Project.Name = sessionToUpdate.Project.Name;
 
-        _codingRepository.UpdateSession(sessionToUpdate);
+        _sessionRepository.UpdateSession(sessionToUpdate);
     }
 
     public void DeleteSession()
@@ -115,7 +113,7 @@ public class SessionService : ISessionService
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
-            _codingRepository.DeleteSession(sessionId);
+            _sessionRepository.DeleteSession(sessionId);
         }
     }
 }

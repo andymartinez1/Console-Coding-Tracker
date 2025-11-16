@@ -2,7 +2,7 @@
 
 namespace CodingTracker.Repository.CodingSessions;
 
-public interface ICodingRepository
+public interface ISessionRepository
 {
     public void AddSession(CodingSession session);
 

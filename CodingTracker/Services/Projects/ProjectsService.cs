@@ -28,13 +28,9 @@ public class ProjectsService : IProjectsService
         var projects = _projectRepository.GetAllProjects();
 
         if (!Validation.IsListEmpty(projects))
-        {
             UserInterface.ViewAllProjects(projects);
-        }
         else
-        {
             AnsiConsole.MarkupLine("[Red]No projects to display. Please add a new project.[/]");
-        }
 
         return projects;
     }

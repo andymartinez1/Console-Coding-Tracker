@@ -10,8 +10,6 @@ namespace CodingTracker.Views;
 
 public class Menu
 {
-    private readonly ISessionService _sessionService;
-
     private readonly ProgrammingLanguageMenuOptions[] _languageMenuOptions =
     [
         ProgrammingLanguageMenuOptions.AddProgrammingLanguage,
@@ -54,6 +52,8 @@ public class Menu
         SessionMenuOptions.DeleteSession,
         SessionMenuOptions.BackToMainMenu,
     ];
+
+    private readonly ISessionService _sessionService;
 
     private readonly StopWatchMenuOptions[] _stopWatchMenuOptions =
     [

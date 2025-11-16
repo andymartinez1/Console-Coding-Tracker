@@ -14,7 +14,7 @@ var services = new ServiceCollection();
 
 // Registering the dependencies
 services.AddDbContext<CodingDbContext>();
-services.AddScoped<ICodingRepository, CodingRepository>();
+services.AddScoped<ISessionRepository, SessionRepository>();
 services.AddScoped<ISessionService, SessionService>();
 services.AddScoped<IProjectRepository, ProjectRepository>();
 services.AddScoped<IProjectsService, ProjectsService>();

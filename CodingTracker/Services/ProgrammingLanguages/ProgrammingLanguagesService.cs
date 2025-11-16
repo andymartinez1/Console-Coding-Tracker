@@ -32,11 +32,9 @@ public class ProgrammingLanguagesService : IProgrammingLanguagesService
         if (!Validation.IsListEmpty(languages))
             UserInterface.ViewAllLanguages(languages);
         else
-        {
             AnsiConsole.MarkupLine(
                 "[Red]No programming languages to display. Please add a new language.[/]"
             );
-        }
 
         return languages;
     }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodingTracker.Repository.CodingSessions;
 
-public class CodingRepository : ICodingRepository
+public class SessionRepository : ISessionRepository
 {
     private readonly CodingDbContext _codingDbContext;
 
-    public CodingRepository(CodingDbContext codingDbContext)
+    public SessionRepository(CodingDbContext codingDbContext)
     {
         _codingDbContext = codingDbContext;
     }

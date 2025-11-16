@@ -16,9 +16,7 @@ public static class Helpers
         var sessionArray = sessions.Select(s => s.Id).ToArray();
 
         if (Validation.IsListEmpty(sessions))
-        {
             return 0;
-        }
 
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<int>().Title("Select the session:").AddChoices(sessionArray)
@@ -35,9 +33,7 @@ public static class Helpers
         var sessionArray = languages.Select(s => s.Id).ToArray();
 
         if (Validation.IsListEmpty(languages))
-        {
             return 0;
-        }
 
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<int>().Title("Select the language:").AddChoices(sessionArray)
@@ -54,9 +50,7 @@ public static class Helpers
         var sessionArray = projects.Select(s => s.Id).ToArray();
 
         if (Validation.IsListEmpty(projects))
-        {
             return 0;
-        }
 
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<int>().Title("Select the project:").AddChoices(sessionArray)
