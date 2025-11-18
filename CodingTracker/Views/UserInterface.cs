@@ -12,6 +12,7 @@ public class UserInterface
         var table = new Table();
         table.AddColumn("ID");
         table.AddColumn("Project Name");
+        table.AddColumn("Category");
         table.AddColumn("Start Time");
         table.AddColumn("End Time");
         table.AddColumn("Duration");
@@ -20,6 +21,7 @@ public class UserInterface
             table.AddRow(
                 session.Id.ToString(),
                 session.Project.Name,
+                session.Category.ToString(),
                 session.StartTime.ToString(CultureInfo.InvariantCulture),
                 session.EndTime.ToString(CultureInfo.InvariantCulture),
                 $"{Math.Floor(session.Duration.TotalHours)} hours, {session.Duration.TotalMinutes % 60} minutes"
@@ -31,7 +33,7 @@ public class UserInterface
     public static void ViewSessionDetails(CodingSession session)
     {
         var panel = new Panel(
-            $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \n"
+            $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \nCategory: {session.Category} \n"
         )
             .Header($"Details for ID: {session.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));
@@ -82,15 +84,9 @@ public class UserInterface
         table.AddColumn("ID");
         table.AddColumn("Name");
         table.AddColumn("Description");
-        table.AddColumn("Category");
 
         foreach (var project in projects)
-            table.AddRow(
-                project.Id.ToString(),
-                project.Name,
-                project.Description,
-                project.Category.ToString()
-            );
+            table.AddRow(project.Id.ToString(), project.Name, project.Description);
 
         AnsiConsole.Write(table);
     }
@@ -98,7 +94,7 @@ public class UserInterface
     public static void ViewProjectDetails(Project project)
     {
         var panel = new Panel(
-            $"Project Name: {project.Name} \nDescription: {project.Description} \nCategory: {project.Category} \n"
+            $"Project Name: {project.Name} \nDescription: {project.Description} \n"
         )
             .Header($"Details for ID: {project.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));

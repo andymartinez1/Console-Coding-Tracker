@@ -11,18 +11,7 @@ public class Project
 
     public string Description { get; set; } = string.Empty;
 
-    public Category? Category { get; set; }
-
     public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 
     public List<CodingSession> CodingSessions { get; set; }
-}
-
-public enum Category
-{
-    Feature,
-    Bugfix,
-    Refactor,
-    Style,
-    Test,
 }

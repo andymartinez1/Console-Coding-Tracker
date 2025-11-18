@@ -20,30 +20,14 @@ public static class SeedDatabase
 
         var projects = new List<Project>
         {
-            new()
-            {
-                Name = "Portfolio",
-                Category = Category.Feature,
-                Description = "Personal portfolio site and blog.",
-            },
-            new()
-            {
-                Name = "CLI Tool",
-                Category = Category.Feature,
-                Description = "Command-line productivity utilities.",
-            },
+            new() { Name = "Portfolio", Description = "Personal portfolio site and blog." },
+            new() { Name = "CLI Tool", Description = "Command-line productivity utilities." },
             new()
             {
                 Name = "Client Dashboard",
-                Category = Category.Feature,
                 Description = "Web dashboard for client analytics.",
             },
-            new()
-            {
-                Name = "Library",
-                Category = Category.Feature,
-                Description = "Reusable open-source library.",
-            },
+            new() { Name = "Library", Description = "Reusable open-source library." },
         };
 
         var codingSessions = new List<CodingSession>
@@ -52,6 +36,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 18, 8, 30, 0),
                 EndTime = new DateTime(2025, 11, 18, 10, 30, 0),
+                Category = Category.Feature,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[0] },
                 Project = projects[0],
             },
@@ -59,6 +44,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 18, 17, 0, 0),
                 EndTime = new DateTime(2025, 11, 18, 19, 30, 0),
+                Category = Category.Bugfix,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[2] },
                 Project = projects[2],
             },
@@ -66,6 +52,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 19, 9, 0, 0),
                 EndTime = new DateTime(2025, 11, 19, 11, 15, 0),
+                Category = Category.Refactor,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[3] },
                 Project = projects[1],
             },
@@ -73,6 +60,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 20, 14, 0, 0),
                 EndTime = new DateTime(2025, 11, 20, 16, 45, 0),
+                Category = Category.Test,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[4] },
                 Project = projects[3],
             },
@@ -80,6 +68,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 21, 18, 30, 0),
                 EndTime = new DateTime(2025, 11, 21, 19, 0, 0),
+                Category = Category.Style,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[0] },
                 Project = projects[1],
             },
@@ -87,6 +76,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 22, 7, 45, 0),
                 EndTime = new DateTime(2025, 11, 22, 9, 0, 0),
+                Category = Category.Feature,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[6] },
                 Project = projects[3],
             },
@@ -94,6 +84,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 23, 12, 0, 0),
                 EndTime = new DateTime(2025, 11, 23, 13, 30, 0),
+                Category = Category.Bugfix,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[5] },
                 Project = projects[2],
             },
@@ -101,6 +92,7 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 24, 20, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 21, 0, 0),
+                Category = Category.Test,
                 ProgrammingLanguages = new List<ProgrammingLanguage> { programmingLanguages[1] },
                 Project = projects[0],
             },
