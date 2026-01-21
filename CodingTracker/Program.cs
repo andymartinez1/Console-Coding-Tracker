@@ -1,9 +1,7 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Repository.CodingSessions;
-using CodingTracker.Repository.ProgrammingLanguages;
 using CodingTracker.Repository.Projects;
 using CodingTracker.Services.CodingSessions;
-using CodingTracker.Services.ProgrammingLanguages;
 using CodingTracker.Services.Projects;
 using CodingTracker.Services.StopWatch;
 using CodingTracker.Views;
@@ -18,8 +16,6 @@ services.AddScoped<ISessionRepository, SessionRepository>();
 services.AddScoped<ISessionService, SessionService>();
 services.AddScoped<IProjectRepository, ProjectRepository>();
 services.AddScoped<IProjectsService, ProjectsService>();
-services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
-services.AddScoped<IProgrammingLanguagesService, ProgrammingLanguagesService>();
 services.AddScoped<IStopWatchService, StopWatchService>();
 services.AddScoped<Menu>();
 

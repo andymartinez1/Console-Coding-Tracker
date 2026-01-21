@@ -17,7 +17,7 @@ public class CodingSession
 
     public Project Project { get; set; }
 
-    public IEnumerable<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+    public List<string>? ProgrammingLanguages { get; set; }
 }
 
 public enum Category

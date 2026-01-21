@@ -15,28 +15,11 @@ public static class Helpers
 
         var sessionArray = sessions.Select(s => s.Id).ToArray();
 
-        if (Validation.IsListEmpty(sessions))
+        if (!sessions.Any())
             return 0;
 
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<int>().Title("Select the session:").AddChoices(sessionArray)
-        );
-        return option;
-    }
-
-    public static int GetLanguageById(List<ProgrammingLanguage> languages)
-    {
-        AnsiConsole.Clear();
-
-        UserInterface.ViewAllLanguages(languages);
-
-        var sessionArray = languages.Select(s => s.Id).ToArray();
-
-        if (Validation.IsListEmpty(languages))
-            return 0;
-
-        var option = AnsiConsole.Prompt(
-            new SelectionPrompt<int>().Title("Select the language:").AddChoices(sessionArray)
         );
         return option;
     }
@@ -49,7 +32,7 @@ public static class Helpers
 
         var sessionArray = projects.Select(s => s.Id).ToArray();
 
-        if (Validation.IsListEmpty(projects))
+        if (!projects.Any())
             return 0;
 
         var option = AnsiConsole.Prompt(

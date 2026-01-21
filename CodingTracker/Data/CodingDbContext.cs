@@ -8,7 +8,6 @@ public class CodingDbContext : DbContext
 {
     public DbSet<CodingSession> CodingSessions { get; set; }
     public DbSet<Project> Projects { get; set; }
-    public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,15 +26,5 @@ public class CodingDbContext : DbContext
             .WithOne(cs => cs.Project)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-
-        modelBuilder
-            .Entity<ProgrammingLanguage>()
-            .HasMany(pl => pl.CodingSessions)
-            .WithMany(cs => cs.ProgrammingLanguages);
-
-        modelBuilder
-            .Entity<Project>()
-            .HasMany(p => p.ProgrammingLanguages)
-            .WithMany(pl => pl.Projects);
     }
 }

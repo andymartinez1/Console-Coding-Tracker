@@ -44,49 +44,28 @@ public class UserInterface
         AnsiConsole.Write(panel);
     }
 
-    public static void ViewAllLanguages(List<ProgrammingLanguage> languages)
-    {
-        if (!Validation.IsListEmpty(languages))
-        {
-            var table = new Table();
-            table.AddColumn("ID");
-            table.AddColumn("Language");
-            table.AddColumn("Version");
-
-            foreach (var language in languages)
-                table.AddRow(
-                    language.Id.ToString(),
-                    language.Language,
-                    language.Version.ToString()
-                );
-
-            AnsiConsole.Write(table);
-        }
-    }
-
-    public static void ViewLanguageDetails(ProgrammingLanguage language)
-    {
-        var panel = new Panel(
-            $"Programming Language: {language.Language} \nVersion: {language.Version} \n"
-        )
-            .Header($"Details for ID: {language.Id}")
-            .BorderStyle(Style.Parse("aquamarine1"));
-
-        panel.Padding = new Padding(2);
-        panel.Expand();
-
-        AnsiConsole.Write(panel);
-    }
-
     public static void ViewAllProjects(List<Project> projects)
     {
         var table = new Table();
         table.AddColumn("ID");
         table.AddColumn("Name");
         table.AddColumn("Description");
+        table.AddColumn("Languages Used");
 
         foreach (var project in projects)
-            table.AddRow(project.Id.ToString(), project.Name, project.Description);
+        {
+            var languages =
+                project.ProgrammingLanguages != null
+                    ? string.Join(", ", project.ProgrammingLanguages)
+                    : string.Empty;
+
+            table.AddRow(
+                project.Id.ToString(),
+                project.Name ?? string.Empty,
+                project.Description ?? string.Empty,
+                languages
+            );
+        }
 
         AnsiConsole.Write(table);
     }

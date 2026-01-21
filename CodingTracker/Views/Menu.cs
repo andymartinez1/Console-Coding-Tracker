@@ -1,6 +1,5 @@
 ﻿using CodingTracker.Enums;
 using CodingTracker.Services.CodingSessions;
-using CodingTracker.Services.ProgrammingLanguages;
 using CodingTracker.Services.Projects;
 using CodingTracker.Services.StopWatch;
 using CodingTracker.Utils;
@@ -10,25 +9,12 @@ namespace CodingTracker.Views;
 
 public class Menu
 {
-    private readonly ProgrammingLanguageMenuOptions[] _languageMenuOptions =
-    [
-        ProgrammingLanguageMenuOptions.AddProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.ViewAllProgrammingLanguages,
-        ProgrammingLanguageMenuOptions.ViewProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage,
-        ProgrammingLanguageMenuOptions.BackToMainMenu,
-    ];
-
     private readonly MainMenuOptions[] _mainMenuOptions =
     [
         MainMenuOptions.CodingSessionMenu,
         MainMenuOptions.ProjectMenu,
-        MainMenuOptions.ProgrammingLanguageMenu,
         MainMenuOptions.Exit,
     ];
-
-    private readonly IProgrammingLanguagesService _programmingLanguagesService;
 
     private readonly ProjectMenuOptions[] _projectMenuOptions =
     [
@@ -69,13 +55,11 @@ public class Menu
     public Menu(
         ISessionService sessionService,
         IProjectsService projectsService,
-        IProgrammingLanguagesService programmingLanguagesService,
         IStopWatchService stopWatchService
     )
     {
         _sessionService = sessionService;
         _projectsService = projectsService;
-        _programmingLanguagesService = programmingLanguagesService;
         _stopWatchService = stopWatchService;
     }
 
@@ -104,10 +88,6 @@ public class Menu
                     AnsiConsole.Clear();
                     ProjectsMenu();
                     break;
-                case MainMenuOptions.ProgrammingLanguageMenu:
-                    AnsiConsole.Clear();
-                    LanguagesMenu();
-                    break;
                 case MainMenuOptions.Exit:
                     AnsiConsole.Clear();
                     AnsiConsole.MarkupLine(
@@ -116,51 +96,6 @@ public class Menu
                     Console.ReadKey();
                     isMenuRunning = false;
                     Environment.Exit(0);
-                    break;
-            }
-        }
-    }
-
-    private void LanguagesMenu()
-    {
-        var isMenuRunning = true;
-
-        while (isMenuRunning)
-        {
-            AnsiConsole.Write(new FigletText("Coding Tracker").Color(Color.Aquamarine1));
-
-            var usersChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<ProgrammingLanguageMenuOptions>()
-                    .Title("Welcome! Please select from the following options:")
-                    .AddChoices(_languageMenuOptions)
-                    .UseConverter(c => c.GetDisplayName())
-            );
-
-            switch (usersChoice)
-            {
-                case ProgrammingLanguageMenuOptions.AddProgrammingLanguage:
-                    AnsiConsole.Clear();
-                    _programmingLanguagesService.AddLanguage();
-                    break;
-                case ProgrammingLanguageMenuOptions.ViewAllProgrammingLanguages:
-                    AnsiConsole.Clear();
-                    _programmingLanguagesService.GetAllLanguages();
-                    break;
-                case ProgrammingLanguageMenuOptions.ViewProgrammingLanguage:
-                    AnsiConsole.Clear();
-                    _programmingLanguagesService.ViewLanguageById();
-                    break;
-                case ProgrammingLanguageMenuOptions.UpdateProgrammingLanguage:
-                    AnsiConsole.Clear();
-                    _programmingLanguagesService.UpdateLanguage();
-                    break;
-                case ProgrammingLanguageMenuOptions.DeleteProgrammingLanguage:
-                    AnsiConsole.Clear();
-                    _programmingLanguagesService.DeleteLanguage();
-                    break;
-                case ProgrammingLanguageMenuOptions.BackToMainMenu:
-                    AnsiConsole.Clear();
-                    MainMenu();
                     break;
             }
         }

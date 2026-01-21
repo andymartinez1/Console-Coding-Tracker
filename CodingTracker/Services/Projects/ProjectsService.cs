@@ -21,13 +21,31 @@ public class ProjectsService : IProjectsService
 
         project.Name = AnsiConsole.Ask<string>("Enter the project name:");
         project.Description = AnsiConsole.Ask<string>("Enter the project description:");
+        var languagesInput = AnsiConsole.Ask<string>(
+            "Enter the programming languages used (comma-separated):"
+        );
+
+        if (!string.IsNullOrWhiteSpace(languagesInput))
+        {
+            project.ProgrammingLanguages ??= new List<string>();
+            foreach (
+                var lang in languagesInput
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(l => l.Trim())
+            )
+            {
+                project.ProgrammingLanguages.Add(lang);
+            }
+
+            _projectRepository.AddProject(project);
+        }
     }
 
     public List<Project> GetAllProjects()
     {
         var projects = _projectRepository.GetAllProjects();
 
-        if (!Validation.IsListEmpty(projects))
+        if (projects.Any())
             UserInterface.ViewAllProjects(projects);
         else
             AnsiConsole.MarkupLine("[Red]No projects to display. Please add a new project.[/]");
@@ -39,7 +57,7 @@ public class ProjectsService : IProjectsService
     {
         var projects = GetAllProjects();
 
-        if (!Validation.IsListEmpty(projects))
+        if (projects.Any())
         {
             UserInterface.ViewAllProjects(projects);
             var projectId = Helpers.GetProjectById(projects);
@@ -66,23 +84,44 @@ public class ProjectsService : IProjectsService
         if (projectToUpdate == null)
             return;
 
-        var updateProjectName = AnsiConsole.Prompt(
+        var updateProject = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title("Would you like to update the project name? ")
-                .AddChoices("Yes", "No")
+                .Title("What would you like to update?")
+                .AddChoices("Name", "Description", "Programming Languages Used")
         );
-        if (updateProjectName == "Yes")
-            projectToUpdate.Name = AnsiConsole.Ask<string>("Enter the project name:");
+        switch (updateProject)
+        {
+            case "Name":
+                projectToUpdate.Name = AnsiConsole.Ask<string>("Enter the project name:");
+                break;
+            case "Description":
+                projectToUpdate.Description = AnsiConsole.Ask<string>(
+                    "Enter the project description:"
+                );
+                break;
+            case "Programming Languages Used":
+                var languagesInput = AnsiConsole.Ask<string>(
+                    "Enter the programming languages used (comma-separated):"
+                );
 
-        var updateProjectDescription = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Would you like to update the project description? ")
-                .AddChoices("Yes", "No")
-        );
-        if (updateProjectDescription == "Yes")
-            projectToUpdate.Description = AnsiConsole.Ask<string>("Enter the project description:");
+                if (!string.IsNullOrWhiteSpace(languagesInput))
+                {
+                    projectToUpdate.ProgrammingLanguages ??= new List<string>();
+                    foreach (
+                        var lang in languagesInput
+                            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(l => l.Trim())
+                    )
+                    {
+                        projectToUpdate.ProgrammingLanguages.Add(lang);
+                    }
+                }
+                break;
+        }
 
         _projectRepository.UpdateProject(projectToUpdate);
+        AnsiConsole.Clear();
+        GetAllProjects();
     }
 
     public void DeleteProject()
@@ -91,7 +130,7 @@ public class ProjectsService : IProjectsService
 
         var projectId = Helpers.GetProjectById(projects);
 
-        if (!Validation.IsListEmpty(projects))
+        if (projects.Any())
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");

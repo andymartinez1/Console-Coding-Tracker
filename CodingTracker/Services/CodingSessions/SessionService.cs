@@ -32,7 +32,7 @@ public class SessionService : ISessionService
     {
         var sessions = _sessionRepository.GetAllSessions();
 
-        if (!Validation.IsListEmpty(sessions))
+        if (sessions.Any())
             UserInterface.ViewAllSessions(sessions);
         else
             AnsiConsole.MarkupLine(
@@ -46,7 +46,7 @@ public class SessionService : ISessionService
     {
         var sessions = GetAllSessions();
 
-        if (!Validation.IsListEmpty(sessions))
+        if (sessions.Any())
         {
             UserInterface.ViewAllSessions(sessions);
             var sessionId = Helpers.GetSessionById(sessions);
@@ -109,7 +109,7 @@ public class SessionService : ISessionService
 
         var sessionId = Helpers.GetSessionById(sessions);
 
-        if (!Validation.IsListEmpty(sessions))
+        if (sessions.Any())
         {
             AnsiConsole.Clear();
             AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");

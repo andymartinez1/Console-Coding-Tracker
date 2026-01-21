@@ -22,10 +22,7 @@ public class ProjectRepository : IProjectRepository
 
     public List<Project> GetAllProjects()
     {
-        var projects = _dbContext
-            .Projects.Include(p => p.CodingSessions)
-            .Include(p => p.ProgrammingLanguages)
-            .ToList();
+        var projects = _dbContext.Projects.Include(p => p.CodingSessions).ToList();
 
         return projects;
     }

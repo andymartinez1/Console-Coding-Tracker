@@ -7,11 +7,11 @@ public class Project
     [Key]
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; } = string.Empty;
 
-    public List<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+    public List<string>? ProgrammingLanguages { get; set; }
 
     public List<CodingSession> CodingSessions { get; set; }
 }
