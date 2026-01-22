@@ -1,4 +1,5 @@
-﻿using CodingTracker.Models;
+﻿using CodingTracker.Enums;
+using CodingTracker.Models;
 
 namespace CodingTracker.Data;
 
@@ -29,64 +30,56 @@ public static class SeedDatabase
             {
                 StartTime = new DateTime(2025, 11, 18, 8, 30, 0),
                 EndTime = new DateTime(2025, 11, 18, 10, 30, 0),
-                Category = Category.Feature,
-                ProgrammingLanguages = ["C#", "Python"],
+                Category = Category.Feature.ToString(),
                 Project = projects[0],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 18, 17, 0, 0),
                 EndTime = new DateTime(2025, 11, 18, 19, 30, 0),
-                Category = Category.Bugfix,
-                ProgrammingLanguages = ["C#"],
+                Category = Category.Bugfix.ToString(),
                 Project = projects[2],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 19, 9, 0, 0),
                 EndTime = new DateTime(2025, 11, 19, 11, 15, 0),
-                Category = Category.Refactor,
-                ProgrammingLanguages = ["Java"],
+                Category = Category.Refactor.ToString(),
                 Project = projects[1],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 20, 14, 0, 0),
                 EndTime = new DateTime(2025, 11, 20, 16, 45, 0),
-                Category = Category.Test,
-                ProgrammingLanguages = ["Python"],
+                Category = Category.Test.ToString(),
                 Project = projects[3],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 21, 18, 30, 0),
                 EndTime = new DateTime(2025, 11, 21, 19, 0, 0),
-                Category = Category.Style,
-                ProgrammingLanguages = ["Java"],
+                Category = Category.Style.ToString(),
                 Project = projects[1],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 22, 7, 45, 0),
                 EndTime = new DateTime(2025, 11, 22, 9, 0, 0),
-                Category = Category.Feature,
-                ProgrammingLanguages = ["C#"],
+                Category = Category.Feature.ToString(),
                 Project = projects[3],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 23, 12, 0, 0),
                 EndTime = new DateTime(2025, 11, 23, 13, 30, 0),
-                Category = Category.Bugfix,
-                ProgrammingLanguages = ["Java"],
+                Category = Category.Bugfix.ToString(),
                 Project = projects[2],
             },
             new()
             {
                 StartTime = new DateTime(2025, 11, 24, 20, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 21, 0, 0),
-                Category = Category.Test,
-                ProgrammingLanguages = ["C#"],
+                Category = Category.Test.ToString(),
                 Project = projects[0],
             },
         };

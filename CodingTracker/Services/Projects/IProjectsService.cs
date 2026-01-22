@@ -1,18 +1,18 @@
-﻿using CodingTracker.Models;
+﻿using CodingTracker.DTOs.Projects;
 
 namespace CodingTracker.Services.Projects;
 
 public interface IProjectsService
 {
-    public void AddProject();
+    public void AddProject(AddProjectRequest projectRequest);
 
-    public List<Project> GetAllProjects();
+    public List<ProjectResponse> GetAllProjects();
 
-    public Project? GetProject();
+    public ProjectResponse? GetProject();
 
     public void ViewProjectById();
 
     public void UpdateProject();
 
-    public void DeleteProject();
+    public bool DeleteProject();
 }

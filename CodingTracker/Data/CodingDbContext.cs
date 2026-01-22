@@ -24,7 +24,7 @@ public class CodingDbContext : DbContext
             .Entity<Project>()
             .HasMany(p => p.CodingSessions)
             .WithOne(cs => cs.Project)
-            .OnDelete(DeleteBehavior.Cascade)
+            .HasForeignKey(cs => cs.ProjectId)
             .IsRequired();
     }
 }

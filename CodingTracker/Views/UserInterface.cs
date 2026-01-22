@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using CodingTracker.DTOs.Projects;
+using CodingTracker.Enums;
 using CodingTracker.Models;
-using CodingTracker.Utils;
 using Spectre.Console;
 
 namespace CodingTracker.Views;
@@ -19,9 +20,9 @@ public class UserInterface
 
         foreach (var session in sessions)
             table.AddRow(
-                session.Id.ToString(),
+                session.SessionId.ToString(),
                 session.Project.Name,
-                session.Category.ToString(),
+                session.Category,
                 session.StartTime.ToString(CultureInfo.InvariantCulture),
                 session.EndTime.ToString(CultureInfo.InvariantCulture),
                 $"{Math.Floor(session.Duration.TotalHours)} hours, {session.Duration.TotalMinutes % 60} minutes"
@@ -35,7 +36,7 @@ public class UserInterface
         var panel = new Panel(
             $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \nCategory: {session.Category} \n"
         )
-            .Header($"Details for ID: {session.Id}")
+            .Header($"Details for ID: {session.SessionId}")
             .BorderStyle(Style.Parse("aquamarine1"));
 
         panel.Padding = new Padding(2);
@@ -44,7 +45,7 @@ public class UserInterface
         AnsiConsole.Write(panel);
     }
 
-    public static void ViewAllProjects(List<Project> projects)
+    public static void ViewAllProjects(List<ProjectResponse> projects)
     {
         var table = new Table();
         table.AddColumn("ID");
@@ -70,7 +71,7 @@ public class UserInterface
         AnsiConsole.Write(table);
     }
 
-    public static void ViewProjectDetails(Project project)
+    public static void ViewProjectDetails(ProjectResponse project)
     {
         var panel = new Panel(
             $"Project Name: {project.Name} \nDescription: {project.Description} \n"

@@ -24,20 +24,17 @@ namespace CodingTracker.Migrations
 
             modelBuilder.Entity("CodingTracker.Models.CodingSession", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SessionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionId"));
 
-                    b.Property<int?>("Category")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
-
-                    b.PrimitiveCollection<string>("ProgrammingLanguages")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -45,7 +42,7 @@ namespace CodingTracker.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("SessionId");
 
                     b.HasIndex("ProjectId");
 
@@ -54,11 +51,11 @@ namespace CodingTracker.Migrations
 
             modelBuilder.Entity("CodingTracker.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -69,7 +66,7 @@ namespace CodingTracker.Migrations
                     b.PrimitiveCollection<string>("ProgrammingLanguages")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId");
 
                     b.ToTable("Projects");
                 });

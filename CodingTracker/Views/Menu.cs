@@ -1,4 +1,5 @@
-﻿using CodingTracker.Enums;
+﻿using CodingTracker.DTOs.Projects;
+using CodingTracker.Enums;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
 using CodingTracker.Services.StopWatch;
@@ -120,7 +121,7 @@ public class Menu
             {
                 case ProjectMenuOptions.AddProject:
                     AnsiConsole.Clear();
-                    _projectsService.AddProject();
+                    _projectsService.AddProject(new AddProjectRequest());
                     break;
                 case ProjectMenuOptions.ViewAllProjects:
                     AnsiConsole.Clear();

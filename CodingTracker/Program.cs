@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 var services = new ServiceCollection();
 
 // Registering the dependencies
+services.AddLogging();
 services.AddDbContext<CodingDbContext>();
 services.AddScoped<ISessionRepository, SessionRepository>();
 services.AddScoped<ISessionService, SessionService>();

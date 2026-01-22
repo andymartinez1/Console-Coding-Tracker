@@ -1,77 +1,82 @@
-﻿using CodingTracker.Models;
+﻿using CodingTracker.DTOs.Projects;
+using CodingTracker.Models;
 using CodingTracker.Repository.Projects;
 using CodingTracker.Utils;
 using CodingTracker.Views;
+using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 namespace CodingTracker.Services.Projects;
 
 public class ProjectsService : IProjectsService
 {
+    private readonly ILogger<ProjectsService> _logger;
     private readonly IProjectRepository _projectRepository;
 
-    public ProjectsService(IProjectRepository projectRepository)
+    public ProjectsService(IProjectRepository projectRepository, ILogger<ProjectsService> logger)
     {
         _projectRepository = projectRepository;
+        _logger = logger;
     }
 
-    public void AddProject()
+    public void AddProject(AddProjectRequest projectRequest)
     {
-        var project = new Project();
-
-        project.Name = AnsiConsole.Ask<string>("Enter the project name:");
-        project.Description = AnsiConsole.Ask<string>("Enter the project description:");
+        projectRequest.Name = AnsiConsole.Ask<string>("Enter the project name:");
+        projectRequest.Description = AnsiConsole.Ask<string>("Enter the project description:");
         var languagesInput = AnsiConsole.Ask<string>(
             "Enter the programming languages used (comma-separated):"
         );
 
         if (!string.IsNullOrWhiteSpace(languagesInput))
         {
-            project.ProgrammingLanguages ??= new List<string>();
+            projectRequest.ProgrammingLanguages ??= new List<string>();
             foreach (
                 var lang in languagesInput
                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(l => l.Trim())
             )
-            {
-                project.ProgrammingLanguages.Add(lang);
-            }
+                projectRequest.ProgrammingLanguages.Add(lang);
 
+            var project = projectRequest.ToProjectEntity();
             _projectRepository.AddProject(project);
+            _logger.LogInformation("Project with ID: {ProjectId} added", project.ProjectId);
         }
     }
 
-    public List<Project> GetAllProjects()
+    public List<ProjectResponse> GetAllProjects()
     {
         var projects = _projectRepository.GetAllProjects();
 
-        if (projects.Any())
-            UserInterface.ViewAllProjects(projects);
-        else
+        if (!projects.Any())
             AnsiConsole.MarkupLine("[Red]No projects to display. Please add a new project.[/]");
 
-        return projects;
+        var projectResponses = projects.Select(p => p.ToProjectResponse()).ToList();
+
+        UserInterface.ViewAllProjects(projectResponses);
+        return projectResponses;
     }
 
-    public Project? GetProject()
+    public ProjectResponse? GetProject()
     {
         var projects = GetAllProjects();
 
-        if (projects.Any())
-        {
-            UserInterface.ViewAllProjects(projects);
-            var projectId = Helpers.GetProjectById(projects);
-            return _projectRepository.GetProject(projectId);
-        }
+        if (!projects.Any())
+            return null;
 
-        return null;
+        UserInterface.ViewAllProjects(projects);
+        var projectId = Helpers.GetProjectById(projects);
+
+        var projectResponse = _projectRepository.GetProject(projectId).ToProjectResponse();
+        _logger.LogInformation("Project with ID: {projectId} retrieved.", projectId);
+
+        return projectResponse;
     }
 
     public void ViewProjectById()
     {
         var project = GetProject();
 
-        if (project == null)
+        if (project is null)
             return;
 
         UserInterface.ViewProjectDetails(project);
@@ -79,10 +84,9 @@ public class ProjectsService : IProjectsService
 
     public void UpdateProject()
     {
-        var projectToUpdate = GetProject();
-
-        if (projectToUpdate == null)
-            return;
+        var projects = GetAllProjects();
+        var projectId = Helpers.GetProjectById(projects);
+        var project = _projectRepository.GetProject(projectId);
 
         var updateProject = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -92,12 +96,10 @@ public class ProjectsService : IProjectsService
         switch (updateProject)
         {
             case "Name":
-                projectToUpdate.Name = AnsiConsole.Ask<string>("Enter the project name:");
+                project.Name = AnsiConsole.Ask<string>("Enter the project name:");
                 break;
             case "Description":
-                projectToUpdate.Description = AnsiConsole.Ask<string>(
-                    "Enter the project description:"
-                );
+                project.Description = AnsiConsole.Ask<string>("Enter the project description:");
                 break;
             case "Programming Languages Used":
                 var languagesInput = AnsiConsole.Ask<string>(
@@ -106,35 +108,49 @@ public class ProjectsService : IProjectsService
 
                 if (!string.IsNullOrWhiteSpace(languagesInput))
                 {
-                    projectToUpdate.ProgrammingLanguages ??= new List<string>();
+                    project.ProgrammingLanguages ??= new List<string>();
                     foreach (
                         var lang in languagesInput
                             .Split(',', StringSplitOptions.RemoveEmptyEntries)
                             .Select(l => l.Trim())
                     )
-                    {
-                        projectToUpdate.ProgrammingLanguages.Add(lang);
-                    }
+                        project.ProgrammingLanguages.Add(lang);
                 }
+
                 break;
         }
 
-        _projectRepository.UpdateProject(projectToUpdate);
+        _projectRepository.UpdateProject(project);
+        _logger.LogInformation("Project with ID: {projectId} updated.", project.ProjectId);
         AnsiConsole.Clear();
         GetAllProjects();
     }
 
-    public void DeleteProject()
+    public bool DeleteProject()
     {
         var projects = GetAllProjects();
 
+        if (!projects.Any())
+            return false;
+
         var projectId = Helpers.GetProjectById(projects);
 
-        if (projects.Any())
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");
+        _projectRepository.DeleteProject(projectId);
+        _logger.LogInformation("Project with ID: {projectId} deleted.", projectId);
+        return true;
+    }
+
+    private Project ConvertProjectResponseToProjectEntity(ProjectResponse response)
+    {
+        return new Project
         {
-            AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");
-            _projectRepository.DeleteProject(projectId);
-        }
+            ProjectId = response.Id,
+            Name = response.Name,
+            Description = response.Description,
+            ProgrammingLanguages = response.ProgrammingLanguages,
+            CodingSessions = response.CodingSessions,
+        };
     }
 }

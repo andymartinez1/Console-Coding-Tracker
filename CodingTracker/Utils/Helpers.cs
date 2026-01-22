@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using CodingTracker.DTOs.Projects;
 using CodingTracker.Models;
 using CodingTracker.Views;
 using Spectre.Console;
@@ -13,7 +14,7 @@ public static class Helpers
 
         UserInterface.ViewAllSessions(sessions);
 
-        var sessionArray = sessions.Select(s => s.Id).ToArray();
+        var sessionArray = sessions.Select(s => s.SessionId).ToArray();
 
         if (!sessions.Any())
             return 0;
@@ -24,7 +25,7 @@ public static class Helpers
         return option;
     }
 
-    public static int GetProjectById(List<Project> projects)
+    public static int GetProjectById(List<ProjectResponse> projects)
     {
         AnsiConsole.Clear();
 
