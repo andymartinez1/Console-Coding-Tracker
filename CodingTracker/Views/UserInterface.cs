@@ -73,8 +73,13 @@ public class UserInterface
 
     public static void ViewProjectDetails(ProjectResponse project)
     {
+        var languages =
+            project.ProgrammingLanguages != null
+                ? string.Join(", ", project.ProgrammingLanguages)
+                : string.Empty;
+
         var panel = new Panel(
-            $"Project Name: {project.Name} \nDescription: {project.Description} \n"
+            $"Project Name: {project.Name} \nDescription: {project.Description} \nLanguages Used: {languages}"
         )
             .Header($"Details for ID: {project.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));

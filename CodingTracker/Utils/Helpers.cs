@@ -25,19 +25,20 @@ public static class Helpers
         return option;
     }
 
-    public static int GetProjectById(List<ProjectResponse> projects)
+    public static ProjectResponse GetProjectById(List<ProjectResponse> projects)
     {
         AnsiConsole.Clear();
 
         UserInterface.ViewAllProjects(projects);
 
-        var sessionArray = projects.Select(s => s.Id).ToArray();
-
         if (!projects.Any())
-            return 0;
+            return null;
 
         var option = AnsiConsole.Prompt(
-            new SelectionPrompt<int>().Title("Select the project:").AddChoices(sessionArray)
+            new SelectionPrompt<ProjectResponse>()
+                .Title("Select the project:")
+                .AddChoices(projects)
+                .UseConverter(p => $"{p.Id} - {p.Name}")
         );
         return option;
     }
