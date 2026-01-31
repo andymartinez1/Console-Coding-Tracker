@@ -4,8 +4,7 @@ namespace CodingTracker.Models;
 
 public class CodingSession
 {
-    [Key]
-    public int SessionId { get; set; }
+    [Key] public int SessionId { get; set; }
 
     public DateTime StartTime { get; set; }
 
@@ -13,7 +12,7 @@ public class CodingSession
 
     public TimeSpan Duration => EndTime - StartTime;
 
-    public string? Category { get; set; }
+    [MaxLength(50)] public string? Category { get; set; }
 
     public int ProjectId { get; set; }
 

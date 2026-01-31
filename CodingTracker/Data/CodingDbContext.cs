@@ -15,7 +15,7 @@ public class CodingDbContext : DbContext
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
