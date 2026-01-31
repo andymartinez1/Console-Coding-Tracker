@@ -1,59 +1,76 @@
-﻿using CodingTracker.Models;
+﻿using CodingTracker.DTOs.CodingSessions;
+using CodingTracker.DTOs.Projects;
+using CodingTracker.Enums;
 using CodingTracker.Repository.CodingSessions;
+using CodingTracker.Services.Projects;
 using CodingTracker.Utils;
 using CodingTracker.Views;
+using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
 namespace CodingTracker.Services.CodingSessions;
 
 public class SessionService : ISessionService
 {
+    private readonly ILogger<SessionService> _logger;
+    private readonly IProjectsService _projectsService;
     private readonly ISessionRepository _sessionRepository;
 
-    public SessionService(ISessionRepository sessionRepository)
+    public SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger,
+        IProjectsService projectsService)
     {
         _sessionRepository = sessionRepository;
+        _logger = logger;
+        _projectsService = projectsService;
     }
 
-    public void AddSession()
+    public void AddSession(AddSessionRequest sessionRequest)
     {
-        CodingSession session = new();
+        var projects = _projectsService.GetAllProjects();
+        sessionRequest.ProjectId = Helpers.SelectProjectById(projects).ToProjectEntity().ProjectId;
 
-        session.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
+        sessionRequest.Category = GetCategory();
 
         var dates = Helpers.GetDates();
-        session.StartTime = dates[0];
-        session.EndTime = dates[1];
+        sessionRequest.StartTime = dates[0];
+        sessionRequest.EndTime = dates[1];
 
+        var session = sessionRequest.ToSessionEntity();
         _sessionRepository.AddSession(session);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[green]Session added successfully![/]");
+        _logger.LogInformation("Session with ID: {sessionId} added.", session.SessionId);
     }
 
-    public List<CodingSession> GetAllSessions()
+    public List<SessionResponse> GetAllSessions()
     {
         var sessions = _sessionRepository.GetAllSessions();
 
-        if (sessions.Any())
-            UserInterface.ViewAllSessions(sessions);
-        else
+        if (!sessions.Any())
             AnsiConsole.MarkupLine(
                 "[Red]No coding sessions to display. Please add a new session.[/]"
             );
 
-        return sessions;
+        var sessionResponses = sessions.Select(s => s.ToSessionResponse()).ToList();
+
+        UserInterface.ViewAllSessions(sessionResponses);
+        return sessionResponses;
     }
 
-    public CodingSession? GetSession()
+    public SessionResponse? GetSession()
     {
         var sessions = GetAllSessions();
 
-        if (sessions.Any())
-        {
-            UserInterface.ViewAllSessions(sessions);
-            var sessionId = Helpers.GetSessionById(sessions);
-            return _sessionRepository.GetSession(sessionId);
-        }
+        if (!sessions.Any())
+            return null;
 
-        return null;
+        UserInterface.ViewAllSessions(sessions);
+        var session = Helpers.SelectSessionById(sessions);
+
+        var sessionResponse = _sessionRepository.GetSession(session.SessionId).ToSessionResponse();
+        _logger.LogInformation("Session with ID: {projectId} retrieved.", session.SessionId);
+
+        return sessionResponse;
     }
 
     public void ViewSessionById()
@@ -68,52 +85,54 @@ public class SessionService : ISessionService
 
     public void UpdateSession()
     {
-        var sessionToUpdate = GetSession();
+        var sessions = GetAllSessions();
+        var sessionResponse = Helpers.SelectSessionById(sessions);
+        var sessionToUpdate = _sessionRepository.GetSession(sessionResponse.SessionId);
 
-        if (sessionToUpdate == null)
-            return;
-
-        var updateStartTime = AnsiConsole.Prompt(
+        var updateSession = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .Title("Would you like to update the coding start and end time?")
-                .AddChoices("Yes", "No")
+                .Title("What would you like to update?")
+                .AddChoices("Session Times", "Category")
         );
-        if (updateStartTime == "Yes")
-        {
-            var dates = Helpers.GetDates();
-            sessionToUpdate.StartTime = dates[0];
-            sessionToUpdate.EndTime = dates[1];
-        }
-        else
-        {
-            sessionToUpdate.StartTime = sessionToUpdate.StartTime;
-            sessionToUpdate.EndTime = sessionToUpdate.EndTime;
-        }
 
-        var updateCodingProjectName = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Would you like to update the project name? ")
-                .AddChoices("Yes", "No")
-        );
-        if (updateCodingProjectName == "Yes")
-            sessionToUpdate.Project.Name = AnsiConsole.Ask<string>("Enter the project name:");
-        else
-            sessionToUpdate.Project.Name = sessionToUpdate.Project.Name;
+        switch (updateSession)
+        {
+            case "Session Times":
+                var dates = Helpers.GetDates();
+                sessionToUpdate.StartTime = dates[0];
+                sessionToUpdate.EndTime = dates[1];
+                break;
+            case "Category":
+                sessionToUpdate.Category = GetCategory().ToString();
+                break;
+        }
 
         _sessionRepository.UpdateSession(sessionToUpdate);
+        _logger.LogInformation("Session with ID: {sessionId} updated.", sessionToUpdate.SessionId);
+        AnsiConsole.Clear();
+        GetAllSessions();
     }
 
-    public void DeleteSession()
+    public bool DeleteSession()
     {
         var sessions = GetAllSessions();
 
-        var sessionId = Helpers.GetSessionById(sessions);
+        if (!sessions.Any())
+            return false;
 
-        if (sessions.Any())
-        {
-            AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
-            _sessionRepository.DeleteSession(sessionId);
-        }
+        var sessionResponse = Helpers.SelectSessionById(sessions);
+
+        _sessionRepository.DeleteSession(sessionResponse.SessionId);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
+        _logger.LogInformation("Session with ID: {sessionId} deleted.", sessionResponse.SessionId);
+        return true;
+    }
+
+    public Category GetCategory()
+    {
+        var categories = Enum.GetValues(typeof(Category)).Cast<Category>().ToList();
+
+        return Helpers.SelectCategory(categories);
     }
 }

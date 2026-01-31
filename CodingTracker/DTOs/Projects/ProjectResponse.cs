@@ -28,4 +28,16 @@ public static class ProjectExtensions
             CodingSessions = project.CodingSessions,
         };
     }
+
+    public static Project ToProjectEntity(this ProjectResponse projectResponse)
+    {
+        return new Project()
+        {
+            ProjectId = projectResponse.Id,
+            Name = projectResponse.Name,
+            Description = projectResponse.Description,
+            ProgrammingLanguages = projectResponse.ProgrammingLanguages,
+            CodingSessions = projectResponse.CodingSessions
+        };
+    }
 }

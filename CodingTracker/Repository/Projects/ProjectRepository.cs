@@ -1,6 +1,5 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodingTracker.Repository.Projects;
 
@@ -22,7 +21,7 @@ public class ProjectRepository : IProjectRepository
 
     public List<Project> GetAllProjects()
     {
-        var projects = _dbContext.Projects.Include(p => p.CodingSessions).ToList();
+        var projects = _dbContext.Projects.ToList();
 
         return projects;
     }

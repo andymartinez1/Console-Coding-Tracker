@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
-using CodingTracker.Models;
+using CodingTracker.Enums;
 using CodingTracker.Views;
 using Spectre.Console;
 
@@ -8,24 +9,23 @@ namespace CodingTracker.Utils;
 
 public static class Helpers
 {
-    public static int GetSessionById(List<CodingSession> sessions)
+    public static SessionResponse SelectSessionById(List<SessionResponse> sessions)
     {
         AnsiConsole.Clear();
 
         UserInterface.ViewAllSessions(sessions);
 
-        var sessionArray = sessions.Select(s => s.SessionId).ToArray();
-
         if (!sessions.Any())
-            return 0;
+            return null;
 
         var option = AnsiConsole.Prompt(
-            new SelectionPrompt<int>().Title("Select the session:").AddChoices(sessionArray)
+            new SelectionPrompt<SessionResponse>().Title("Select the session:").AddChoices(sessions)
+                .UseConverter(s => $"{s.SessionId}: {s.Project.Name} - {s.Category} - {s.Duration}")
         );
         return option;
     }
 
-    public static ProjectResponse GetProjectById(List<ProjectResponse> projects)
+    public static ProjectResponse SelectProjectById(List<ProjectResponse> projects)
     {
         AnsiConsole.Clear();
 
@@ -39,6 +39,21 @@ public static class Helpers
                 .Title("Select the project:")
                 .AddChoices(projects)
                 .UseConverter(p => $"{p.Id} - {p.Name}")
+        );
+        return option;
+    }
+
+    public static Category SelectCategory(List<Category> categories)
+    {
+        AnsiConsole.Clear();
+
+        UserInterface.ViewAllCategories(categories);
+
+        var option = AnsiConsole.Prompt(
+            new SelectionPrompt<Category>()
+                .Title("Select the category:")
+                .AddChoices(categories)
+                .UseConverter(c => c.ToString())
         );
         return option;
     }

@@ -38,7 +38,7 @@ public class ProjectsService : IProjectsService
 
             var project = projectRequest.ToProjectEntity();
             _projectRepository.AddProject(project);
-            _logger.LogInformation("Project with ID: {ProjectId} added", project.ProjectId);
+            _logger.LogInformation("Project with ID: {ProjectId} added.", project.ProjectId);
         }
     }
 
@@ -63,7 +63,7 @@ public class ProjectsService : IProjectsService
             return null;
 
         UserInterface.ViewAllProjects(projects);
-        var project = Helpers.GetProjectById(projects);
+        var project = Helpers.SelectProjectById(projects);
 
         var projectResponse = _projectRepository.GetProject(project.Id).ToProjectResponse();
         _logger.LogInformation("Project with ID: {projectId} retrieved.", project);
@@ -84,7 +84,7 @@ public class ProjectsService : IProjectsService
     public void UpdateProject()
     {
         var projects = GetAllProjects();
-        var projectResponse = Helpers.GetProjectById(projects);
+        var projectResponse = Helpers.SelectProjectById(projects);
         var project = _projectRepository.GetProject(projectResponse.Id);
 
         var updateProject = AnsiConsole.Prompt(
@@ -132,7 +132,7 @@ public class ProjectsService : IProjectsService
         if (!projects.Any())
             return false;
 
-        var projectResponse = Helpers.GetProjectById(projects);
+        var projectResponse = Helpers.SelectProjectById(projects);
 
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");

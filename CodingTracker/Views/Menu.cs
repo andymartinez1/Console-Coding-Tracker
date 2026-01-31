@@ -1,4 +1,5 @@
-﻿using CodingTracker.DTOs.Projects;
+﻿using CodingTracker.DTOs.CodingSessions;
+using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
@@ -14,7 +15,7 @@ public class Menu
     [
         MainMenuOptions.CodingSessionMenu,
         MainMenuOptions.ProjectMenu,
-        MainMenuOptions.Exit,
+        MainMenuOptions.Exit
     ];
 
     private readonly ProjectMenuOptions[] _projectMenuOptions =
@@ -24,7 +25,7 @@ public class Menu
         ProjectMenuOptions.ViewProject,
         ProjectMenuOptions.UpdateProject,
         ProjectMenuOptions.DeleteProject,
-        ProjectMenuOptions.BackToMainMenu,
+        ProjectMenuOptions.BackToMainMenu
     ];
 
     private readonly IProjectsService _projectsService;
@@ -37,7 +38,7 @@ public class Menu
         SessionMenuOptions.ViewSession,
         SessionMenuOptions.UpdateSession,
         SessionMenuOptions.DeleteSession,
-        SessionMenuOptions.BackToMainMenu,
+        SessionMenuOptions.BackToMainMenu
     ];
 
     private readonly ISessionService _sessionService;
@@ -48,7 +49,7 @@ public class Menu
         StopWatchMenuOptions.Stop,
         StopWatchMenuOptions.ShowElapsedTime,
         StopWatchMenuOptions.Reset,
-        StopWatchMenuOptions.BackToSessionsMenu,
+        StopWatchMenuOptions.BackToSessionsMenu
     ];
 
     private readonly IStopWatchService _stopWatchService;
@@ -170,7 +171,7 @@ public class Menu
                     break;
                 case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
-                    _sessionService.AddSession();
+                    _sessionService.AddSession(new AddSessionRequest());
                     break;
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();

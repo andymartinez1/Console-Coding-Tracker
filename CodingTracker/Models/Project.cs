@@ -14,3 +14,4 @@ public class Project
 
     public List<CodingSession>? CodingSessions { get; set; } = [];
 }
+

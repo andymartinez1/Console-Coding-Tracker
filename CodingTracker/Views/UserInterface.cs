@@ -1,14 +1,14 @@
 ﻿using System.Globalization;
+using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
-using CodingTracker.Models;
 using Spectre.Console;
 
 namespace CodingTracker.Views;
 
 public class UserInterface
 {
-    public static void ViewAllSessions(List<CodingSession> sessions)
+    public static void ViewAllSessions(List<SessionResponse> sessions)
     {
         var table = new Table();
         table.AddColumn("ID");
@@ -31,11 +31,11 @@ public class UserInterface
         AnsiConsole.Write(table);
     }
 
-    public static void ViewSessionDetails(CodingSession session)
+    public static void ViewSessionDetails(SessionResponse session)
     {
         var panel = new Panel(
-            $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \nCategory: {session.Category} \n"
-        )
+                $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \nCategory: {session.Category} \n"
+            )
             .Header($"Details for ID: {session.SessionId}")
             .BorderStyle(Style.Parse("aquamarine1"));
 
@@ -79,8 +79,8 @@ public class UserInterface
                 : string.Empty;
 
         var panel = new Panel(
-            $"Project Name: {project.Name} \nDescription: {project.Description} \nLanguages Used: {languages}"
-        )
+                $"Project Name: {project.Name} \nDescription: {project.Description} \nLanguages Used: {languages}"
+            )
             .Header($"Details for ID: {project.Id}")
             .BorderStyle(Style.Parse("aquamarine1"));
 
@@ -96,8 +96,12 @@ public class UserInterface
         table.AddColumn("Id");
         table.AddColumn("Category");
 
-        foreach (var category in categories) { }
+        foreach (var category in categories)
+        {
+        }
     }
 
-    public static void ViewStopWatchTimer() { }
+    public static void ViewStopWatchTimer()
+    {
+    }
 }
