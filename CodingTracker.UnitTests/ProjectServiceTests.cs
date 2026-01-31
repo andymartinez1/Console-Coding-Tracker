@@ -1,5 +1,4 @@
 ﻿using CodingTracker.DTOs.Projects;
-using CodingTracker.Models;
 using CodingTracker.Services.Projects;
 using Xunit;
 using Assert = Xunit.Assert;
@@ -14,11 +13,11 @@ public class ProjectServiceTests
     public void AddProject_IfNotNull_AddsToDatabase()
     {
         // Arrange
-        var projectRequest = new AddProjectRequest()
+        var projectRequest = new AddProjectRequest
         {
             Name = "Test Project",
             Description = "This is just a test project",
-            ProgrammingLanguages = ["C#", "JavaScript"],
+            ProgrammingLanguages = ["C#", "JavaScript"]
         };
 
         // Act

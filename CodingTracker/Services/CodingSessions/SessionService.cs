@@ -1,4 +1,5 @@
-﻿using CodingTracker.DTOs.CodingSessions;
+﻿using System.Diagnostics;
+using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
 using CodingTracker.Repository.CodingSessions;
@@ -15,6 +16,7 @@ public class SessionService : ISessionService
     private readonly ILogger<SessionService> _logger;
     private readonly IProjectsService _projectsService;
     private readonly ISessionRepository _sessionRepository;
+    private readonly Stopwatch _stopwatch = new();
 
     public SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger,
         IProjectsService projectsService)
@@ -134,5 +136,57 @@ public class SessionService : ISessionService
         var categories = Enum.GetValues(typeof(Category)).Cast<Category>().ToList();
 
         return Helpers.SelectCategory(categories);
+    }
+
+    public bool IsStopwatchRunning()
+    {
+        return _stopwatch.IsRunning;
+    }
+
+    public TimeSpan Elapsed()
+    {
+        return _stopwatch.Elapsed;
+    }
+
+    public DateTime StartTimer()
+    {
+        var startTime = DateTime.Now;
+
+        _stopwatch.Restart();
+
+        return startTime;
+    }
+
+    public DateTime StopTimer()
+    {
+        _stopwatch.Stop();
+
+        var endTime = DateTime.Now;
+
+        return endTime;
+    }
+
+    public void ResetTimer()
+    {
+        _stopwatch.Reset();
+    }
+
+    public void AddStopWatchSession()
+    {
+        var projects = _projectsService.GetAllProjects();
+
+        var timedSession = new AddSessionRequest
+        {
+            Category = GetCategory(),
+            ProjectId = Helpers.SelectProjectById(projects).ToProjectEntity().ProjectId,
+            StartTime = StartTimer(),
+            EndTime = StopTimer()
+        };
+
+        var session = timedSession.ToSessionEntity();
+        _sessionRepository.AddSession(session);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[green]Session added successfully![/]");
+        _logger.LogInformation("Session with ID: {sessionId} added.", session.SessionId);
     }
 }

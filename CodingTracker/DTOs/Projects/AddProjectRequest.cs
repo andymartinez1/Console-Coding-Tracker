@@ -20,11 +20,11 @@ public class AddProjectRequest
 
     public Project ToProjectEntity()
     {
-        return new Project()
+        return new Project
         {
             Name = Name,
             Description = Description,
-            ProgrammingLanguages = ProgrammingLanguages,
+            ProgrammingLanguages = ProgrammingLanguages
         };
     }
 }

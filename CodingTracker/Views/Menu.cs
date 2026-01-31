@@ -3,7 +3,6 @@ using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
-using CodingTracker.Services.StopWatch;
 using CodingTracker.Utils;
 using Spectre.Console;
 
@@ -45,24 +44,18 @@ public class Menu
 
     private readonly StopWatchMenuOptions[] _stopWatchMenuOptions =
     [
-        StopWatchMenuOptions.Start,
-        StopWatchMenuOptions.Stop,
-        StopWatchMenuOptions.ShowElapsedTime,
-        StopWatchMenuOptions.Reset,
+        StopWatchMenuOptions.StartTimedSession,
         StopWatchMenuOptions.BackToSessionsMenu
     ];
 
-    private readonly IStopWatchService _stopWatchService;
 
     public Menu(
         ISessionService sessionService,
-        IProjectsService projectsService,
-        IStopWatchService stopWatchService
+        IProjectsService projectsService
     )
     {
         _sessionService = sessionService;
         _projectsService = projectsService;
-        _stopWatchService = stopWatchService;
     }
 
     public void MainMenu()
@@ -214,13 +207,9 @@ public class Menu
 
             switch (usersChoice)
             {
-                case StopWatchMenuOptions.Start:
+                case StopWatchMenuOptions.StartTimedSession:
                     AnsiConsole.Clear();
-                    _stopWatchService.StartTimer();
-                    break;
-                case StopWatchMenuOptions.Stop:
-                    AnsiConsole.Clear();
-                    _stopWatchService.StopTimer();
+                    UserInterface.ViewStopWatchTimer(_sessionService);
                     break;
                 case StopWatchMenuOptions.BackToSessionsMenu:
                     AnsiConsole.Clear();

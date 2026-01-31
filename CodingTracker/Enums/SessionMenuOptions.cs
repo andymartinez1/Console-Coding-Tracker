@@ -7,21 +7,15 @@ public enum SessionMenuOptions
     [Display(Name = "Start a Timed Session")]
     StartSession,
 
-    [Display(Name = "Add Session")]
-    AddSession,
+    [Display(Name = "Add Session")] AddSession,
 
-    [Display(Name = "View All Sessions")]
-    ViewAllSessions,
+    [Display(Name = "View All Sessions")] ViewAllSessions,
 
-    [Display(Name = "View Session")]
-    ViewSession,
+    [Display(Name = "View Session")] ViewSession,
 
-    [Display(Name = "Update Session")]
-    UpdateSession,
+    [Display(Name = "Update Session")] UpdateSession,
 
-    [Display(Name = "Delete Session")]
-    DeleteSession,
+    [Display(Name = "Delete Session")] DeleteSession,
 
-    [Display(Name = "Back to Main Menu")]
-    BackToMainMenu,
+    [Display(Name = "Back to Main Menu")] BackToMainMenu
 }

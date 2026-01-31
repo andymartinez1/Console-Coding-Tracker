@@ -47,8 +47,6 @@ public static class Helpers
     {
         AnsiConsole.Clear();
 
-        UserInterface.ViewAllCategories(categories);
-
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<Category>()
                 .Title("Select the category:")

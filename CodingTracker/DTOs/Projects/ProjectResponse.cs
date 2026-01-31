@@ -25,13 +25,13 @@ public static class ProjectExtensions
             Name = project.Name,
             Description = project.Description,
             ProgrammingLanguages = project.ProgrammingLanguages,
-            CodingSessions = project.CodingSessions,
+            CodingSessions = project.CodingSessions
         };
     }
 
     public static Project ToProjectEntity(this ProjectResponse projectResponse)
     {
-        return new Project()
+        return new Project
         {
             ProjectId = projectResponse.Id,
             Name = projectResponse.Name,

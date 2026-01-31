@@ -3,7 +3,6 @@ using CodingTracker.Repository.CodingSessions;
 using CodingTracker.Repository.Projects;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
-using CodingTracker.Services.StopWatch;
 using CodingTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +16,6 @@ services.AddScoped<ISessionRepository, SessionRepository>();
 services.AddScoped<ISessionService, SessionService>();
 services.AddScoped<IProjectRepository, ProjectRepository>();
 services.AddScoped<IProjectsService, ProjectsService>();
-services.AddScoped<IStopWatchService, StopWatchService>();
 services.AddScoped<Menu>();
 
 // Building the service provider
@@ -27,8 +25,8 @@ var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
     var data = scope.ServiceProvider.GetRequiredService<CodingDbContext>();
-    data.Database.EnsureDeleted();
-    data.Database.EnsureCreated();
+    // data.Database.EnsureDeleted();
+    // data.Database.EnsureCreated();
     SeedDatabase.SeedData(data);
 }
 

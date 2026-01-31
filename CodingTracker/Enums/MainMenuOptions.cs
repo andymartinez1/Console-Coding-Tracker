@@ -7,11 +7,10 @@ public enum MainMenuOptions
     [Display(Name = "Coding Sessions Menu")]
     CodingSessionMenu,
 
-    [Display(Name = "Projects Menu")]
-    ProjectMenu,
+    [Display(Name = "Projects Menu")] ProjectMenu,
 
     [Display(Name = "Programming Languages Menu")]
     ProgrammingLanguageMenu,
 
-    Exit,
+    Exit
 }

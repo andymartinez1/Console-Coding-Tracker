@@ -18,4 +18,16 @@ public interface ISessionService
     public bool DeleteSession();
 
     public Category GetCategory();
+
+    bool IsStopwatchRunning();
+
+    TimeSpan Elapsed();
+
+    DateTime StartTimer();
+
+    DateTime StopTimer();
+
+    public void ResetTimer();
+
+    public void AddStopWatchSession();
 }

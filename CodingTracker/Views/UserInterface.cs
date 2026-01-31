@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
-using CodingTracker.Enums;
+using CodingTracker.Services.CodingSessions;
 using Spectre.Console;
 
 namespace CodingTracker.Views;
@@ -90,18 +90,40 @@ public class UserInterface
         AnsiConsole.Write(panel);
     }
 
-    public static void ViewAllCategories(List<Category> categories)
+    public static void ViewStopWatchTimer(ISessionService stopWatch)
     {
-        var table = new Table();
-        table.AddColumn("Id");
-        table.AddColumn("Category");
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[yellow][b]Press any key to stop the timed session[/][/]");
 
-        foreach (var category in categories)
+        stopWatch.StartTimer();
+        var live = AnsiConsole.Live(BuildPanel(stopWatch.Elapsed()));
+        live.Start(ctx =>
         {
-        }
-    }
+            while (true)
+            {
+                ctx.UpdateTarget(BuildPanel(stopWatch.Elapsed()));
+                ctx.Refresh();
 
-    public static void ViewStopWatchTimer()
-    {
+                Thread.Sleep(250);
+
+                if (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true);
+                    stopWatch.StopTimer();
+                    break;
+                }
+            }
+        });
+        stopWatch.AddStopWatchSession();
+
+        static Panel BuildPanel(TimeSpan elapsed)
+        {
+            var elapsedStr = $"{(int)elapsed.TotalHours:D2}:{elapsed.Minutes:D2}:{elapsed.Seconds:D2}";
+            return new Panel(new Markup($"[b]{elapsedStr}[/]"))
+                .Header("Elapsed Time:")
+                .BorderStyle(Style.Parse("aquamarine1"))
+                .Padding(new Padding(1))
+                .Expand();
+        }
     }
 }

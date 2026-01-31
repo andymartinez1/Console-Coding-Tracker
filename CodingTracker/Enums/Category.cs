@@ -6,5 +6,5 @@ public enum Category
     Bugfix,
     Refactor,
     Style,
-    Test,
+    Test
 }
