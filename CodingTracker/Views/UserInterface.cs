@@ -2,6 +2,7 @@
 using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Services.CodingSessions;
+using CodingTracker.Utils;
 using Spectre.Console;
 
 namespace CodingTracker.Views;
@@ -25,7 +26,7 @@ public class UserInterface
                 session.Category,
                 session.StartTime.ToString(CultureInfo.InvariantCulture),
                 session.EndTime.ToString(CultureInfo.InvariantCulture),
-                $"{Math.Floor(session.Duration.TotalHours)} hours, {session.Duration.TotalMinutes % 60} minutes"
+                Helpers.FormatDuration(session.Duration)
             );
 
         AnsiConsole.Write(table);
@@ -34,7 +35,11 @@ public class UserInterface
     public static void ViewSessionDetails(SessionResponse session)
     {
         var panel = new Panel(
-                $"Project Name: {session.Project.Name} \nStart Time: {session.StartTime:g} \nEndTime: {session.EndTime:g} \nDuration: {session.Duration:g} \nCategory: {session.Category} \n"
+                $"Project Name: {session.Project.Name} \n" +
+                $"Start Time: {session.StartTime:g} \n" +
+                $"EndTime: {session.EndTime:g} \n" +
+                $"Duration: {Helpers.FormatDuration(session.Duration)} \n" +
+                $"Category: {session.Category} \n"
             )
             .Header($"Details for ID: {session.SessionId}")
             .BorderStyle(Style.Parse("aquamarine1"));
@@ -93,37 +98,38 @@ public class UserInterface
     public static void ViewStopWatchTimer(ISessionService stopWatch)
     {
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine("[yellow][b]Press any key to stop the timed session[/][/]");
 
-        stopWatch.StartTimer();
-        var live = AnsiConsole.Live(BuildPanel(stopWatch.Elapsed()));
-        live.Start(ctx =>
+        if (stopWatch.IsStopwatchRunning())
         {
-            while (true)
-            {
-                ctx.UpdateTarget(BuildPanel(stopWatch.Elapsed()));
-                ctx.Refresh();
+            var alreadyRunning = new Panel(
+                    "[yellow][b]RUNNING[/][/]\n\n" +
+                    "[grey]A timed session is already active.[/]\n" +
+                    "[grey]Use the Timer menu and choose[/] [white][b]Stop timer[/][/] [grey]to finish and save it.[/]\n\n"
+                )
+                .Header("[yellow]Timer Status[/]")
+                .BorderStyle(Style.Parse("yellow"));
 
-                Thread.Sleep(250);
+            alreadyRunning.Padding = new Padding(1, 1, 1, 1);
+            alreadyRunning.Expand();
 
-                if (Console.KeyAvailable)
-                {
-                    Console.ReadKey(true);
-                    stopWatch.StopTimer();
-                    break;
-                }
-            }
-        });
-        stopWatch.AddStopWatchSession();
-
-        static Panel BuildPanel(TimeSpan elapsed)
-        {
-            var elapsedStr = $"{(int)elapsed.TotalHours:D2}:{elapsed.Minutes:D2}:{elapsed.Seconds:D2}";
-            return new Panel(new Markup($"[b]{elapsedStr}[/]"))
-                .Header("Elapsed Time:")
-                .BorderStyle(Style.Parse("aquamarine1"))
-                .Padding(new Padding(1))
-                .Expand();
+            AnsiConsole.Write(alreadyRunning);
+            return;
         }
+
+        var startTime = stopWatch.StartTimer();
+
+        var runningPanel = new Panel(
+                "[green][b]RUNNING[/][/]\n\n" +
+                $"[grey]Started:[/] [aqua]{startTime:yyyy-MM-dd HH:mm:ss}[/]\n" +
+                "[grey]Next step:[/] Go back to the Timer menu and choose " +
+                "[white][b]Stop timed session[/][/] [grey]to stop and save.[/]"
+            )
+            .Header("[green]Timer Status[/]")
+            .BorderStyle(Style.Parse("green"));
+
+        runningPanel.Padding = new Padding(1, 1, 1, 1);
+        runningPanel.Expand();
+
+        AnsiConsole.Write(runningPanel);
     }
 }

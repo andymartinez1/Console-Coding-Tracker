@@ -17,6 +17,9 @@ public class SessionService : ISessionService
     private readonly IProjectsService _projectsService;
     private readonly ISessionRepository _sessionRepository;
     private readonly Stopwatch _stopwatch = new();
+    private DateTime? _timerEndTime;
+
+    private DateTime? _timerStartTime;
 
     public SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger,
         IProjectsService projectsService)
@@ -152,6 +155,9 @@ public class SessionService : ISessionService
     {
         var startTime = DateTime.Now;
 
+        _timerStartTime = startTime;
+        _timerEndTime = null;
+
         _stopwatch.Restart();
 
         return startTime;
@@ -163,6 +169,8 @@ public class SessionService : ISessionService
 
         var endTime = DateTime.Now;
 
+        _timerEndTime = endTime;
+
         return endTime;
     }
 
@@ -173,18 +181,28 @@ public class SessionService : ISessionService
 
     public void AddStopWatchSession()
     {
+        if (_timerStartTime == null || _timerEndTime == null)
+        {
+            AnsiConsole.MarkupLine("[yellow]No completed timed session to save. Start a timer, then stop it.[/]");
+            return;
+        }
+
         var projects = _projectsService.GetAllProjects();
 
         var timedSession = new AddSessionRequest
         {
             Category = GetCategory(),
             ProjectId = Helpers.SelectProjectById(projects).ToProjectEntity().ProjectId,
-            StartTime = StartTimer(),
-            EndTime = StopTimer()
+            StartTime = _timerStartTime.Value,
+            EndTime = _timerEndTime.Value
         };
 
         var session = timedSession.ToSessionEntity();
         _sessionRepository.AddSession(session);
+
+        _timerStartTime = null;
+        _timerEndTime = null;
+
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Session added successfully![/]");
         _logger.LogInformation("Session with ID: {sessionId} added.", session.SessionId);

@@ -109,4 +109,15 @@ public static class Helpers
 
         return [startDate, endDate];
     }
+
+    public static string FormatDuration(TimeSpan duration)
+    {
+        var totalSeconds = (long)duration.TotalSeconds;
+
+        var hours = totalSeconds / 3600;
+        var minutes = (totalSeconds % 3600) / 60;
+        var seconds = totalSeconds % 60;
+
+        return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
+    }
 }

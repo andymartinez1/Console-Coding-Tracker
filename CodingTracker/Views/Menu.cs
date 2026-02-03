@@ -45,6 +45,7 @@ public class Menu
     private readonly StopWatchMenuOptions[] _stopWatchMenuOptions =
     [
         StopWatchMenuOptions.StartTimedSession,
+        StopWatchMenuOptions.StopTimedSession,
         StopWatchMenuOptions.BackToSessionsMenu
     ];
 
@@ -210,6 +211,18 @@ public class Menu
                 case StopWatchMenuOptions.StartTimedSession:
                     AnsiConsole.Clear();
                     UserInterface.ViewStopWatchTimer(_sessionService);
+                    break;
+                case StopWatchMenuOptions.StopTimedSession:
+                    AnsiConsole.Clear();
+
+                    if (!_sessionService.IsStopwatchRunning())
+                    {
+                        AnsiConsole.MarkupLine("[yellow]No timer is currently running.[/]");
+                        break;
+                    }
+
+                    _sessionService.StopTimer();
+                    _sessionService.AddStopWatchSession();
                     break;
                 case StopWatchMenuOptions.BackToSessionsMenu:
                     AnsiConsole.Clear();
