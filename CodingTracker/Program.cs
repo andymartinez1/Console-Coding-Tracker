@@ -4,6 +4,7 @@ using CodingTracker.Repository.Projects;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
 using CodingTracker.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 // Configuring the Dependency Injection container
@@ -25,8 +26,7 @@ var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
     var data = scope.ServiceProvider.GetRequiredService<CodingDbContext>();
-    // data.Database.EnsureDeleted();
-    // data.Database.EnsureCreated();
+    data.Database.Migrate();
     SeedDatabase.SeedData(data);
 }
 
