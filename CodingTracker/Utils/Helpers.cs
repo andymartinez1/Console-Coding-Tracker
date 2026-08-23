@@ -118,6 +118,6 @@ public static class Helpers
         var minutes = (totalSeconds % 3600) / 60;
         var seconds = totalSeconds % 60;
 
-        return $"{hours:D2}:{minutes:D2}:{seconds:D2}";
+        return $"{hours:D2} Hours and {minutes:D2} Minutes";
     }
 }
