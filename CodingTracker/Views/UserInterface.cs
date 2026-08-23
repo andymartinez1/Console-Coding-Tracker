@@ -24,8 +24,8 @@ public class UserInterface
                 session.SessionId.ToString(),
                 session.Project.Name,
                 session.Category,
-                session.StartTime.ToString(CultureInfo.InvariantCulture),
-                session.EndTime.ToString(CultureInfo.InvariantCulture),
+                session.StartTime.ToString("g"),
+                session.EndTime.ToString("g"),
                 Helpers.FormatDuration(session.Duration)
             );
 
