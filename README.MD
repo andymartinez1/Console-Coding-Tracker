@@ -9,9 +9,9 @@ many hours you've spent coding. Add a project name to better organize your data.
 - View session history
 - Edit or delete sessions
 
-  ![Main menu](CodingTracker/docs/images/Main-Menu.png)
+![Main-Menu.png](docs/images/Main-Menu.png)
 
-  ![Coding sessions list](CodingTracker/docs/images/Coding-Session-List.png)
+![Coding-Session-List.png](docs/images/Coding-Session-List.png)
 
 ## Getting Started
 
