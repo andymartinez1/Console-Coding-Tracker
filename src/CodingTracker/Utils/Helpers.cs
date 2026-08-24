@@ -115,7 +115,7 @@ public static class Helpers
         var totalSeconds = (long)duration.TotalSeconds;
 
         var hours = totalSeconds / 3600;
-        var minutes = (totalSeconds % 3600) / 60;
+        var minutes = totalSeconds % 3600 / 60;
         var seconds = totalSeconds % 60;
 
         return $"{hours:D2} Hours and {minutes:D2} Minutes";

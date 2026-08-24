@@ -9,7 +9,6 @@ public enum StopWatchMenuOptions
 
     [Display(Name = "Stop Timer")] StopTimedSession,
 
-
     [Display(Name = "Back to Sessions Menu")]
     BackToSessionsMenu
 }

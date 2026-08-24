@@ -13,25 +13,24 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.11">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.11" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.11" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
-        <PackageReference Include="Spectre.Console" Version="0.57.2" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11"/>
+        <PackageReference Include="Spectre.Console" Version="0.57.2"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="docs\images\"/>
         <Folder Include="Services\Projects\"/>
     </ItemGroup>
 </Project>

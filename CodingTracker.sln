@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36127.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker", "CodingTracker\CodingTracker.csproj", "{70735973-EFE8-4FB1-9F0B-4ED38366FAF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker", "src\CodingTracker\CodingTracker.csproj", "{70735973-EFE8-4FB1-9F0B-4ED38366FAF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker.UnitTests", "CodingTracker.UnitTests\CodingTracker.UnitTests.csproj", "{4066A73D-0106-458D-9F00-1EB1B35E9081}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker.UnitTests", "tests\CodingTracker.UnitTests\CodingTracker.UnitTests.csproj", "{4066A73D-0106-458D-9F00-1EB1B35E9081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker.IntegrationTests", "CodingTracker.IntegrationTests\CodingTracker.IntegrationTests.csproj", "{1626A5E6-5CF0-474E-9772-4FF5D5AB4266}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker.IntegrationTests", "tests\CodingTracker.IntegrationTests\CodingTracker.IntegrationTests.csproj", "{1626A5E6-5CF0-474E-9772-4FF5D5AB4266}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using CodingTracker.DTOs.CodingSessions;
+﻿using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Utils;
