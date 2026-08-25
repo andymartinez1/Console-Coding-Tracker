@@ -1,5 +1,5 @@
 ﻿using CodingTracker.DTOs.Projects;
-using CodingTracker.Repository.Projects;
+using CodingTracker.Repository;
 using CodingTracker.Utils;
 using CodingTracker.Views;
 using Microsoft.Extensions.Logging;
