@@ -30,7 +30,4 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11"/>
         <PackageReference Include="Spectre.Console" Version="0.57.2"/>
     </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Services\Projects\"/>
-    </ItemGroup>
 </Project>

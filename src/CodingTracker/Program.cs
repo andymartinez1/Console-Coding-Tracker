@@ -1,6 +1,7 @@
 ﻿using CodingTracker.Data;
 using CodingTracker.Repository;
 using CodingTracker.Repository.CodingSessions;
+using CodingTracker.Services;
 using CodingTracker.Services.CodingSessions;
 using CodingTracker.Services.Projects;
 using CodingTracker.Views;

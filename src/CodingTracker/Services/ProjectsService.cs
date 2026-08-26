@@ -1,11 +1,12 @@
 ﻿using CodingTracker.DTOs.Projects;
 using CodingTracker.Repository;
+using CodingTracker.Services.Projects;
 using CodingTracker.Utils;
 using CodingTracker.Views;
 using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
-namespace CodingTracker.Services.Projects;
+namespace CodingTracker.Services;
 
 public class ProjectsService : IProjectsService
 {
@@ -18,8 +19,10 @@ public class ProjectsService : IProjectsService
         _logger = logger;
     }
 
-    public void AddProject(AddProjectRequest projectRequest)
+    public async Task<ProjectResponse> AddAsync(AddProjectRequest? projectRequest)
     {
+        projectRequest ??= new AddProjectRequest();
+
         projectRequest.Name = AnsiConsole.Ask<string>("Enter the project name:");
         projectRequest.Description = AnsiConsole.Ask<string>("Enter the project description:");
         var languagesInput = AnsiConsole.Ask<string>(
@@ -35,16 +38,18 @@ public class ProjectsService : IProjectsService
                     .Select(l => l.Trim())
             )
                 projectRequest.ProgrammingLanguages.Add(lang);
-
-            var project = projectRequest.ToProjectEntity();
-            _projectRepository.AddProject(project);
-            _logger.LogInformation("Project with ID: {ProjectId} added.", project.ProjectId);
         }
+
+        var project = projectRequest.ToProjectEntity();
+        await _projectRepository.AddAsync(project);
+        _logger.LogInformation("Project with ID: {ProjectId} added.", project.ProjectId);
+
+        return project.ToProjectResponse();
     }
 
-    public List<ProjectResponse> GetAllProjects()
+    public async Task<List<ProjectResponse>> GetAllAsync()
     {
-        var projects = _projectRepository.GetAllProjects();
+        var projects = await _projectRepository.GetAllAsync();
 
         if (!projects.Any())
             AnsiConsole.MarkupLine("[Red]No projects to display. Please add a new project.[/]");
@@ -55,44 +60,38 @@ public class ProjectsService : IProjectsService
         return projectResponses;
     }
 
-    public ProjectResponse? GetProject()
+    public async Task<ProjectResponse?> GetByIdAsync(int id)
     {
-        var projects = GetAllProjects();
+        var project = await _projectRepository.GetByIdAsync(id);
 
-        if (!projects.Any())
+        if (project is null)
             return null;
 
-        UserInterface.ViewAllProjects(projects);
-        var project = Helpers.SelectProjectById(projects);
-
-        var projectResponse = _projectRepository.GetProject(project.Id).ToProjectResponse();
-        _logger.LogInformation("Project with ID: {projectId} retrieved.", project);
+        var projectResponse = project.ToProjectResponse();
+        _logger.LogInformation("Project with ID: {ProjectId} retrieved.", id);
 
         return projectResponse;
     }
 
-    public void ViewProjectById()
+    public async Task<ProjectResponse?> UpdateAsync(UpdateProjectRequest? request)
     {
-        var project = GetProject();
+        if (request is null)
+            return null;
+
+        var projects = await GetAllAsync();
+        var projectResponse = Helpers.SelectProjectById(projects);
+        var project = await _projectRepository.GetByIdAsync(projectResponse.Id);
 
         if (project is null)
-            return;
+            return null;
 
-        UserInterface.ViewProjectDetails(project);
-    }
-
-    public void UpdateProject()
-    {
-        var projects = GetAllProjects();
-        var projectResponse = Helpers.SelectProjectById(projects);
-        var project = _projectRepository.GetProject(projectResponse.Id);
-
-        var updateProject = AnsiConsole.Prompt(
+        var updateChoice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("What would you like to update?")
                 .AddChoices("Name", "Description", "Programming Languages Used")
         );
-        switch (updateProject)
+
+        switch (updateChoice)
         {
             case "Name":
                 project.Name = AnsiConsole.Ask<string>("Enter the project name:");
@@ -119,25 +118,28 @@ public class ProjectsService : IProjectsService
                 break;
         }
 
-        _projectRepository.UpdateProject(project);
-        _logger.LogInformation("Project with ID: {projectId} updated.", project.ProjectId);
+        await _projectRepository.UpdateAsync(project);
+        _logger.LogInformation("Project with ID: {ProjectId} updated.", project.ProjectId);
         AnsiConsole.Clear();
-        GetAllProjects();
+        await GetAllAsync();
+
+        return project.ToProjectResponse();
     }
 
-    public bool DeleteProject()
+    public async Task<bool> DeleteAsync(int id)
     {
-        var projects = GetAllProjects();
+        var projects = await GetAllAsync();
 
         if (!projects.Any())
             return false;
 
         var projectResponse = Helpers.SelectProjectById(projects);
 
+        await _projectRepository.DeleteAsync(projectResponse.Id);
+        _logger.LogInformation("Project with ID: {ProjectId} deleted.", projectResponse.Id);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Project deleted successfully![/]");
-        _projectRepository.DeleteProject(projectResponse.Id);
-        _logger.LogInformation("Project with ID: {projectId} deleted.", projectResponse);
+
         return true;
     }
 }
