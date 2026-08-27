@@ -2,7 +2,7 @@
 using CodingTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodingTracker.Repository.CodingSessions;
+namespace CodingTracker.Repository;
 
 public class SessionRepository : ISessionRepository
 {
@@ -13,36 +13,40 @@ public class SessionRepository : ISessionRepository
         _codingDbContext = codingDbContext;
     }
 
-    public void AddSession(CodingSession session)
+    public async Task AddAsync(CodingSession entity, CancellationToken cancellationToken = default)
     {
-        _codingDbContext.CodingSessions.Add(session);
+        await _codingDbContext.CodingSessions.AddAsync(entity, cancellationToken);
 
-        _codingDbContext.SaveChanges();
+        await _codingDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public List<CodingSession> GetAllSessions()
+    public async Task<List<CodingSession>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _codingDbContext.CodingSessions.Include(cs => cs.Project).ToList();
+        return await _codingDbContext.CodingSessions
+            .Include(cs => cs.Project)
+            .ToListAsync(cancellationToken);
     }
 
-    public CodingSession GetSession(int id)
+    public async Task<CodingSession?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return _codingDbContext.CodingSessions.Find(id);
+        return await _codingDbContext.CodingSessions.FindAsync([id], cancellationToken);
     }
 
-    public void UpdateSession(CodingSession session)
+    public async Task UpdateAsync(CodingSession entity, CancellationToken cancellationToken = default)
     {
-        _codingDbContext.CodingSessions.Update(session);
+        _codingDbContext.CodingSessions.Update(entity);
 
-        _codingDbContext.SaveChanges();
+        await _codingDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public void DeleteSession(int id)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var session = GetSession(id);
+        var session = await GetByIdAsync(id, cancellationToken);
+
+        if (session is null) return;
 
         _codingDbContext.CodingSessions.Remove(session);
 
-        _codingDbContext.SaveChanges();
+        await _codingDbContext.SaveChangesAsync(cancellationToken);
     }
 }

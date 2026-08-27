@@ -2,7 +2,7 @@
 using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
-using CodingTracker.Repository.CodingSessions;
+using CodingTracker.Repository;
 using CodingTracker.Services.Projects;
 using CodingTracker.Utils;
 using CodingTracker.Views;
