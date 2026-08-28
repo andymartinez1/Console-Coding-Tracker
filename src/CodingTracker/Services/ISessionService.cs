@@ -1,22 +1,10 @@
 ﻿using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.Enums;
 
-namespace CodingTracker.Services.CodingSessions;
+namespace CodingTracker.Services;
 
-public interface ISessionService
+public interface ISessionService : ICrudService<AddSessionRequest, UpdateSessionRequest, SessionResponse, int>
 {
-    public void AddSession(AddSessionRequest sessionRequest);
-
-    public List<SessionResponse> GetAllSessions();
-
-    public SessionResponse? GetSession();
-
-    public void ViewSessionById();
-
-    public void UpdateSession();
-
-    public bool DeleteSession();
-
     public Category GetCategory();
 
     bool IsStopwatchRunning();
@@ -29,5 +17,5 @@ public interface ISessionService
 
     public void ResetTimer();
 
-    public void AddStopWatchSession();
+    public Task<SessionResponse> AddStopWatchSessionAsync();
 }

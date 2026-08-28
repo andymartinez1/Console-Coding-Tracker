@@ -3,13 +3,12 @@ using CodingTracker.DTOs.CodingSessions;
 using CodingTracker.DTOs.Projects;
 using CodingTracker.Enums;
 using CodingTracker.Repository;
-using CodingTracker.Services.Projects;
 using CodingTracker.Utils;
 using CodingTracker.Views;
 using Microsoft.Extensions.Logging;
 using Spectre.Console;
 
-namespace CodingTracker.Services.CodingSessions;
+namespace CodingTracker.Services;
 
 public class SessionService : ISessionService
 {
@@ -18,7 +17,6 @@ public class SessionService : ISessionService
     private readonly ISessionRepository _sessionRepository;
     private readonly Stopwatch _stopwatch = new();
     private DateTime? _timerEndTime;
-
     private DateTime? _timerStartTime;
 
     public SessionService(ISessionRepository sessionRepository, ILogger<SessionService> logger,
@@ -29,11 +27,12 @@ public class SessionService : ISessionService
         _projectsService = projectsService;
     }
 
-    public void AddSession(AddSessionRequest sessionRequest)
+    public async Task<SessionResponse> AddAsync(AddSessionRequest? sessionRequest)
     {
-        var projects = _projectsService.GetAllProjects();
-        sessionRequest.ProjectId = Helpers.SelectProjectById(projects).ToProjectEntity().ProjectId;
+        sessionRequest ??= new AddSessionRequest();
 
+        var projects = await _projectsService.GetAllAsync();
+        sessionRequest.ProjectId = Helpers.SelectProjectById(projects).ToProjectEntity().ProjectId;
         sessionRequest.Category = GetCategory();
 
         var dates = Helpers.GetDates();
@@ -41,20 +40,20 @@ public class SessionService : ISessionService
         sessionRequest.EndTime = dates[1];
 
         var session = sessionRequest.ToSessionEntity();
-        _sessionRepository.AddSession(session);
+        await _sessionRepository.AddAsync(session);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Session added successfully![/]");
-        _logger.LogInformation("Session with ID: {sessionId} added.", session.SessionId);
+        _logger.LogInformation("Session with ID: {SessionId} added.", session.SessionId);
+
+        return session.ToSessionResponse();
     }
 
-    public List<SessionResponse> GetAllSessions()
+    public async Task<List<SessionResponse>> GetAllAsync()
     {
-        var sessions = _sessionRepository.GetAllSessions();
+        var sessions = await _sessionRepository.GetAllAsync();
 
         if (!sessions.Any())
-            AnsiConsole.MarkupLine(
-                "[Red]No coding sessions to display. Please add a new session.[/]"
-            );
+            AnsiConsole.MarkupLine("[Red]No coding sessions to display. Please add a new session.[/]");
 
         var sessionResponses = sessions.Select(s => s.ToSessionResponse()).ToList();
 
@@ -62,45 +61,35 @@ public class SessionService : ISessionService
         return sessionResponses;
     }
 
-    public SessionResponse? GetSession()
+    public async Task<SessionResponse?> GetByIdAsync(int id)
     {
-        var sessions = GetAllSessions();
+        var session = await _sessionRepository.GetByIdAsync(id);
 
-        if (!sessions.Any())
+        if (session is null)
             return null;
 
-        UserInterface.ViewAllSessions(sessions);
-        var session = Helpers.SelectSessionById(sessions);
-
-        var sessionResponse = _sessionRepository.GetSession(session.SessionId).ToSessionResponse();
-        _logger.LogInformation("Session with ID: {projectId} retrieved.", session.SessionId);
+        var sessionResponse = session.ToSessionResponse();
+        _logger.LogInformation("Session with ID: {SessionId} retrieved.", id);
 
         return sessionResponse;
     }
 
-    public void ViewSessionById()
+    public async Task<SessionResponse?> UpdateAsync(UpdateSessionRequest? request)
     {
-        var session = GetSession();
-
-        if (session == null)
-            return;
-
-        UserInterface.ViewSessionDetails(session);
-    }
-
-    public void UpdateSession()
-    {
-        var sessions = GetAllSessions();
+        var sessions = await GetAllAsync();
         var sessionResponse = Helpers.SelectSessionById(sessions);
-        var sessionToUpdate = _sessionRepository.GetSession(sessionResponse.SessionId);
+        var sessionToUpdate = await _sessionRepository.GetByIdAsync(sessionResponse.SessionId);
 
-        var updateSession = AnsiConsole.Prompt(
+        if (sessionToUpdate is null)
+            return null;
+
+        var updateChoice = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("What would you like to update?")
                 .AddChoices("Session Times", "Category")
         );
 
-        switch (updateSession)
+        switch (updateChoice)
         {
             case "Session Times":
                 var dates = Helpers.GetDates();
@@ -112,32 +101,34 @@ public class SessionService : ISessionService
                 break;
         }
 
-        _sessionRepository.UpdateSession(sessionToUpdate);
-        _logger.LogInformation("Session with ID: {sessionId} updated.", sessionToUpdate.SessionId);
+        await _sessionRepository.UpdateAsync(sessionToUpdate);
+        _logger.LogInformation("Session with ID: {SessionId} updated.", sessionToUpdate.SessionId);
         AnsiConsole.Clear();
-        GetAllSessions();
+        await GetAllAsync();
+
+        return sessionToUpdate.ToSessionResponse();
     }
 
-    public bool DeleteSession()
+    public async Task<bool> DeleteAsync(int id)
     {
-        var sessions = GetAllSessions();
+        var sessions = await GetAllAsync();
 
         if (!sessions.Any())
             return false;
 
         var sessionResponse = Helpers.SelectSessionById(sessions);
 
-        _sessionRepository.DeleteSession(sessionResponse.SessionId);
+        await _sessionRepository.DeleteAsync(sessionResponse.SessionId);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Session deleted successfully![/]");
-        _logger.LogInformation("Session with ID: {sessionId} deleted.", sessionResponse.SessionId);
+        _logger.LogInformation("Session with ID: {SessionId} deleted.", sessionResponse.SessionId);
+
         return true;
     }
 
     public Category GetCategory()
     {
         var categories = Enum.GetValues(typeof(Category)).Cast<Category>().ToList();
-
         return Helpers.SelectCategory(categories);
     }
 
@@ -154,23 +145,17 @@ public class SessionService : ISessionService
     public DateTime StartTimer()
     {
         var startTime = DateTime.Now;
-
         _timerStartTime = startTime;
         _timerEndTime = null;
-
         _stopwatch.Restart();
-
         return startTime;
     }
 
     public DateTime StopTimer()
     {
         _stopwatch.Stop();
-
         var endTime = DateTime.Now;
-
         _timerEndTime = endTime;
-
         return endTime;
     }
 
@@ -179,15 +164,15 @@ public class SessionService : ISessionService
         _stopwatch.Reset();
     }
 
-    public void AddStopWatchSession()
+    public async Task<SessionResponse> AddStopWatchSessionAsync()
     {
         if (_timerStartTime == null || _timerEndTime == null)
         {
             AnsiConsole.MarkupLine("[yellow]No completed timed session to save. Start a timer, then stop it.[/]");
-            return;
+            throw new InvalidOperationException("No completed timed session to save.");
         }
 
-        var projects = _projectsService.GetAllProjects();
+        var projects = await _projectsService.GetAllAsync();
 
         var timedSession = new AddSessionRequest
         {
@@ -198,13 +183,15 @@ public class SessionService : ISessionService
         };
 
         var session = timedSession.ToSessionEntity();
-        _sessionRepository.AddSession(session);
+        await _sessionRepository.AddAsync(session);
 
         _timerStartTime = null;
         _timerEndTime = null;
 
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[green]Session added successfully![/]");
-        _logger.LogInformation("Session with ID: {sessionId} added.", session.SessionId);
+        _logger.LogInformation("Session with ID: {SessionId} added.", session.SessionId);
+
+        return session.ToSessionResponse();
     }
 }

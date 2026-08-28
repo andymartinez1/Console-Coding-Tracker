@@ -1,6 +1,6 @@
 ﻿using CodingTracker.DTOs.Projects;
 
-namespace CodingTracker.Services.Projects;
+namespace CodingTracker.Services;
 
 public interface IProjectsService : ICrudService<AddProjectRequest, UpdateProjectRequest, ProjectResponse, int>
 {
