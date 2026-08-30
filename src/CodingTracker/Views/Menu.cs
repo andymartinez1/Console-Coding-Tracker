@@ -115,23 +115,23 @@ public class Menu
             {
                 case ProjectMenuOptions.AddProject:
                     AnsiConsole.Clear();
-                    _projectsService.AddProject(new AddProjectRequest());
+                    _projectsService.AddAsync(new AddProjectRequest());
                     break;
                 case ProjectMenuOptions.ViewAllProjects:
                     AnsiConsole.Clear();
-                    _projectsService.GetAllProjects();
+                    _projectsService.GetAllAsync();
                     break;
                 case ProjectMenuOptions.ViewProject:
                     AnsiConsole.Clear();
-                    _projectsService.ViewProjectById();
+                    _projectsService.GetByIdAsync(0);
                     break;
                 case ProjectMenuOptions.UpdateProject:
                     AnsiConsole.Clear();
-                    _projectsService.UpdateProject();
+                    _projectsService.UpdateAsync(null);
                     break;
                 case ProjectMenuOptions.DeleteProject:
                     AnsiConsole.Clear();
-                    _projectsService.DeleteProject();
+                    _projectsService.DeleteAsync(0);
                     break;
                 case ProjectMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
@@ -164,23 +164,23 @@ public class Menu
                     break;
                 case SessionMenuOptions.AddSession:
                     AnsiConsole.Clear();
-                    _sessionService.AddSession(new AddSessionRequest());
+                    _sessionService.AddAsync(new AddSessionRequest());
                     break;
                 case SessionMenuOptions.ViewAllSessions:
                     AnsiConsole.Clear();
-                    _sessionService.GetAllSessions();
+                    _sessionService.GetAllAsync();
                     break;
                 case SessionMenuOptions.ViewSession:
                     AnsiConsole.Clear();
-                    _sessionService.ViewSessionById();
+                    _sessionService.GetByIdAsync(0);
                     break;
                 case SessionMenuOptions.UpdateSession:
                     AnsiConsole.Clear();
-                    _sessionService.UpdateSession();
+                    _sessionService.UpdateAsync(null);
                     break;
                 case SessionMenuOptions.DeleteSession:
                     AnsiConsole.Clear();
-                    _sessionService.DeleteSession();
+                    _sessionService.DeleteAsync(0);
                     break;
                 case SessionMenuOptions.BackToMainMenu:
                     AnsiConsole.Clear();
@@ -221,7 +221,7 @@ public class Menu
                     }
 
                     _sessionService.StopTimer();
-                    _sessionService.AddStopWatchSession();
+                    _sessionService.AddStopWatchSessionAsync();
                     break;
                 case StopWatchMenuOptions.BackToSessionsMenu:
                     AnsiConsole.Clear();
